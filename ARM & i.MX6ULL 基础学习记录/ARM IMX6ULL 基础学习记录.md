@@ -256,7 +256,7 @@ clean:
 
 #### Makefile 函数
 
-这里只放经常使用的函数，其主要有两个(wildcard，patsubst)。函数的调用格式 `$(function（空格或tab）arguments)`，这里 function 是函数名， arguments 是该函数的参数。
+经常使用的 Makefile 函数，主要有两个(wildcard，patsubst)。函数的调用格式 `$(function（空格或tab）arguments)`，这里 function 是函数名， arguments 是该函数的参数。
 
 ```makefile
 # $(wildcard 指定文件类型) 用于查找指定目录下指定类型的文件
