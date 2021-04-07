@@ -24,7 +24,7 @@ Bootloader、Linux 内核、根文件系统、APP 等等软件，需要在Ubuntu
 
 PC 端，使用 source insight 编、改源码 —>传—> Linux端，操作 Ubuntu 对修改好的源码进行编译、制作 —>下载—> 嵌入式端，在 Linux 板子上运行、测试。
 
-分布来说就是：
+分步来说就是：
 
 1.  在 Windows 上阅读、研究、修改，修改后，上传（推荐 FileZilla）到 Ubuntu ；
 2.  在 Ubuntu 上编译、制作（推荐使用 MobaXterm 通过 SSH 远程登陆 Ubuntu）；
@@ -232,7 +232,7 @@ man 手册一共有 9 册，每一册专注一个方面。如下表。
 
 -   格式：`find 目录名 选项 查找条件`；如果没有指定目录，则为当前目录查找
 -   举例，在某目录用名字查找名为 test1.txt 的文件：`find /home/book/dira/ -name " test1.txt "`；按格式查找：`-name " *.txt "`；
--   其他高级用法很多，这里举例，查找 x 天内有变动的文件：`find /home/book -mtime -2 //查找/home目录下两天内有变动的文件`。  
+-   其他高级用法很多，这里举例，查找 x 天内有变动的文件：`find /home/book -mtime -2`，查找/home目录下两天内有变动的文件。  
 
 ##### 文件内搜索：grep
 
@@ -303,8 +303,6 @@ file /bin/pwd      出现 ELF 64-bit LSB executable，即为ELF格式的可执�
 file /dev/*        出现character special(字符设备文件)、 block special(块设备文件)等
 ```
 
-
-
 ##### 查找应用程序位置：which
 
 `which pwd` 定位到 /bin/pwd；`which gcc` 定位到 /user/bin/gcc。
@@ -352,7 +350,7 @@ Filesystem     1K-blocks    Used      Available Use% Mounted on
 
 ##### 分区查看和设置：fdisk
 
-用时现学，资料足多。
+用时现学，网上资料足多。
 
 ##### 文件系统挂载：mount
 
@@ -577,10 +575,6 @@ export PATH=$PATH:/home/<用户目录>/gcc-linaro-6.2.1-2016.11-x86_64_arm-linux
 
 ### 第一个应用
 
-第二篇的结尾，第三篇的结尾，两处
-
-再看一下3.3篇，有什么要记录的
-
 略，略略略~。
 
 ### 第一个驱动
@@ -596,10 +590,10 @@ export PATH=$PATH:/home/<用户目录>/gcc-linaro-6.2.1-2016.11-x86_64_arm-linux
 在 Linux 源码目录里执行：
 
 ```bash
-Linux-4.9.88$ make mrproper
-Linux-4.9.88$ make xxx_imx6ull_defconfig
-Linux-4.9.88$ make zImage -j4
-Linux-4.9.88$ make dtbs
+make mrproper
+make xxx_imx6ull_defconfig
+make zImage -j4
+make dtbs
 ```
 
 释义：
