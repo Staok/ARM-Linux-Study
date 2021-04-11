@@ -233,14 +233,14 @@ man 手册一共有 9 册，每一册专注一个方面。如下表。
 ##### 查找/搜索：find
 
 -   格式：`find 目录名 选项 查找条件`；如果没有指定目录，则为当前目录查找
--   举例，在某目录用名字查找名为 test1.txt 的文件：`find /home/book/dira/ -name " test1.txt "`；按格式查找：`-name " *.txt "`；
--   其他高级用法很多，这里举例，查找 x 天内有变动的文件：`find /home/book -mtime -2`，查找/home目录下两天内有变动的文件。  
+-   举例，在某目录用名字查找名为 test1.txt 的文件：`find /home/book/dira/ -name "test1.txt"`；按格式查找：`-name " *.txt "`；
+-   其他高级用法很多，这里举例，查找 x 天内有变动的文件：`find /home/book -mtime -2`，查找 /home 目录下两天内有变动的文件。  
 
 ##### 文件内搜索：grep
 
--   估计不常用。格式：`grep [选项] [查找模式] [文件名]`；
+-   格式：`grep [选项] [查找模式] [文件名]`；
 -   `grep -rn "字符串" 文件名`。字符串：要查找的字符串；文件名：要查找的目标文件，如果是 * 符号则表示查找当前目录下的所有文件和目录；r(recursive) 递归查找；n(number) 显示目标位置的行号；-w 全字匹配；
--   在test1.txt中查找字符串abc grep -rn "abc" * 在当前目录递归查找字符串abc：`grep -n "abc" test1.txt`；
+-   在 test1.txt 中查找字符串abc： `grep -n "abc" test1.txt`，在当前目录递归查找字符串abc：`grep -rn "abc" *`；
 -   第一个命令的结果传入第二个命令，即在 grep 的结果中再次执行 grep 搜索：`grep “ABC” * -nR | grep “ \.h”`，搜索包含有 "ABC" 的头文件。
 
 ##### 压缩打包：gzip、bzip2、tar、7z
