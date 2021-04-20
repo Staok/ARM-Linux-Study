@@ -4,7 +4,7 @@
 
 编辑整理 by [Staok](https://github.com/Staok)
 
-本文大部分内容摘自“100ask imx6ull”开发板的配套资料（如《嵌入式Linux应用开发完全手册_韦东山全系列视频文档全集》等等），侵删。进行了精髓提取，方便日后查阅。过于基础的内容不会在此提及。如有错误恭谢指出！
+本文部分内容摘自“100ask imx6ull”开发板的配套资料（如《嵌入式Linux应用开发完全手册_韦东山全系列视频文档全集》），还有参考（非复制）菜鸟教程、红联的文章等等等等，比较广泛，侵删。进行了精髓提取，方便日后查阅。过于基础的内容不会在此提及。如有错误恭谢指出！
 
 ------
 
@@ -101,37 +101,66 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如/bin/sh
 
 #### 常用命令
 
--   以下命令的多个选项可以任意按需组合。
--   tab 键自动补全命令和文件或目录的全名。
--   多个命令写在一行并自动逐个执行，命令之间加 && 符号。
--   输入路径全名的中途，按两下 tab 键显示当前目录下的内容。
+##### 预备
+
+- 以下命令的多个选项可以任意按需组合。
+
+  惯例选型含义：-a 表含隐藏文件，-r 表文件夹内遍历所有文件，-h 容量以方便识别的形式打印，-i 执行例外操作前会询问，加上比较保险，等等。
+
+- tab 键自动补全命令和文件或目录的全名。
+
+- 多个命令写在一行并自动逐个执行，命令之间加 && 符号。
+
+- 输入路径全名的中途，按两下 tab 键显示当前目录下的内容。
+
+- 各种通配符：
+
+  - *：任何字符和字符串。
+
+  - ?：一个任意字符。
+  - [abc...]： [ ] 内的任意一个字符。 [abc]表示 a、 b、 c 任一个字符；有时候也表示范围，如 [a-x] ，表示 a 到 x 的任一个字符； [1-9] 表示 1 到 9 的任一数字。
+  - [!abc...]：和上面的相反，表示除 [ ] 内的字符外的任意一个字符。  
+
+  例 `rm -f 1[!1]*.txt`  删除名字中第一个字符是“1”而第二个字符不是为“1”的所有文件  。
+
+- 流控制，输入输出重定向（>，<）：
+
+  [Shell 输入/输出重定向](https://www.runoob.com/linux/linux-shell-io-redirections.html)
+
+  - `command > file`，将输出重定向到 file，将 stdout 重定向到 file，将 command 的打印内容覆盖输入到文件 file 里。
+
+  - `command < file`，将输入重定向到 file，将 stdin 重定向到 file，本来需要从键盘获取输入的命令会转移到读取文件内容。
+
+  - `command >> file`，将输出以追加的方式重定向到 file，追加输入到文件 file。
+
+  - 错误信息重定向：
+
+    一般情况下，每个 Unix/Linux 命令运行时都会打开三个文件：
+
+    - 标准输入文件(stdin)：stdin的文件描述符为0，Unix程序默认从stdin读取数据。
+    - 标准输出文件(stdout)：stdout 的文件描述符为1，Unix程序默认向stdout输出数据。
+    - 标准错误文件(stderr)：stderr的文件描述符为2，Unix程序会向stderr流中写入错误信息。
+
+    `command 2>>file` 让执行命令后的错误信息 stderr 追加到 file 文件末尾。
+
+- 管道（ | ）：
+
+  `command1 | command2`，当在两个命令之间设置管道时，管道符`|`左边命令的输出就变成了右边命令的输入。
+
+  这里需要注意，command1 必须有正确输出，而 command2 必须可以处理 command1 的输出结果； command2 只能处理 command1 的正确输出结果，不能处理 command1 的错误信息。
+
+  例：查看指定程序的进程运行状态，并将输出重定向到文件中。
+
+  ```bash
+  ps aux | grep httpd > /tmp/ps.output
+  cat /tem/ps.output
+  ```
+
 -   [Shell 教程 - 菜鸟教程](https://www.runoob.com/linux/linux-shell.html)，[Linux 命令大全 - 菜鸟教程](https://www.runoob.com/linux/linux-command-manual.html)，当字典用。
-
-加餐：
-
--   给 root 用户设置密码，并在用户间切换：
-
-    `sudo passwd root` 给 root 设置密码
-
-    `输入 （book）当前用户密码`
-
-    `输入 root 新设置的密码，两次`
-
-    成功
-
-    `su root` 切换到 root 用户
-
-    `su book` 切回
-
--   进入 默认的 root 用户：
-
-    `sudo su` 进入
-
-    `exit` 退出 root，进入普通用户
 
 ##### 略过的命令
 
-`pwd`、`cd`、`mkdir`（-p 选项指示连续创建目录及其子目录）、`rmdir`（不能删除非空目录）、`cat`、`touch`、`clear`、`echo`（往文件写内容 `echo none > /sys/class/leds/cpu/trigger`）。
+`pwd`、`cd`、`mkdir`（-p 选项指示连续创建目录及其子目录）、`rmdir`（不能删除非空目录）、`touch`、`clear`、`echo`（往文件写内容 `echo none > /sys/class/leds/cpu/trigger`）。
 
 ##### 获取命令帮助： --help/man
 
@@ -230,11 +259,53 @@ man 手册一共有 9 册，每一册专注一个方面。如下表。
 
     数字的方式就不细说了：用 4 代表 r 权限，2 代表 w 权限，1 代表 x 权限；owner = rwx = 4+2+1 = 7；例子：`chmod 777 .bashrc`。
 
+##### 连接流：cat
+
+- -n 或 --number：由 1 开始对所有输出的行数编号。
+- -b 或 --number-nonblank：和 -n 相似，只不过对于空白行不编号。
+- -s 或 --squeeze-blank：当遇到有连续两行以上的空白行，就代换为一行的空白行。
+
+例子：
+
+```bash
+# 将一个字符串输入到一个文件
+echo "难凉热血瞰百易" > users
+
+# 把 textfile1 的文档内容加上行号后覆盖输入 textfile2 这个文档里
+cat -n textfile1 > textfile2
+
+# 把 textfile1 和 textfile2 的文档内容加上行号（空白行不加）之后将内容 追加 到 textfile3 文档里
+cat -b textfile1 textfile2 >> textfile3
+
+# 清空 /etc/test.txt 文档内容
+cat /dev/null > /etc/test.txt
+```
+
+##### 查看长文件：less
+
+`less install.log`，最下面显示的是这个文件的名称，我们可以使用 “PageUp” 和 “PageDown” 可以进行上一页和下一页的翻页。如果要知道具体的控制键，我们可以按下 “H” 键，可以显示 less 命令的所有控制键，如果想结束，可以按 “q” 键。  
+
 ##### 查找/搜索：find
 
 -   格式：`find 目录名 选项 查找条件`；如果没有指定目录，则为当前目录查找
 -   举例，在某目录用名字查找名为 test1.txt 的文件：`find /home/book/dira/ -name "test1.txt"`；按格式查找：`-name " *.txt "`；
 -   其他高级用法很多，这里举例，查找 x 天内有变动的文件：`find /home/book -mtime -2`，查找 /home 目录下两天内有变动的文件。  
+
+##### 定位文件：locate
+
+全局查找文件，打印其位置：`locate install.log`  。
+
+因为这个命令是从数据库中来搜索文件，这个数据库的更新速度是7天更新一次。  新建不久的文件搜索不到，需要更新一下数据库：
+
+```bash
+touch 001.txt
+locate 001.txt   # 找不到
+
+updatedb         # 立即更新数据库，需要一段时间
+locate 001.txt   # 找到了
+```
+
+更多选项 [Linux locate 命令](https://www.runoob.com/linux/linux-comm-locate.html)。
 
 ##### 文件内搜索：grep
 
@@ -292,6 +363,10 @@ man 手册一共有 9 册，每一册专注一个方面。如下表。
 
 测试 DNS 服务：`ping www.baidu.com`。DNS 的设置比较简单，8.8.8.8 是好记好用的 DNS 服务器，修改 Ubuntu 中的/etc/resolv.conf 文件，内容如下：`nameserver 8.8.8.8`。
 
+图形画界面的网络配置工具：`netconfig`，修改好后 `OK` 退出，还需要 `service network restart` 重新启动网络服务才会生效。 
+
+所有网络配置信息保存在 `ls /etc/sysconfig/network-scripts/` 里面，重启网络服务就是加载这个里面的文件信息。
+
 ##### 查看文件类型：file
 
 `file 文件名`确定其机器码是适合 x86 平台的，还是 arm 平台的。举例：
@@ -331,7 +406,7 @@ file /dev/*        出现character special(字符设备文件)、 block special(
 
     执行 `ping www.baidu.com &`，再按 ctrl + z，显示 `[1]+  Stopped                 ping www.baidu.com`，表示此任务编号为 [ 1 ]，接着键入 `bg %1`，让此任务继续执行并转入后台执行，再键入 `fg %1`，将其转入前台执行，然后 ctrl + c 结束此任务。
 
--   `ps` 查看当前哪些任务在后台执行，-l 显示 任务的 PID 号。详情如下图。
+-   `ps -aux` 查看当前哪些任务在后台执行。详情如下图。
 
     ![16](assets/16.jpg)
 
@@ -353,6 +428,8 @@ Filesystem     1K-blocks    Used      Available Use% Mounted on
 ##### 分区查看和设置：fdisk
 
 用时现学，网上资料足多。
+
+`fdisk -l`，列出系统中所有存储设备，并显示其分区结构。设备名从 `/dev/sda` 、 `/dev/sdb` 开始延续。
 
 ##### 文件系统挂载：mount
 
@@ -411,7 +488,33 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 
 -   重启：`reboot`。
 
--   关机：`halt`立即关机；`shutdown -t 10`，关机，-t 表示关机倒计时，单位秒。
+- 关机：`halt`立即关机；`shutdown -t 10`，关机，-t 表示关机倒计时，单位秒。`shutdown` 更多例子：
+
+  ![shutdown 例子](assets/shutdown 例子.png)
+
+-   给 root 用户设置密码，并在用户间切换：
+
+    `sudo passwd root` 给 root 设置密码
+
+    `输入 （book）当前用户密码`
+
+    `输入 root 新设置的密码，两次`
+
+    成功
+
+    `su root` 切换到 root 用户
+
+    `su book` 切回
+
+- 进入 默认的 root 用户：
+
+  `sudo su` 进入
+
+  `exit` 退出 root，进入普通用户
+
+-   增加用户：`useradd user1`，表增加一个用户 user1 ，并接着提示设置密码；只有 root 可以修改所有用户的密码，普通用户只能修改自己的密码，修改自己的密码 `passwd uesr1`。
+
+-   图形化系统设置工具，调整运行状态，运行 `setup` 这个综合工具。包括如图所示的五项：认证方式、防火墙配置、鼠标配置、网络配置、系统服务等。这里包含了各种系统服务。  
 
 ### Vim 编辑器
 
@@ -446,6 +549,17 @@ Vim 编辑器的配置，请看 "vi编辑器的配置_摘自100ask.txt" 文件�
 -   跳转到第 n 行：`:n`。
 
 一日，一人，代码前坐禅，贤者模式，顿悟，曰：整个键盘，都是 Vim 的快捷键。
+
+##### 恢复文件
+
+vi 在编辑某一个文件时，会生成一个临时文件，这个文件以 . 开头并以 .swp 结尾。正常退出该文件自动删除，如果意外退出例如忽然断电，该文件不会删除，我们在下次编辑时可以选择一下命令处理：
+
+- O 只读打开，不改变文件内容。
+- E 继续编辑文件，不恢复 .swp 文件保存的内容。
+- R 将恢复上次编辑以后未保存文件内容。
+- Q 退出 vi。
+- D 删除 .swp 文件。
+- 使用 `vi －r` 文件名来恢复未保存的内容。
 
 ##### VI 编辑器的配置
 
