@@ -400,19 +400,16 @@ locate 001.txt   # 找到了
     -   解压：`7z x <压缩包名.7z>` 解压到压缩包命名的目录下。
     -   压缩：`7z a pack.7z 1.jpg dir1` 将 1.jpg 和 文件夹 dir1 压缩成一个 7z 包 pack.7z。
 
-##### 网络命令：ifconfig  
+##### 网络命令：ifconfig /netstat
 
-`ifconfig`：查看当前正在使用的网卡，及其 IP；-a 查看所有网卡；
+- `ifconfig`：查看当前正在使用的网卡，及其 IP；-a 查看所有网卡。修改相应网卡的 IP 地址：`ifconfig <网卡名> 192.168.1.123` 。
 
-修改相应网卡的 IP 地址：`ifconfig <网卡名> 192.168.1.123` 。
+- 测试路由：`ping 8.8.8.8`。测试 DNS 服务：`ping www.baidu.com`。DNS 的设置比较简单，8.8.8.8 是好记好用的 DNS 服务器，修改 Ubuntu 中的/etc/resolv.conf 文件，内容如下：`nameserver 8.8.8.8`。
 
-测试路由：`ping 8.8.8.8`
 
-测试 DNS 服务：`ping www.baidu.com`。DNS 的设置比较简单，8.8.8.8 是好记好用的 DNS 服务器，修改 Ubuntu 中的/etc/resolv.conf 文件，内容如下：`nameserver 8.8.8.8`。
+- 图形画界面的网络配置工具：`netconfig`，修改好后 `OK` 退出，还需要 `service network restart` 重新启动网络服务才会生效。 所有网络配置信息保存在 `ls /etc/sysconfig/network-scripts/` 里面，重启网络服务就是加载这个里面的文件信息。
 
-图形画界面的网络配置工具：`netconfig`，修改好后 `OK` 退出，还需要 `service network restart` 重新启动网络服务才会生效。 
-
-所有网络配置信息保存在 `ls /etc/sysconfig/network-scripts/` 里面，重启网络服务就是加载这个里面的文件信息。
+- `netstat`：查看网络状况。`netstat -lnp | head -n 30`，打印当前系统启动了哪些端口，显示前 30 行信息。`netstat -an | head -n 20`，打印网络连接状况，显示前 20 行信息。
 
 ##### 查看文件类型：file
 
@@ -531,6 +528,10 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 
     ![17](assets/17.jpg)
 
+-   查看 CPU 状况有很多方法，还有：`cat /proc/cpuinfo`。
+
+-   命令 `w` 查看系统整理负载，可显示更细节的命令 `vmstat`，后者可以查看到内存、磁盘的负载情况，[命令和打印缩写详解](https://blog.csdn.net/m0_38110132/article/details/84190319)。
+
 -   关闭驱动程序的 printk 打印信息：`echo "1 4 1 7" > /proc/sys/kernel/printk`。
 
 -   将存于 buffer 中的资料强制写入硬盘中：`sync`。Linux 系统中欲写入硬盘的资料有的时候为了效率起见，会写到 filesystem buffer 中，这个 buffer 是一块记忆体空间，如果欲写入硬盘的资料存于此 buffer 中，而系统又突然断电的话，那么资料就会流失了，`sync` 指令会将存于 buffer 中的资料强制写入硬盘中。`sync` 命令是在关闭 Linux 系统时使用的。
@@ -553,7 +554,7 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 4. 成功；
     5. `su root` 切换到 root 用户，`su`用来切换用户；
 6. `su book` 切回。
-    
+   
 -   增加用户：`useradd user1`，表增加一个用户 user1 ，并接着提示设置密码；只有 root 可以修改所有用户的密码，普通用户只能修改自己的密码，修改自己的密码 `passwd uesr1`。
 
 -   删除用户：`userdel`，慎用，可删除用户帐号与相关的文件。若不加 -f 参数，则仅删除用户帐号，而不删除相关文件，加上则会删除用户登入目录以及目录中所有文件。
@@ -594,12 +595,13 @@ Vim 编辑器的配置，请看 "vi编辑器的配置_摘自100ask.txt" 文件�
 
 ##### 在 一般模式 的更多指令
 
--   单击 o 键，在当前光标所在行的下方新建一行，并进入编辑模式。
--   单击 0（数字零） 光标移至当前行行首；$ 光标移至当前行行末；1gg 跳到第一行的行首，就是文件头（xgg 就是跳到第x行的行首）；G 跳到文件结尾。
--   ctrl + f 上翻页，ctrl + b 下翻页。
+-   单击 o （字母 o）键，在当前光标所在行的下方新建一行，并进入编辑模式。
+-   单击 0（数字零） 光标移至当前行行首；$，光标移至当前行行末；
+-   gg，跳到第一行，（xgg 就是跳到第x行的行首）；G，跳到文件结尾。
+-   ctrl + f，上翻页，ctrl + b，下翻页。
 -   使用 v 进入可视模式，选定文本块，移动光标键选定内容；用 y 复制选定块到缓冲区，用 d 剪切选定块到缓冲区，用 p 粘贴缓冲区中的内容。
--   dd //删除光标所在行(d:delete) 。
--   u 撤销上一步操作；ctrl + r 恢复，回退到前一个命令。
+-   dd，删除光标所在行(d:delete) 。
+-   u，撤销上一步操作；ctrl + r，恢复，回退到前一个命令。
 -   针对 Ubuntu 界面来说，ctrl + "-" ，减小字号；ctrl + shift + "+"，增大字号。
 
 ##### 在 命令行模式 的更多命令
