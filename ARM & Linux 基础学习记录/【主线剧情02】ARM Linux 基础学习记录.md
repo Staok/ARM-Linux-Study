@@ -103,6 +103,8 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如/bin/sh
 
 ##### 预备
 
+- `Ctrl + Alt + t` 打开终端。
+
 - 以下命令的多个选项可以任意按需组合。
 
   惯例选型含义：-a 表含隐藏文件，-r 表文件夹内遍历所有文件，-h 容量以方便识别的形式打印，-i 执行例外操作前会询问，加上比较保险，-v 显示版本，   --help 显示帮助，等等。
@@ -610,6 +612,7 @@ Vim 编辑器的配置，请看 "vi编辑器的配置_摘自100ask.txt" 文件�
 -   替换：`:%s/p1/p2/g` 将文件中所有的 p1 均用 p2 替换；`:%s/p1/p2/gc` 替换时需要确认。释义，“ s“ 全称： substitute 替换；“ g“ 全称： global 全局；“ c“ 全称： confirm， 确认。
 -   新打开一个文件：`:sp <file>`纵向分屏 或 `:vsp <file>`横向分屏，此时会同屏新增一个窗口；切换这多个窗口的方法（循环移动）：`ctrl + w，w`（先按 ctrl + w，再按键 w），在多文件编程时，切换不同的窗口很实用。让鼠标可以在多个屏幕间切换：`:set mouse=a`；在某个窗口输入`:q`，为退出此窗口。
 -   跳转到第 n 行：`:n`。
+-   文件另存为：`:w <filename>`。
 
 一日，一人，代码前坐禅，贤者模式，顿悟，曰：整个键盘，都是 Vim 的快捷键。
 
@@ -622,26 +625,24 @@ vi 在编辑某一个文件时，会生成一个临时文件，这个文件以 .
 - R 将恢复上次编辑以后未保存文件内容。
 - Q 退出 vi。
 - D 删除 .swp 文件。
-- 使用 `vi －r` 文件名来恢复未保存的内容。
+- 使用 `vi －r <filename>` 来恢复 filename 这个文件上次关闭前未保存的内容。
 
 ##### 选项
 
--d，Diff 模式 (同 "vimdiff", 可迅速比较两文件不同处)
+-d，Diff 模式 (同 "vimdiff", 可迅速比较两文件不同处)。
 
--R             只读模式 (同 "view")
+-R，只读模式 (同 "view")。
 
--b             二进制模式
+-b，二进制模式。
 
--r (加文件名)     恢复上次崩溃的资料(Recover crashed session)
+-r <filename>，恢复上次崩溃的文件 filename (Recover crashed session)。
 
 ##### VI 编辑器的配置
 
 ```
 摘自100ask
-cd /etc/vim
-cp vimrc ~/.vimrc
-cd ~
-gedit .vimrc
+cp /etc/vim/vimrc ~/.vimrc
+vim ~/.vimrc
 在.vimrc中加入如下内容：
 
 "关闭兼容功能
@@ -726,6 +727,23 @@ sudo apt-get source package                 下载该包的源代码
 
 -   临时：终端中键入：`export PATH=$PATH:<目录>`，重启后丢失。
 -   永久（只对当前用户有效）：改 ~/.bashrc 文件，在行尾添加：`export PATH=$PATH:<目录>`，然后终端键入 `source ~/.bashrc` 使之生效，即可。
+
+### Ubuntu 下的卸载包
+
+Ubuntu GUI 界面操作：
+
+- 使用 Synaptic 软件包管理器进行卸载。系统里面若没有 Synaptic Pack Manager 软件，则在终端安装 `sudo apt-get install synaptic`。
+
+  [具体使用方法](https://zh.wikihow.com/%E5%8D%B8%E8%BD%BDUbuntu%E8%BD%AF%E4%BB%B6)。
+
+- 使用 Ubuntu 的软件中心进行卸载。略。
+
+- 终端。
+
+  - 列出所有软件包，以可翻页的形式：`dpkg --list | less`，以搜索特定包名的形式：`dpkg --list | grep -n "python"`，还可以加通配符，很灵活。
+  - 卸载程序和所有配置文件：`sudo apt-get --purge remove <package-name>`。
+  - 只卸载程序但保留配置文件：`sudo apt-get remove <package-name>`。
+  - 删除没用的依赖包：`sudo apt-get autoremove <package-name>`，加上 `--purge` 选项就是程序和配置文件都删除。资源不紧张时，此条慎用。
 
 ## Linux 驱动和应用的体验
 
@@ -906,7 +924,6 @@ Buildroot 是一组 Makefile 和补丁，可简化并自动化地为嵌入式系
 
 -   buildroot 下进入 menuconfig 包选择配置配置界面 `make menuconfig`。
 -   buildroot 下单独编译 u-boot `make uboot-rebuild`。
--   buildroot 下单独编译内核 `make menuconfig`。
 -   buildroot 下进入内核 make menuconfig 配置选项界面 `make linux-menuconfig`。
 -   buildroot 下单独编译某个软件包 `make <pkg>-rebuild`。
 -   buildroot 下进入 busybox 配置界面 `make busybox-menuconfig`。
