@@ -662,7 +662,7 @@ In imx-boot, the SPL is packed with DDR Firmware together, so that ROM can load 
 
 - 编辑整理：[Github 页](https://github.com/Staok)，[知乎页](https://www.zhihu.com/people/xuhaoyang)
 - 发表时间：始于 2021.5 且无终稿
-- 首发平台：https://zhuanlan.zhihu.com/p/350839857 and https://github.com/Staok/coding-style-and-more
+- 首发平台：[知乎](https://zhuanlan.zhihu.com/p/373505974) & [Github](https://github.com/Staok/ARM-Linux-Study/blob/main/ARM%20%26%20Linux%20%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/%E3%80%90%E4%B8%BB%E7%BA%BF%E5%89%A7%E6%83%8503%E3%80%91NXP%20i.MX%20%E7%B3%BB%E5%88%97%20u-boot%20%E7%A7%BB%E6%A4%8D%E5%9F%BA%E7%A1%80%E8%AF%A6%E8%A7%A3.md)
 - 遵循协议：[CC-BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)
 - 其他说明：
   1. 本文件是“瞰百易”计划的一部分，尽量遵循 [“二项玻”定则](https://github.com/Staok/Please-stay-in-the-future)，致力于与网络上碎片化严重的现象泾渭分明（这中二魂...）！
