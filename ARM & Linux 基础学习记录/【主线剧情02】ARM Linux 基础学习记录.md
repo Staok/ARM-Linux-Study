@@ -18,7 +18,7 @@
 
 *p.s 本应放在最后，刻意写在前头。*
 
-Bootloader、Linux 内核、根文件系统、APP 等等软件，需要在Ubuntu中编译；但是阅读、修改这些源码时，在Windows下会比较方便。
+Bootloader、Linux 内核、根文件系统、APP 等等软件，需要在 Ubuntu 中编译；但是阅读、修改这些源码时，在 Windows 下会比较方便。
 
 所以工作日常开发流程如下：
 
@@ -435,7 +435,6 @@ locate 001.txt   # 找到了
     删除压缩文件中 smart.txt 文件：`zip -d myfile.zip smart.txt`；
   
     向压缩文件中添加 rpm_info.txt 文件：`zip -m myfile.zip ./rpm_info.txt`。
-  
 
 ##### 网络命令：ifconfig /netstat
 
@@ -448,7 +447,7 @@ locate 001.txt   # 找到了
 
 - `netstat`：查看网络状况。`netstat -lnp | head -n 30`，打印当前系统启动了哪些端口，显示前 30 行信息。`netstat -an | head -n 20`，打印网络连接状况，显示前 20 行信息。
 
-##### 查看文件类型：file
+##### 查看文件类型：file/readelf
 
 `file 文件名`确定其机器码是适合 x86 平台的，还是 arm 平台的。举例：
 
@@ -459,6 +458,8 @@ file ~/Pictures/*  如图形文件 JPEG/PNG/BMP 格式
 file ~/100ask/     为 directory 表明这是一个目录
 file /bin/pwd      出现 ELF 64-bit LSB executable，即为 ELF 格式的可执行文件
 file /dev/*        出现 character special (字符设备文件)、 block special (块设备文件) 等
+
+readelf -a <elf 文件> 解析并显示 elf 的 arm 可执行文件的详情
 ```
 
 ##### 查找应用程序位置：which
@@ -568,6 +569,8 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 -   显示日期、日历： `data`， `cal`。
 
 -   显示本机和系统信息：`uname -a`。
+
+-   查看 CPU 信息：`cat /proc/cpuinfo`。
 
 -   查询 linux 系统的运行时间、当前用户数等信息：`uptime`。
 

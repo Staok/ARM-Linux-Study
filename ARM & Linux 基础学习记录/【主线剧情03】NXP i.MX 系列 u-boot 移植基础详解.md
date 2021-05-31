@@ -47,6 +47,8 @@
 5. （第二次搬移）搬运 Linux 内核到内存；
 6. 然后调用 `common/bootm_os.c` 里的 `boot_selected_os()`，其调用 `arch/arm/lib/bootm.c` 里的 `do_bootm_linux()`，再调用同文件里的 `boot_jump_linux()`，跳到内核的起始地址，进入 & 运行内核。
 
+更详细的启动流程介绍可以参看《【正点原子】I.MX6U嵌入式Linux驱动开发指南》的第三十二章节，目前发现的最全面的。
+
 #### 以 i.mx8 为例
 
 以下基于 u-boot 2019.04 的 uboot-imx 中的 imx8mm 平台，这里主要描述各种初始化函数的跳转关系和逻辑：
@@ -62,7 +64,10 @@
 2. 跳入 uboot 的主循环 `run_main_loop()`之后，等待外部输入命令或超时等待自启动；
 3. 进行启动，找到 Linux kernel 镜像，搬运其到内存（第二次搬运），跳转启动。
 
-[更详细的引导内核过程](https://blog.csdn.net/zqixiao_09/article/details/50817500)。
+更多 u-boot 启动过程介绍文章：
+
+- [更详细的引导内核过程](https://blog.csdn.net/zqixiao_09/article/details/50817500)。
+- [u-boot分析 - 蜗窝科技 (wowotech.net)](http://www.wowotech.net/sort/u-boot)。
 
 ### u-boot 命令
 
@@ -90,6 +95,7 @@
 - 如果要深入学习，有以下要点可以参考：
   - 如果芯片公司或者单位提供了移植好的 u-boot，可以用 beyong 软件把移植好的 u-boot 文件夹与 官方原版（版本要一致）进行对比，看一看改动了哪些文件夹和哪些文件，帮助学习。
   - [uboot移植新手入门实践_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV15W411m7AQ)。版本比较新。
+  - [正点原子【第三期】手把手教你学Linux之系统移植和跟文件系统构建篇_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV12E411h71h)；
   - [韦东山 _ 嵌入式Linux _ 第1期与2期间的衔接课程 _ u-boot编译体验和源码深度分析 _哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV1WW411L7Tb) 老版本。
   - [【韦东山 】移植U-boot 2012 04 01 到JZ2440_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV1Pt411n7cv)  老版本。
   - [linux-----uboot和kernel移植 - 灰信网（软件开发博客聚合） (freesion.com)](https://www.freesion.com/article/2426374191/)。
@@ -318,16 +324,16 @@
 
 参考《i.MX_Yocto_Project_User's_Guide.pdf》的 5.2 Choosing an i.MX Yocto project image 章节和米尔的手册，第 2 步中，构建其他选项的工具链详细说明：
 
-TODO：以下两种构建方法，对于uboot 的编译来说无明显差别，都可以跑；日后编译linux、根文件系统和应用的时候再分别试一试。推荐直接在第二种里面试试。
+有以下两种构建方法，对于uboot 的编译来说无明显差别；推荐直接在第二种里面使用 bitbake 命令进行构建。
 
 - 利用上面的步骤，在第 2 步的在`imx-yocto-bsp` 里面 `DISTRO=fsl-imx-xwayland MACHINE=imx8mmddr4evk source imx-setup-release.sh -b imx8mmddr4evk_sh` 执行完之后，然后再执行本步骤的 bitbake 命令，开始构建。
 - 或者 使用 nxp imx 提供的 Yocto 的 10GB 的包（米尔、百问网都有提供），用这个构建（镜像或者产生交叉编译链和环境变量的 SDK .h 脚本）；更多 bitbake 命令见《i.MX_Yocto_Project_User's_Guide.pdf》的 5.4 Bitbake options 章节。
 
-构建步骤：
+使用 bitbake 命令构建的步骤：
 
-- 构建好后都会在在 `tmp/deploy/sdk` 目录下：产生 .sh 可执行环境构建文件，还有两个 manifest 文件， `host.manifest` 是工具链中包含主机端的软件包的列表， `target.manifest` 是包含目标设备端的软件包列表。
+构建好后都会在在 `tmp/deploy/sdk` 目录下：产生 .sh 可执行环境构建文件，还有两个 manifest 文件， `host.manifest` 是工具链中包含主机端的软件包的列表， `target.manifest` 是包含目标设备端的软件包列表。
 
-- 构建底层工具链（适合底层开发的⼯具链， ⽤于编译 u-boot 和 linux 内核代码）：
+- 构建底层工具链（适合底层开发的⼯具链， ⽤于编译 u-boot 代码；使用范围有限，不推荐使用）：
 
   ```bash
   # bitbake <参数>：meta-toolchain、meta-toolchain-sdk
@@ -335,7 +341,7 @@ TODO：以下两种构建方法，对于uboot 的编译来说无明显差别，�
   DISTRO=fsl-imx-xwayland MACHINE=imx8mmddr4evk bitbake meta-toolchain （加不加 -c populate_sdk ？）
   ```
 
-- 构建应用层工具链（应⽤开发⼯具链， 附带⽬标系统的头文件和库文件， ⽅便应⽤开发者移植应用在目标设备上）：
+- 构建应用层工具链（应⽤开发⼯具链，也可⽤于编译 u-boot 和 linux 内核代码，附带⽬标系统的头文件和库文件， ⽅便应⽤开发者移植应用在目标设备上）：
 
   ```bash
   # bitbake 的选项如下（这里只列出四个）：
@@ -348,14 +354,14 @@ TODO：以下两种构建方法，对于uboot 的编译来说无明显差别，�
   DISTRO=fsl-imx-xwayland MACHINE=imx8mmddr4evk bitbake imx-image-full -c populate_sdk
   ```
 
-  米尔提供了两个编译好的工具链构建脚本：
+米尔提供了两个编译好的工具链构建脚本：
 
-  | 工具链文件名                                                 | 描述                                                         |
-  | ------------------------------------------------------------ | ------------------------------------------------------------ |
-  | fsl-imx-xwayland-glibc-x86_64-myir-image-full-aarch64-myd imx8mm-toolchain-5.4-zeus.sh | 包含一个独立的交叉开发工具链 还提供 qmake, 目标平台的 sysroot, Qt 应用开发所依赖的库 和头文件等。用户可以直接使用 这个 SDK 来建立一个独立的开 发环境 |
-  | fsl-imx-xwayland-glibc-x86_64-meta-toolchain-aarch64-myd imx8mm-toolchain-5.4-zeus.sh | 基础工具链，单独编译 Bootloader，Kernel 或者编译自 己的应用程序 |
+| 工具链文件名                                                 | 描述                                                         |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| fsl-imx-xwayland-glibc-x86_64-myir-image-full-aarch64-myd imx8mm-toolchain-5.4-zeus.sh | 包含一个独立的交叉开发工具链 还提供 qmake, 目标平台的 sysroot, Qt 应用开发所依赖的库 和头文件等。用户可以直接使用 这个 SDK 来建立一个独立的开 发环境 |
+| fsl-imx-xwayland-glibc-x86_64-meta-toolchain-aarch64-myd imx8mm-toolchain-5.4-zeus.sh | 基础工具链，单独编译 Bootloader，Kernel 或者编译自己的应用程序 |
 
-###### 使用 GUN-A 官方编译器
+###### 使用 GUN-A 编译器
 
 单独编译过 nxp 官方的系统镜像 并生成了配套的工具链， 由于其安装复杂且包含很多我们很多用不到的库，而我们只需要单独编译 uboot kernel rootfs 等，所以使用 ARM 官方的交叉编译工具链。
 
@@ -363,9 +369,9 @@ TODO：目前暂时不知道 使用 ARM 官方编译器会不会导致 imx8mm �
 
 1. ARM GUN-A 官方编译器下载页面： [GNU Toolchain | GNU-A Downloads – Arm Developer](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads)；
 
-   [arm-linux-gnueabihf、aarch64-linux-gnu等ARM交叉编译GCC的区别_Namcodream521的博客-CSDN博客](https://blog.csdn.net/Namcodream521/article/details/88379307)；
-
-   [转：ARM交叉编译工具链分类说明 arm-linux-gnueabi和arm-linux-gnueabihf 的区别_Beyoungbehappy的博客-CSDN博客](https://blog.csdn.net/Beyoungbehappy/article/details/80005573)；
+   - [arm-linux-gnueabihf、aarch64-linux-gnu等ARM交叉编译GCC的区别_Namcodream521的博客-CSDN博客](https://blog.csdn.net/Namcodream521/article/details/88379307)；
+   - [转：ARM交叉编译工具链分类说明 arm-linux-gnueabi和arm-linux-gnueabihf 的区别_Beyoungbehappy的博客-CSDN博客](https://blog.csdn.net/Beyoungbehappy/article/details/80005573)；
+   - [arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf等的区别 - 涛少& - 博客园 (cnblogs.com)](https://www.cnblogs.com/deng-tao/p/6432578.html)；
 
 2. 在 `x86_64 Linux hosted cross compilers`下面找到 `AArch64 GNU/Linux target (aarch64-none-linux-gnu)`，并下载；（`AArch64 Linux hosted cross compilers`下的编译器可以运行在 嵌入式板子 SoC 的 Linux 上）；
 
@@ -378,6 +384,19 @@ TODO：目前暂时不知道 使用 ARM 官方编译器会不会导致 imx8mm �
    ```
 
 4. 就行了，可以编译 uboot、imx-atf 等等。
+
+###### 使用 Linaro GCC 编译器
+
+正点原子的文章`【正点原子】I.MX6U嵌入式Linux驱动开发指南V1.5.1`在 `4.3.1.2 小节`里说到个别版本能编译通过但是不能运行，多换换版本试试。
+
+到 [Linaro Releases](https://releases.linaro.org/components/toolchain/binaries/) 下载适合的编译器，使用方法与上面类似。
+
+###### 关于编译器的选择
+
+除了要注意 Linux 主机平台和目标平台要选对以外，还要注意选择支持操作系统的版本（并支持硬件浮点），这个版本支持 Linux 的进程等 API 的编译，由于 uboot 没有用到这些 Linxu API，所以这个版本的编译器也可以编译 uboot，可以说是全流程编译，所以为了方便选用这个版本的编译器：
+
+- 对于 “使用 GUN-A 官方编译器”：带有 “bare-metal” 的为不支持操作系统的，除此之外的可以选择；
+- 对于 “基于 yocto 的 bitbake”：选择 “构建应用层工具链” 一节去产生编译器。
 
 ##### 分析 imx-mkimage
 
@@ -451,11 +470,11 @@ LPDDR4 的情况：
      ```makefile
      if TARGET_<新板子名（全大写）>  与上面的 "config TARGET_<新板子名（全大写）>"的 config 后面的一致
      config SYS_BOARD
-         default "<新板子名>"
+         default "<新板子名>"      代表 board/<新公司名>/ 下的新板子名文件夹
      config SYS_VENDOR
-         default "<新公司名>"
+         default "<新公司名>"      代表 board/ 下的新公司名文件夹
      config SYS_CONFIG_NAME
-         default "<新板子名>"
+         default "<新板子名>"      代表 nclude/configs/ 目录下的新板子名的头文件
      
      source "board/<新公司名>/common/Kconfig"
      endif
@@ -475,7 +494,7 @@ LPDDR4 的情况：
 
    还可以 添加/修改 功能裁剪/选择 和 参数定义 的宏，功能定义宏的前缀 "`CONFIG_`"，参数定义宏的前缀 "`CFG_`"；
 
-4. 板级设备树文件创建/修改：（在这里区分使用 LPDDR4 还是 DDR4）若新板子的原理图与原板子的高度一致，就比较好办，举例，复制`arch/arm/dts/imx8mm.dtsi`为一个新的`arch/arm/dts/xxx-imx8mm.dtsi`（板级主要文件，包括所有外设 驱动部分，或可不对其内部做改动），复制`arch/arm/dts/imx8mm-evk.dts`为一个新的`arch/arm/dts/xxx-imx8mm-ddr4.dts`（板级设备树文件，或可对其内部部分不需要/需要改动的外设做修改，一般无需大改）。接着修改改目录下的设备树 Makefile，增加内容如下：
+4. 板级设备树文件创建/修改：若新板子的原理图与原板子的高度一致，就比较好办，举例，复制`arch/arm/dts/imx8mm.dtsi`为一个新的`arch/arm/dts/xxx-imx8mm.dtsi`（包括 imx8mm 系列共有的硬件外设的描述，一般不对其做改动），复制`arch/arm/dts/imx8mm-evk.dts`为一个新的`arch/arm/dts/xxx-imx8mm-ddr4.dts`（板级设备树文件，按需修改，一般无需大改）。接着修改目录下的设备树 Makefile，增加内容如下：
 
    ```makefile
    ...
@@ -483,6 +502,8 @@ LPDDR4 的情况：
    xxx-imx8mm-ddr4.dtb
    ...
    ```
+
+   有关设备树的详细介绍请看《【主线剧情 番外02】设备树》。
 
 5. 新板子配置文件创建/修改：
 
@@ -521,7 +542,7 @@ LPDDR4 的情况：
      CONFIG_FASTBOOT_BUF_ADDR=0x83800000 # Address need change according - system, generally it can be the same as ${LOADADDR}
      CONFIG_FASTBOOT_BUF_SIZE=0x40000000
      CONFIG_FASTBOOT_FLASH=y
-     CONFIG_FASTBOOT_FLASH_MMC_DEV=1
+     CONFIG_FASTBOOT_FLASH_MMC_DEV=2
      CONFIG_EFI_PARTITION=y
      CONFIG_ANDROID_BOOT_IMAGE=y
      
@@ -546,7 +567,9 @@ LPDDR4 的情况：
    - spl / u-boot-spl.bin；
    - arch / arm / dts/ xxx-imx8mm.dtb。
 
-7. 调试/调整 u-boot 源码直到其可以在板子上正常启动，串口（串口输出和交互正常）、命令行（u-boot 基本命令）、网口（能 dhcp 获得 IP，能 ping 通，能使用 ftfp 或者 nfs 命令）和 FLASH（能正常读和存 u-boot 的环境变量） 都可以正常使用。（重点修改 `include/configs/<新板子名>.h`、`arch/arm/dts/xxx-imx8mm-base.dts`、`configs/<新板子名>_defconfig`等文件，具体可用 `diff -yB <文件1> <文件2>` 命令比对芯片原厂和开发板厂的两个版本的 u-boot 哪里有改动。）
+7. 调试/调整 u-boot 源码直到其可以在板子上正常启动，串口（串口输出和交互正常）、命令行（u-boot 基本命令）、网口（能 dhcp 获得 IP，能 ping 通，能使用 ftfp 或者 nfs 命令）和 FLASH（能正常读和存 u-boot 的环境变量） 都可以正常使用。
+
+重点修改`include/configs/<新板子名>.c`、`include/configs/<新板子名>.h`、`arch/arm/dts/xxx-imx8mm-base.dts`、`configs/<新板子名>_defconfig`文件；具体可用 `diff -yB <文件1> <文件2>` 命令比对芯片原厂和开发板厂的两个版本的 u-boot 哪里有改动，可以在 PC 电脑上面使用 Vscode 查看 uboot 源码并修改，然后进行编译和下载调试。具体对于网口、EMMC/SD、IO 等的修改可以参考《【正点原子】I.MX6U嵌入式Linux驱动开发指南》、《【百问网】嵌入式Linux应用开发完全手册_韦东山全系列视频文档全集》等手册，学习思想，触类旁通。
 
 ### u-boot 编译流程
 
@@ -557,6 +580,14 @@ LPDDR4 的情况：
 更多 u-boot 源码分析等内容看上面 "u-boot 启动流程"、"u-boot 移植要点" 章节内容。
 
 ### u-boot 图形化配置
+
+在 uboot 目录里面先执行`make <板名>_defconfig`，再执行`make menuconfig`。方向键移动光标，enter 进入子菜单，空格键打开/关闭一个选项，双击 tab 键返回上一个目录。
+
+执行`make <板名>_defconfig`之后会把配置信息写入 `.config` 文件，再执行`make menuconfig`，menuconfig 通过读取 `.config` 文件来显示，经过 menuconfig 配置并保存，实际是修改了`.config`文件，此时执行 make 命令进行编译会用`.config`文件（在`make <板名>_defconfig`的基础上再经过 menuconfig 修改之后的最终的配置文件）的配置信息进行编译；如果执行 `make distclean` 会删除`.config`文件；所以通过 menuconfig 配置的是临时的，经过清理后就不存在了。
+
+目标 menuconfig 依赖 scripts/kconfig/mconf，后者会调用 uboot 根目录下的 Kconfig 文件开始构建图形化配置界面，此 Kconfig 里面的 mainmenu 就是主菜单，有关此菜单的 Kconfig 语法可以参考《【正点原子】I.MX6U嵌入式Linux驱动开发指南》的 `34.2.2 Kconfig 语法简介` 一节以及 `34.3 添加自定义菜单` 一节。
+
+构建图形化配置界面更多参考：
 
 - [Linux内核编译——Uboot_笑傲江湖-CSDN博客](https://blog.csdn.net/cheng401733277/article/details/79982709)；
 - [uboot图形化配置浅析 - lzd626 - 博客园 (cnblogs.com)](https://www.cnblogs.com/lzd626/p/11939066.html)；
@@ -576,26 +607,23 @@ LPDDR4 的情况：
 
 - 改变打印板子名：
 
-  - ~~u-boot 版本信息：~~
-
-    ~~这是开机打印的 uboot 版本信息：`U-Boot 2020.04-dirty (May 13 2021 - 06:03:34 -0400)`，其中`./include/generated/version_autogenerated.h:1:#define PLAIN_VERSION "2020.04-dirty"`，能改的是：PLAIN_VERSION。~~
-
+  - u-boot logo：打开 `uboot-imx/tools/Makefile`，执行`:/LOGO_BMP`搜索 “LOGO_BMP”，分析 Makefile 可知 默认使用`$(srctree)/$(src)/logos/denx.bmp`的图片，如果存在 `logos/$(BOARD).bmp` 或者 `logos/$(VENDOR).bmp` 就使用，可以直接在此按需替换。具体的显示 logo 的函数在`uboot /board/esd/common/`目录下的 `lcd.c` 文件中，大约在 81 行左右。屏幕的初始化配置在官方源码的`<board name>.c`文件里面。因为 uboot 启动的时间很短，一般都使用 Linux 的 logo，所以 uboot 中可以将 logo 图片删掉，或者在`<board name>.c`里面将显示有关的代码屏蔽掉。
+  - 增加 uboot 额外的版本信息，在 uboot 目录里面先执行`make <板名>_defconfig`，再执行`make menuconfig`，在 `Console` 里面的 `Board specific string ... version string`里面填入板子名和版本字符串。
   - 对于 imx8mm：
     - 在 `arch/arm/dts/imx8mm-ddr4-evk.dts` 里面的 model 改板名，板子上电后 uboot 的 `Model:` 会显示这里的信息；`board/board-info.c` 里面的`show_board_info()`会调用读取这个 `model`； 
     - 在 `<板名>.`c 里的 `board_late_init()`，有一个设置 uboot 的 `board_name` 环境变量；
-
   - 对于其他 imx8 系列：
     1. 在 `<板子名>.c` 中，`board_early_init_f()`的`init_sequence_f[]`里面有一个`checkboard()`函数；
     2. 直接一点的方法：delete `identify_board_id()` inside `checkboard()` and replace `printf("Board: ");` with `printf("Board: i.MX on <custom board>\n");`；
     3. 间接方法，The identification can be detected and printed by implementing the __print_board_info() function according to the identification method on the custom board，查看一下`identify_board_id()`和 `__print_board_info()`这两个函数的内容，进行修改。
-
+  
 - 调试：在串口初始化之后的程序中可以添加`printf()`函数打印调试信息，初始化串口函数默认在`board_early_init_f()`里面。
 
 ### 添加自定义命令
 
 [u-boot 添加自定义命令](https://blog.csdn.net/zqixiao_09/article/details/50805936)。
 
-### 添加菜单选项
+### 添加命令行菜单界面
 
 - [UBOOT通用菜单menu的实现_leochen_career的专栏-CSDN博客](https://blog.csdn.net/leochen_career/article/details/78900434)；
 - [uboot中的快捷菜单的制作说明-小超hide-ChinaUnix博客](http://blog.chinaunix.net/uid-22030783-id-366971.html)；
@@ -652,7 +680,9 @@ In imx-boot, the SPL is packed with DDR Firmware together, so that ROM can load 
   - A device tree file (.dtb) for the board being used；
   - A root file system (rootfs) for the particular Linux image。
 
-- [如何理解曾博所说的“看国外数学教材提高智商”？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/54483237)；
+- [如何理解曾博所说的“看国外数学教材提高智商”？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/54483237/answer/1850784068)，其中说到 "国内大学很多教材简直魔幻，是“你只有学会了才看得懂”，然后学生是“需要看教材才学得会”，反复套娃死循环。 "；
+
+- [ 写一个操作系统内核有多难？大概的内容、步骤是什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/22463820/answer/37931074)，其中说到 "人家通俗易懂，很有诚意，比起那些复制粘贴强行装B的书不知道要强多少倍。。。 "；
 
 - [NXP i.MX 8M Mini平台Linux系统启动时间优化 | i2SOM湃兔核](https://i2som.com/news/devlog/nxp-i-mx-8m-mini-platform-linux-system-boot-time-optimization.html)；
 
