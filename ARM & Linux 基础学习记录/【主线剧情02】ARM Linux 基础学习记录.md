@@ -762,41 +762,71 @@ sudo apt-get source package                 下载该包的源代码
 
 1.  首先备份源列表：`sudo cp /etc/apt/sources.list /etc/apt/sources.list_backup`；
 
-2.  编辑 /etc/apt/sources.list 文件，在文件最前面添加阿里云镜像源：
+2.  编辑 /etc/apt/sources.list 文件，在文件最前面镜像源：
 
     ```
     # 阿里源
-    deb http://mirrors.aliyun.com/Ubuntu/ bionic main restricted universe multiverse
-    deb http://mirrors.aliyun.com/Ubuntu/ bionic-security main restricted universe multiverse
-    deb http://mirrors.aliyun.com/Ubuntu/ bionic-updates main restricted universe multiverse
-    deb http://mirrors.aliyun.com/Ubuntu/ bionic-proposed main restricted universe multiverse
-    deb http://mirrors.aliyun.com/Ubuntu/ bionic-backports main restricted universe multiverse
-    deb-src http://mirrors.aliyun.com/Ubuntu/ bionic main restricted universe multiverse
-    deb-src http://mirrors.aliyun.com/Ubuntu/ bionic-security main restricted universe multiverse
-    deb-src http://mirrors.aliyun.com/Ubuntu/ bionic-updates main restricted universe multiverse
-    deb-src http://mirrors.aliyun.com/Ubuntu/ bionic-proposed main restricted universe multiverse
-    deb-src http://mirrors.aliyun.com/Ubuntu/ bionic-backports main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src http://mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
     
     # 清华源
-    # 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
-    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse
-    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse
-    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse
-    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse
-    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse
-    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse
-    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse
-    # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+     
+    # 中科大源
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src https://mirrors.ustc.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+    
+    # 163源
+    deb http://mirrors.163.com/ubuntu/ bionic main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb http://mirrors.163.com/ubuntu/ bionic-backports main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-security main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-updates main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-proposed main restricted universe multiverse
+    deb-src http://mirrors.163.com/ubuntu/ bionic-backports main restricted universe multiverse
     ```
     
-3.  更新源：`sudo apt-get update`。
+3. 更新源：
+
+   ```shell
+   sudo apt update
+   sudo apt upgrade
+   ```
 
 添加系统变量：
 
 -   临时：终端中键入：`export PATH=$PATH:<目录>`，重启后丢失。
 -   永久（只对当前用户有效）：改 ~/.bashrc 文件，在行尾添加：`export PATH=$PATH:<目录>`，然后终端键入 `source ~/.bashrc` 使之生效，即可。
 
-### Ubuntu 下的卸载包
+#### Ubuntu 下的卸载包
 
 Ubuntu GUI 界面操作：
 
@@ -940,7 +970,7 @@ obj-m	+= hello_drv.o
 
 芯片厂家（大概）应该都会提供完整的 U-boot、 Linux 内核、芯片上硬件资源的驱动程序。
 
-看韦东山的 imx6ull 板子的裸机开发源码，可以得知，启动文件.s需要看懂，都大同小异，然后官网会提供所有寄存器的.h文件及其结构体，然后每个外设似乎还会提供初始化、配置的代码（因为韦的源码里面，外设底层配置代码为英文注释的，99%的概率是官方提供的），这样就好了嘛，外设的底层驱动可以都扒官方例程。
+看韦东山的 imx6ull 板子的裸机开发源码，可以得知，启动文件 .s 文件需要看懂，都大同小异，然后官网会提供所有寄存器的 .h 文件及其结构体，然后每个外设似乎还会提供初始化、配置的代码（因为韦的源码里面，外设底层配置代码为英文注释的，99%的概率是官方提供的），这样就好了嘛，外设的底层驱动可以都扒官方例程。
 
 ### 构建系统简约步骤
 
@@ -980,9 +1010,9 @@ Linux 平台上有许多开源的嵌入式 linux 系统构建框架，这些框�
 
 制作根文件系统方法比较：
 
--   Busybox。Busybox本身包含了很了 Linux 命令，但是要编译其他程序的话需要手工下载、编译，如果它需要某些依赖库，你还需要手工下载、编译这些依赖库。如果想做一个极简的文件系统，可以使用 Busybox 手工制作。  
+-   Busybox。Busybox 本身包含了很了 Linux 命令，但是要编译其他程序的话需要手工下载、编译，如果它需要某些依赖库，你还需要手工下载、编译这些依赖库。如果想做一个极简的文件系统，可以使用 Busybox 手工制作。  
 -   Buildroot。它是一个自动化程序很高的系统，可以在里面配置、编译内核，配置编译 u-boot、配置编译根文件系统。在编译某些APP时，它会自动去下载源码、下载它的依赖库，自动编译这些程序。Buildroot 的语法跟一般的 Makefile 语法类似，很容易掌握。  
--   Yocto。NXP、 ST等公司的官方开发包是使用Yocto，Yocto 语法复杂，容量大（10GB 以上），编译时间长。
+-   Yocto。NXP、 ST 等公司的官方开发包是使用 Yocto，Yocto 语法复杂，容量大（10GB 以上），编译时间长。
 
 Buildroot 是一组 Makefile 和补丁，可简化并自动化地为嵌入式系统构建完整的、可启动的 Linux 环境（包括 bootloader、 Linux 内核、包含各种 APP 的文件系统）。 Buildroot 运行于 Linux 平台，可以使用交叉编译工具为多个目标板构建嵌入式 Linux 平台。 Buildroot 可以自动构建所需的交叉编译工具链，创建根文件系统，编译 Linux 内核映像，并生成引导加载程序用于目标嵌入式系统，或者它可以执行这些步骤的任何独立组合。例如，可以单独使用已安装的交叉编译工具链，而 Buildroot 仅创建根文件系统。  
 
