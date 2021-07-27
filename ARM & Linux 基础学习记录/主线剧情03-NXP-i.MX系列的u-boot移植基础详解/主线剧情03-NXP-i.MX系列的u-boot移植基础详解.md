@@ -1,4 +1,4 @@
-![0.0](assets/00.png)
+![悦己之作，方能悦人](assets/悦己之作，方能悦人.png)
 
 # u-boot 移植基础详解
 
@@ -341,7 +341,7 @@
   DISTRO=fsl-imx-xwayland MACHINE=imx8mmddr4evk bitbake meta-toolchain （加不加 -c populate_sdk ？）
   ```
 
-- 构建应用层工具链（应⽤开发⼯具链，也可⽤于编译 u-boot 和 linux 内核代码，附带⽬标系统的头文件和库文件， ⽅便应⽤开发者移植应用在目标设备上）：
+- 构建应用层工具链（编译 u-boot、linux 内核、驱动和应用等，附带⽬标系统的头文件和库文件， ⽅便应⽤开发者移植应用在目标设备上）：
 
   ```bash
   # bitbake 的选项如下（这里只列出四个）：
@@ -627,6 +627,7 @@ LPDDR4 的情况：
 
 - [UBOOT通用菜单menu的实现_leochen_career的专栏-CSDN博客](https://blog.csdn.net/leochen_career/article/details/78900434)；
 - [uboot中的快捷菜单的制作说明-小超hide-ChinaUnix博客](http://blog.chinaunix.net/uid-22030783-id-366971.html)；
+- [如何在U-Boot中添加自定义命令_HowieXue 薛永浩的博客-CSDN博客](https://howiexue.blog.csdn.net/article/details/79836382)；
 - ...
 
 ### 合成最后的二进制文件

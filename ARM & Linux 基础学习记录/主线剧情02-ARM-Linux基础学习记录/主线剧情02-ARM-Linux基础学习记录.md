@@ -1,4 +1,4 @@
-![image-20210406154308192](assets/00.png)
+![悦己之作，方能悦人](assets/悦己之作，方能悦人.png)
 
 # ARM & Linux 基础学习记录
 
@@ -50,13 +50,13 @@ Ubuntu 中的目录遵循 FHS 标准(Filesystem Hierarchy Standard， 文件系�
 
 这些目录简单介绍如下。
 
-![image-20210405131622639](assets/11.png)
+![Linux文件系统目录介绍](assets/Linux文件系统目录介绍.png)
 
 #### 文件属性
 
 终端中执行 "ls -al" 命令则给出每个文件完整属性信息。文件属性示意图如下 。
 
-![image-20210405131752755](assets/12.png)
+![Linux文件系统文件属性](assets/Linux文件系统文件属性.png)
 
 -   第一个字符表示“文件类型”，它是目录、文件或链接文件等。如下表所示。
 
@@ -99,7 +99,7 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如/bin/sh
 
 命令提示符如下图。
 
-![image-20210405132451985](assets/13.png)
+![Linux-Shell](assets/Linux-Shell.png)
 
 根目录： "/" ；家目录： "~" ；上一级目录： ".." ；当前目录： "." ；上一次目录："-"。执行当前目录的  "app" 应用程序： "./app" 。 
 
@@ -180,7 +180,7 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如/bin/sh
 
 命令后加 --help 选项，获取此命令的所有选项和其释义。详情如下图。
 
-![image-20210406154603780](assets/18.png)
+![获取命令帮助 --help](assets/获取命令帮助--help.png)
 
 命令的完整手册，命令前加 man，提供命令、API、概念、配置文件等帮助信息。详情如下。
 
@@ -211,13 +211,13 @@ man 手册一共有 9 册，每一册专注一个方面。如下表。
 | COPYRIGHT      | 版权                             |
 | SEE ALSO       | 与本命令或数据相关的其他参考说明 |
 
-![image-20210406155018321](assets/19.png)
+![获取命令帮助 man](assets/获取命令帮助man.png)
 
 ##### 显示目录文件和文件夹：ls
 
 -l 显示完整属性信息；-a 显示隐藏文件；-h 文件和文件夹大小以 K/M/G 单位显示。一个例子如图。
 
-<img src="assets/14.png" alt="image-20210405134850397" style="zoom: 80%;" />
+![显示目录文件和文件夹 ls](assets/显示目录文件和文件夹ls.png)
 
 ##### 统计目录每个文件大小：du
 
@@ -470,6 +470,8 @@ readelf -a <elf 文件> 解析并显示 elf 的 arm 可执行文件的详情
 
 ##### 任务后台执行/任务/进程查看
 
+前置知识：每个进程有个 ID（The task's unique process ID），为 PID（Process ID），同一个进程下的线程的 PID 均相同。LWP 即轻量级进程，就是线程了。
+
 -   在命令的最后，加一个 & 符号，即可放到后台运行，
 
     常用任务管理命令：
@@ -490,7 +492,7 @@ readelf -a <elf 文件> 解析并显示 elf 的 arm 可执行文件的详情
 
 -   `ps -aux` 查看当前哪些任务在后台执行。详情如下图。
 
-    ![16](assets/16.jpg)
+    ![进程查看 ps](assets/进程查看ps.jpg)
 
 - `kill -9 <进程 ID>` 结束进程指定进程 ID 的进程。
 
@@ -498,7 +500,9 @@ readelf -a <elf 文件> 解析并显示 elf 的 arm 可执行文件的详情
 
 - 动态的显示系统进程信息（相当于任务管理器界面）：`top -d  2`，-d 表示刷新时间，单位秒。详情如下图。
 
-  ![17](assets/17.jpg)
+  ![动态的显示系统进程信息 top](assets/动态的显示系统进程信息top.jpg)
+
+  top 命令详解 [linux top命令查看内存及多核CPU的使用讲述 - tamatama - 博客园 (cnblogs.com)](https://www.cnblogs.com/tamatama/p/13044402.html)。
 
 - 查看 CPU 状况有很多方法，还有：`cat /proc/cpuinfo`。
 
@@ -586,7 +590,7 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 
 - 延时关机：`shutdown -t 10`，关机，-t 表示关机倒计时，单位秒。`shutdown` 更多例子：
 
-  ![shutdown 例子](assets/shutdown 例子.png)
+  ![关机 shutdown 命令](assets/关机shutdown命令.png)
 
 -   给 root 用户设置密码，并在用户间切换：
 
@@ -629,7 +633,7 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 
 ##### 一图以蔽之
 
-![image-20210405155145797](assets/15.png)
+![Vi编辑器使用](assets/Vi编辑器使用.png)
 
 一般模式 用于光标移动、复制、粘贴和删除等；命令行模式 用于输入保存、退出、查找和替换等控制命令，在一般模式打一个冒号再输入命令。
 

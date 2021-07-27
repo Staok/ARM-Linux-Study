@@ -6,7 +6,7 @@
 
 ## 零 鸟瞰
 
-![0 鸟瞰](assets/0 鸟瞰.png)
+![0 鸟瞰](assets/0-鸟瞰.png)
 
 ### ARM Cortex 系列框图
 
@@ -26,11 +26,11 @@
 
 ## 一 定位
 
-![1 定位](assets/1 定位.png)
+![1 定位](assets/1-定位.png)
 
 ### ARM Cortex-A 系列对比
 
-![ARM Cortex-A 系列对比](assets/ARM Cortex-A 系列对比.jpg)
+![ARM Cortex-A 系列对比](assets/ARM-Cortex-A-系列对比.jpg)
 
 更详细的介绍参看：
 
@@ -45,13 +45,13 @@
 >
 > 如果非要给他们一个排序的话，从高到低大体上可排序为：Cortex-A73处理器、Cortex-A72处理器、Cortex-A57处理器、Cortex-A53处理器、Cortex-A35处理器、Cortex-A32处理器、Cortex-A17处理器、Cortex-A15处理器、Cortex-A7处理器、Cortex-A9处理器、Cortex-A8处理器、Cortex-A5处理器。
 
-![ARM Cortex-A 系列对比 2](assets/ARM Cortex-A 系列对比 2.jpg)
+![ARM Cortex-A 系列对比 2](assets/ARM-Cortex-A-系列对比-2.jpg)
 
-<img src="assets/ARM Cortex-A 系列对比 3.png" alt="ARM Cortex-A 系列对比 3" style="zoom:80%;" />
+<img src="assets/ARM-Cortex-A-系列对比-3.png" alt="ARM Cortex-A 系列对比 3" style="zoom:80%;" />
 
 ## 二 展望
 
-![2 展望](assets/2 展望.png)
+![2 展望](assets/2-展望.png)
 
 基于 Linux 系统方案的优势：
 
