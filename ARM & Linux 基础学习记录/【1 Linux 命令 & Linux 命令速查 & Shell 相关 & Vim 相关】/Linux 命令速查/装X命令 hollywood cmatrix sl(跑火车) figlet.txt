@@ -1,0 +1,8 @@
+sudo apt-get install hollywood cmatrix
+执行 hollywood 或 cmatrix ，后者可以在远程窗口执行，前者只能在ubuntu图形界面下执行
+
+sl 命令为从右到左跑一遍字符画火车
+
+
+figlet 命令为字符画生成，详看：
+https://www.linuxidc.com/Linux/2018-12/155871.htm

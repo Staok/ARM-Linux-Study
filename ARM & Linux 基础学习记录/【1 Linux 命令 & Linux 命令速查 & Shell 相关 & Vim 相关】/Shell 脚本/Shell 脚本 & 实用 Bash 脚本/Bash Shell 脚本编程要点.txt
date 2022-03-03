@@ -1,0 +1,4 @@
+linux的shell脚本 语法并不太人性化 真需要再用
+脚本中 grep sed awk 命令三剑客，常用
+
+还是可以多用python做自动化处理

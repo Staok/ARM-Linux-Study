@@ -1,0 +1,66 @@
+开学新购置台式机一个专门用于linux服务器的，要1TB固态，高速16GB以上内存，最新i7等等
+
+
+uboot kernel roorfs 看买的放 2T 硬盘的 清华远见的视频
+uboot kernel roorfs 看原子的移植，野火
+
+【04】为linux内核移植，先比较全面的说一下文件夹都是什么用，有哪些要改
+
+git clone https://source.codeaurora.org/external/imx/linux-imx
+cd linux-imx
+git checkout imx_5.4.70_2.3.0
+git branch -vv
+
+i.MX_Porting_Guide
+i.MX_Linux_Users_Guide
+米尔的文章
+野火文档 P502
+原子文档 P
+第三十五章 Linux 内核顶层 Makefile 详解
+
+https://howiexue.blog.csdn.net/article/details/76696631
+
+https://zhuanlan.zhihu.com/p/378149586
+
+参考100ask的BSP移植文档
+https://www.freesion.com/article/2426374191/
+
+【05】为Buildroot 构建文件系统
+
+可以先学busybox 构建最精简的文件系统，也比较简单，从这个开始，再看buildroot
+
+参考100ask的BSP移植文档，从0适配 buildroot
+http://wiki.100ask.org/Buildroot
+野火文档 P519~P536~、P1921，下载 官方文档，原子文档
+看一看 100ask imxull 的 buildroot 的配置，uboot linux 的路径配置等待
+如何Buildroot解决 将 最终的 flash.bin 编译出，而不是只用 uboot 编译出的：
+1、buildroot 可以设置
+2、修改uboot的Makefile，make后直接合成flash.bin并改名为buildroot可以识别的uboot.bin之类的
+
+【06】为ubuntu的移植 
+参考米尔 L4 里面的文章
+野火 P1891 制作带桌面的 ubuntu16 根文件系统
+
+【07-08】Linux 驱动/应用开发
+https://zhuanlan.zhihu.com/p/105764906
+https://www.zhihu.com/column/c_1187102635679862784
+可以先看百问网的，有设备树和驱动的详解
+驱动开发、应用开发，先看两本书，看今典文档里面【0 综合性文章 整体学习】，看【Linux 设备驱动和应用编程】
+看买的清华远见的视频，野火、原子、百问网，放在上一层目录的 【Linux 驱动开发】 【Linux 应用开发】 里面
+
+野火：
+NFS 记到【02】
+P341 proc
+P343 sys 目录
+P347 win 的文件操作
+P353 linxu 的文件操作
+P358头文件 到P475 外设应用编写 P481进程
+还有设备树的使用等等
+应用编程很多
+
+宿舍linux 书上，linux 裁剪的，p216开始，都记上
+
+p222 内核加入源码，以菜单形式
+
+p228 各个目录的介绍，补充到【02】
+
