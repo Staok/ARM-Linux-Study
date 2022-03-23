@@ -116,7 +116,7 @@
 
 不同的 SoC 需要准备不同的交叉编译器，对于 i.mx 系列，参考其官网手册通过一系列 NXP 提供的自动化脚本生成，以及配置好环境变量，即可使用此专用的交叉编译器编译 u-boot、Linux kernel 和 Linux 驱动/应用。
 
-现以 i.mx8mm 为例，参考从其官网网址下载的嵌入式 Linux 手册包 imx-yocto-L5.4.70_2.3.0.zip 里面的手册来准备编译环境，提前说明，这个步骤是对于 NXP i.mx 系列的独家方法，其中一些编译步骤要花费巨长的时间，读到此的游客了解即可，除非要用，否则可以不用实践一遍。对于买 i.mx 系列开发板的，如果不愿从头做一遍，可以直接使用开发板公司提供的资料里面的环境配置脚本和交叉编译器，就直接跳过这一小节。
+现以 i.mx8mm 为例，参考从其官网网址下载的嵌入式 Linux 手册包 imx-yocto-L5.4.70_2.3.0.zip 里面的手册来准备编译环境，**提前说明，这个步骤是对于 NXP i.mx 系列的独家方法，其中一些编译步骤要花费巨长的时间，读到此的游客了解即可，除非要用，否则可以不用实践一遍。对于买 i.mx 系列开发板的，如果不愿从头做一遍，可以直接使用开发板公司提供的资料里面的环境配置脚本和交叉编译器，就直接跳过这一小节。**
 
 以下步骤都在 Linux 主机上进行。
 
@@ -363,7 +363,7 @@
 
 ###### 使用 GUN-A 编译器
 
-单独编译过 nxp 官方的系统镜像 并生成了配套的工具链， 由于其安装复杂且包含很多我们很多用不到的库，而我们只需要单独编译 uboot kernel rootfs 等，所以使用 ARM 官方的交叉编译工具链。
+单独编译过 nxp 官方的系统镜像 并生成了配套的工具链， 由于其安装复杂且包含很多我们很多用不到的库，而我们只需要单独编译 uboot、kernel、rootfs 等，所以使用 ARM 官方的交叉编译工具链。
 
 TODO：目前暂时不知道 使用 ARM 官方编译器会不会导致 imx8mm 的 qt、ml 等特性用不上？！？
 
@@ -373,7 +373,7 @@ TODO：目前暂时不知道 使用 ARM 官方编译器会不会导致 imx8mm �
    - [转：ARM交叉编译工具链分类说明 arm-linux-gnueabi和arm-linux-gnueabihf 的区别_Beyoungbehappy的博客-CSDN博客](https://blog.csdn.net/Beyoungbehappy/article/details/80005573)；
    - [arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf等的区别 - 涛少& - 博客园 (cnblogs.com)](https://www.cnblogs.com/deng-tao/p/6432578.html)；
 
-2. 在 `x86_64 Linux hosted cross compilers`下面找到 `AArch64 GNU/Linux target (aarch64-none-linux-gnu)`，并下载；（`AArch64 Linux hosted cross compilers`下的编译器可以运行在 嵌入式板子 SoC 的 Linux 上）；
+2. 在 `x86_64 Linux hosted cross compilers`下面找到 `AArch64 GNU/Linux target (aarch64-none-linux-gnu)`（i.mx8mm 为 A53 内核，即为 64 位的 armv8 指令集），并下载；（`AArch64 Linux hosted cross compilers`下的编译器可以运行在 64位的 嵌入式板子 SoC 的 Linux 上）；
 
 3. 使用 `tar xvf` 命令解压；并添加环境变量：
 
@@ -386,6 +386,8 @@ TODO：目前暂时不知道 使用 ARM 官方编译器会不会导致 imx8mm �
 4. 就行了，可以编译 uboot、imx-atf 等等。
 
 ###### 使用 Linaro GCC 编译器
+
+*p.s 这里作者没有试验，只是把说明放在这里。*
 
 正点原子的文章`【正点原子】I.MX6U嵌入式Linux驱动开发指南V1.5.1`在 `4.3.1.2 小节`里说到个别版本能编译通过但是不能运行，多换换版本试试。
 
@@ -693,7 +695,7 @@ In imx-boot, the SPL is packed with DDR Firmware together, so that ROM can load 
 
 - 编辑整理：[Github 页](https://github.com/Staok)，[知乎页](https://www.zhihu.com/people/xuhaoyang)
 - 发表时间：始于 2021.5 且无终稿
-- 首发平台：[知乎](https://zhuanlan.zhihu.com/p/373505974) & [Github](https://github.com/Staok/ARM-Linux-Study/blob/main/ARM%20%26%20Linux%20%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/%E3%80%90%E4%B8%BB%E7%BA%BF%E5%89%A7%E6%83%8503%E3%80%91NXP%20i.MX%20%E7%B3%BB%E5%88%97%20u-boot%20%E7%A7%BB%E6%A4%8D%E5%9F%BA%E7%A1%80%E8%AF%A6%E8%A7%A3.md)
+- 首发平台：[知乎](https://zhuanlan.zhihu.com/p/373505974) & [Github](https://github.com/Staok/ARM-Linux-Study)
 - 遵循协议：[CC-BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)
 - 其他说明：
   1. 本文件是“瞰百易”计划的一部分，尽量遵循 [“二项玻”定则](https://github.com/Staok/Please-stay-in-the-future)，致力于与网络上碎片化严重的现象泾渭分明（这中二魂...）！
