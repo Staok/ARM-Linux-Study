@@ -1602,13 +1602,13 @@ NFS 将服务端的文件系统目录树映射到客户端，而在客户端访�
 
 - 确保安装：`sudo apt-get install nfs-kernel-server`。
 
-- 设定目录，例如允许开发板通过 NFS 访问 Ubuntu 的 /home/book 目录，则在 `/etc/exports` 文件中添加以下内容：
+- 设定目录，例如允许开发板通过 NFS 访问 Ubuntu 的 `/home/book` 目录，则在 `/etc/exports` 文件中添加以下内容：
 
   ```bash
   /home/book  *(rw,nohide,insecure,no_subtree_check,async,no_root_squash)
   ```
 
-- 重启 NFS 服务：`sudo /etc/init.d/nfs-kernel-server restart`。
+- 重启 NFS 服务：`sudo service nfs-kernel-server restart`。
 
 - 可以在 Ubuntu 上通过 NFS 挂载自己，验证一下 NFS 可用：
 
@@ -1654,7 +1654,7 @@ mount 成功之后 ， 嵌入式 Linux 板子在 /mnt 目录下读写文件时�
 
   ```bash
   TFTP_DIRECTORY="/home/book/tftpboot"
-  TFTP_OPTIONS="-l  -c  -s"
+  TFTP_OPTIONS="-l -c -s"
   ```
 
 - 重启 TFTP 服务：`sudo service tftpd-hpa restart`。
