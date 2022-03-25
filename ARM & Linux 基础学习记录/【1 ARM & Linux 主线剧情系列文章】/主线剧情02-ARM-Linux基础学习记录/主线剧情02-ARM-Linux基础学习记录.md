@@ -116,7 +116,7 @@ Ubuntu 中的目录遵循 FHS 标准(Filesystem Hierarchy Standard， 文件系�
 
 - [Linux 系统启动过程 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-system-boot.html)。
 - [Linux系统相关的基础问题（空间、内存、库、链接、环境变量）_~青萍之末~的博客-CSDN博客](https://blog.csdn.net/daaikuaichuan/article/details/82729483)。
-- [Linux系统调用_~青萍之末~的博客-CSDN博客_linux系统调用](https://blog.csdn.net/daaikuaichuan/article/details/82902407)。
+- [Linux系统调用_~青萍之末~的博客-CSDN博客_linux系统调用](https://blog.csdn.net/daaikuaichuan/article/details/82902407)。[【第4篇】嵌入式Linux应用开发基础知识_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1kk4y117Tu?p=13)，其中 `4-2_ 文件IO _系统接口` 这一个节讲解 系统调用怎么进入内核。
 - [Linux内核的五大模块_~青萍之末~的博客-CSDN博客_linux内核模块](https://blog.csdn.net/daaikuaichuan/article/details/82957655)，进程调度，进程间通信模块（包括管道、命名管道、消息队列、信号量和共享内存等），内存管理模块，文件系统模块，网络接口模块。
 - etc.
 
