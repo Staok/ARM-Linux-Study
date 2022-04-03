@@ -1,6 +1,8 @@
 # Linux 应用 - 学习总结备查
 
-记 Linux 应用 相关的基本概念和流程，便于 备查 / 复习。*p.s Linux 系统性的入门与学习推荐去看 [【主线剧情 0.0】Linux 学习资源大综合 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/486903467)（[CSDN 链接](https://blog.csdn.net/Staokgo/article/details/123717871#t7)） 里面的 `!学习来源!` 一节！*。
+记 Linux 应用 相关的基本概念和流程，便于 备查 / 复习。*p.s Linux 系统性的入门与学习的 路线和途径 推荐去看 [【主线剧情 0.0】Linux 学习资源大综合 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/486903467)（[CSDN 链接](https://blog.csdn.net/Staokgo/article/details/123717871#t7)） 里面的 `!学习来源!` 、 `书籍推荐` 和 `Linux 应用编程内容补充`这几节！*。
+
+注：[在 Github 上的原版文章日后可能会更新](https://github.com/Staok/ARM-Linux-Study)，但这里不会跟进。[文章的 Gitee 仓库地址，Gitee 访问更流畅](https://gitee.com/staok/ARM-Linux-Study)。
 
 ------
 
@@ -8,7 +10,7 @@
 
 **① Linux 开发 基本工具的使用**
 
-代码编辑：Vim、gedit（ubuntu 下）。编译工具：gcc，make，cmake（生成 makefile），gdb。项目管理：git。文本编辑：Windows 端的如 source insight、notepad、VsCode 等；Linux 端的如 gedit（Ubuntu 端）、VsCode 等。 
+代码编辑：Vim、gedit（ubuntu 下）。编译工具：gcc，make，cmake（生成 makefile），gdb。项目管理：git。文本编辑：Windows 端的如 source insight、Notepad、VsCode 等；Linux 端的如 gedit（Ubuntu 端）、VsCode 等。 
 
 引 [主线剧情02-ARM-Linux基础学习记录_Real-Staok的博客-CSDN博客](https://blog.csdn.net/Staokgo/article/details/123693110#t7) 里面的 `Linux 下的开发` 一节的内容。
 
@@ -49,8 +51,8 @@
 
 引 [主线剧情02-ARM-Linux基础学习记录_Real-Staok的博客-CSDN博客]([(40条消息) 主线剧情02-ARM-Linux基础学习记录_Real-Staok的博客-CSDN博客](https://blog.csdn.net/Staokgo/article/details/123693110)) 里面的 `PC 与 嵌入式板 传输文件的方式汇总` 一节的内容。这一块内容会只在 [Github](https://github.com/Staok/ARM-Linux-Study)/[Gitee](https://gitee.com/staok/ARM-Linux-Study) 仓库内更新：
 
-- 网络传输：ETH/WiFi。通过 SSH、NFS、TFTP 等。
-- USB 传输：~~U 盘拷贝~~，芯片 官方配套的 USB 传输 / 烧写 工具。
+- 网络传输：ETH / WiFi。通过 SSH、NFS、TFTP 等。
+- USB 传输：~~U 盘拷贝~~，芯片官方 配套的 USB 传输 / 烧写 工具。
 - 串口传输：rz / sz 命令。
 
 **⑥ 期待美好发生**
@@ -61,50 +63,66 @@
 
 ## 参考源
 
-### 通过手册的 API 详细描述参考
+### 通过手册的 查看 API 详细描述参考
 
 引 [【规范】万字集大成的C编写规范_Real-Staok的博客-CSDN博客](https://blog.csdn.net/Staokgo/article/details/122451567#t20) 中的 `7 C 标准库的使用` 一节内容，即 各种C标准库详解和用例，其中包括了 C/C++ 的常用标准库 的 API 使用的详细描述，还包括 Linux_C（[glibc_man_cn](https://gitee.com/zhaixuebuluo/glibc_man_cn)）、POSIX-C 等的 API 的完整描述文档（包括中文），便于速查，其 仓库在 [额外文档/各种C标准库详解和用例 · 瞰百/coding-style-and-more - 码云 - 开源中国 (gitee.com)](https://gitee.com/staok/coding-style-and-more/tree/main/额外文档/各种C标准库详解和用例)（[Gituhb 仓库地址](https://github.com/Staok/coding-style-and-more/tree/main/%E9%A2%9D%E5%A4%96%E6%96%87%E6%A1%A3/%E5%90%84%E7%A7%8DC%E6%A0%87%E5%87%86%E5%BA%93%E8%AF%A6%E8%A7%A3%E5%92%8C%E7%94%A8%E4%BE%8B)）。
 
 其中包括文件如：C语言标准函数库速查.pdf、C语言函数大全语法着色版.pdf、Linux函数大全.chm、POSIX-C函数速查.chm 等等。
 
-### 通过命令行寻找 命令、API  描述参考
+### 通过命令行的 查看命令、API  描述参考
 
 help、man 和 info 命令。
 
 - help 只能用于查看某个命令的用法。
 
-- man 命令既可以查看命令的用法，还可以查看函数的详细介绍等等。（引自 `百问网`）
+- man 命令既可以查看命令的用法，还可以查看函数的详细介绍等等。
 
-  比如想查看 open() 函数的用法时，可以直接执行 `man open` ，发现这不是想要内容时再执行 `man  2  open`。
-
-  在 man 命令中可以及时按“h”查看帮助信息了解快捷键。常用的快捷键是：
-
-  - `f` 往前翻一页。
-  - `b` 往后翻一页。
-  - `/<patten>` 往前搜 `patten` 字符。
-  - `?<patten>` 往后搜。
+  > （引自 百问网）
+  >
+  > 比如想查看 open() 函数的用法时，可以直接执行 `man open` ，发现这不是想要内容时再执行 `man 2 open`。
+  >
+  > 在 man 命令中可以及时按“h”查看帮助信息了解快捷键。常用的快捷键是：
+  >
+  > - `f` 往前翻一页。
+  > - `b` 往后翻一页。
+  > - `/<patten>` 往前搜 `patten` 字符。
+  > - `?<patten>` 往后搜。
 
 - info 命令会显示最全面的信息，一般 `man` 命令就够了，故 `info` 命令介绍 暂时略。
 
 ### Linux 应用开发 / 学习 / 备查 参考源
 
 - [【主线剧情 0.0】Linux 学习资源大综合 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/486903467)（[CSDN 链接](https://blog.csdn.net/Staokgo/article/details/123717871#t7)） 里面的 `!学习来源!` 一节！
-- [主线剧情0.0-Linux学习资源大综合_Real-Staok的博客-CSDN博客](https://blog.csdn.net/Staokgo/article/details/123717871#t12) 里面的 `Linux 应用编程内容补充` 一节。
+- [【主线剧情 0.0】Linux 学习资源大综合 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/486903467)（[CSDN 链接](https://blog.csdn.net/Staokgo/article/details/123717871#t7)） 里面的 `书籍推荐` 一节。
+- [【主线剧情 0.0】Linux 学习资源大综合 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/486903467)（[CSDN 链接](https://blog.csdn.net/Staokgo/article/details/123717871#t7)） 里面的 `Linux 应用编程内容补充` 一节。
 
-## 系统调用
+## 系统调用 API
 
 参考：
 
 - [Linux 下系统调用的三种方法_海风林影的博客-CSDN博客](https://blog.csdn.net/hazir/article/details/11894427)。
 - [ linux系统调用(持续更新....)_tiramisu_L的博客-CSDN博客](https://blog.csdn.net/tiramisu_L/article/details/106393065)。
 
-通过 glibc 提供的库函数、使用 syscall 直接调用、通过 int 指令陷入；popen()函数、fgets()函数、system()函数、strstr()函数。
+通过 glibc 提供的库函数、使用 syscall 直接调用、通过 int 指令陷入；popen() 函数、fgets() 函数、system() 函数、strstr() 函数。
+
+​	TODO，这里 有待补充 以上 API 完整。
 
 ## 标准 API 富集
 
 这里就是日常用到的 API 的积累和整理，最详细、全面的 API 参考 见 上面 `通过手册的 API 详细描述参考` 一节。
 
-日常用到的 标准 API 富集 单独放在了文件夹 `用到的API-收集积累` 里面。
+日常用到的 标准 API 富集 单独放在了 `【Linux 应用开发】` 文件夹 里面，包括：
+
+- 文件 IO、字符流收发 和 字符串处理相关的 API 收集积累。
+- 一些 Shell 命令 API 收集积累。
+- 文件 IO 读写的基本四种机制（阻塞、非阻塞、poll/select 和 异步通知（通过信号机制））。
+- Socket TCP/UDP编程。
+- 进程 和 线程 的设计和编程。包括 进程和线程的分配策略、进程和线程的 API 用法 等：
+  - 进程 相关 API（fork()、）。
+  - 进程间通讯（管道、命名管道、信号、信号量、消息队列、共享内存、内存映射 和 套接字）。
+  - pthread 线程编程库 相关 POSIX API（pthread_create()、（后面省略 pthread_）exit / cancel 和 join / tryjoin_np、self()、attr_setxxx() / attr_getxxx()、）。
+  - 线程间通讯、同步的机制（锁机制（互斥锁、读写锁 和 自旋锁）、信号量机制、条件变量机制 和 信号（与 IPC 的信号使用上有区别））。
+- 等等其它，用时补充。
 
 
 

@@ -674,27 +674,33 @@ locate 001.txt   # 找到了
 
     例如：更多操作详情看[这里](https://blog.csdn.net/zxh2075/article/details/52932885)。
 
-    执行 `ping www.baidu.com &`，再按 ctrl + z，显示 `[1]+  Stopped                 ping www.baidu.com`，表示此任务编号为 [ 1 ]，接着键入 `bg %1`，让此任务继续执行并转入后台执行，再键入 `fg %1`，将其转入前台执行，然后 ctrl + c 结束此任务。
-
--   `ps -aux` 查看当前哪些任务在后台执行。详情如下图。
-
-    ![进程查看 ps](assets/进程查看ps.jpg)
+    执行 `ping www.baidu.com &`，再按 ctrl + z，显示 `[1]+  Stopped    ping www.baidu.com`，表示此任务编号为 [ 1 ]，接着键入 `bg %1`，让此任务继续执行并转入后台执行，再键入 `fg %1`，将其转入前台执行，然后 ctrl + c 结束此任务。
 
 - `kill -9 <进程 ID>` 结束进程指定进程 ID 的进程。
 
 - 显示系统内存使用情况：`free -h`。
 
+- 查看 CPU 状况有很多方法，还有：`cat /proc/cpuinfo`。
+
+- 命令 `w` 查看系统整理负载，可显示更细节的命令 `vmstat`，后者可以查看到内存、磁盘的负载情况，[ Linux vmstat命令实战详解_浮生忆梦的博客-CSDN博客_vmstat](https://blog.csdn.net/m0_38110132/article/details/84190319)。
+
+- `ps -aux` 查看当前哪些任务在后台执行。详情如下图。
+
+  ![进程查看 ps](assets/进程查看ps.jpg)
+
+  `ps -xH`，这样可以查看所有存在的线程，也可以使用 grep 作进一步的过滤。
+
+  `ps -mq PID`，这样可以看到指定的进程产生的线程数目。
+
 - 动态的显示系统进程信息（相当于任务管理器界面）：`top -d  2`，-d 表示刷新时间，单位秒。详情如下图。
 
   ![动态的显示系统进程信息 top](assets/动态的显示系统进程信息top.jpg)
 
+  `top -H`，加上 -H 这个选项，top 的每一行就不是显示一个进程，而是一个线程。
+
   top 命令详解 [linux top命令查看内存及多核CPU的使用讲述 - tamatama - 博客园 (cnblogs.com)](https://www.cnblogs.com/tamatama/p/13044402.html)。
 
-- 查看 CPU 状况有很多方法，还有：`cat /proc/cpuinfo`。
-
-- 命令 `w` 查看系统整理负载，可显示更细节的命令 `vmstat`，后者可以查看到内存、磁盘的负载情况，[命令和打印缩写详解](https://blog.csdn.net/m0_38110132/article/details/84190319)。
-
-- 进程、信号、ps 和 top详解：[进程查看与管理](https://www.cnblogs.com/ashjo009/p/11912563.html)。
+- 进程、信号、ps 和 top 详解：[关于Linux下进程的详解【进程查看与管理】 - AshJo - 博客园 (cnblogs.com)](https://www.cnblogs.com/ashjo009/p/11912563.html)。
 
 ##### 磁盘管理：df / du / fdisk
 
@@ -976,10 +982,29 @@ C/C++ 程序文件的编译过程图示：
 - 多文件：`gcc main.c sub.c add.c -o ouput`，其中 main.c 里面 #include 了 sub.h 和 add.h。
 - 输出所有警告：加上 `-W` 或 `-Wall` 选项。
 
+**文件编码指定**
+
+- 程序文件在保存的时候就选好编码（有 ANSI、GB2312、UNICODE，和很常用的并推荐的 UTF-8），使用 记事本 或者 notepad 可以选择和转换。
+- 使用 gcc 编译器，器对于 程序文件 和 编译出的 二进制可执行程序 都默认为 UTF-8 编码。
+- 若 程序文件 的编码 不为 UTF-8 编码，则应该指定：`-finput-charset=GB2312` 等。
+- 对于编译出来的可执行程序，可以指定它里面的字符是以什么方式编码：`-fexec-charset=GB2312` 等。注意，是指定/告知 而 不是转换的意思， gcc 不能转换编码。
+- 例子：`gcc -finput-charset=GB2312 -fexec-charset=UTF-8 -o test_charset_ansi test_charset_ansi.c`。告知 编译器 .c 文件为 GB2312 编码，编译出的程序应为 UTF-8 编码。
+- 在代码中使用汉字这类非 ASCII 码 字符 时，要特别留意编码格式。
+
 **头文件选项**
 
--   `-I <dirname>`：将 dirname 目录加入到头文件搜索目录列表中。当 gcc 在默认的路径中没有找到头文件时，就到本选项指定的目录中去找。例如 main.c 目录中有 inc 文件夹，里面有 test.h 文件，并且 main.c 中调用了 test.h 文件，则命令为：`gcc main.c -I inc -o main`。
--   添加库文件搜索目录（-L dirname），加载库名选项（-l name），静态库选项（-static）等选型 略。
+-   对于 `#include <...>` 的头文件（一般都是 标准库的头文件，比如 stdio.h、stdlib.h、string.h 等） 编译器在编译时会去 gcc 默认的路径中（编译器目录里面的 include 文件夹里）寻找头文件。可以通过 `echo 'main(){}'| arm-linux-gnueabihf-gcc -E -v -` 命令来 列出头文件目录、库目录（LIBRARY_PATH）。
+-   对于 `#include "..."` 的头文件去 `-I <dirname>` 这个选项所指定的目录（dirname 目录）中去找（如果不加 `-I` 选项则默认搜 当前目录），`-I <dirname>` 即是将 dirname 目录加入到头文件搜索目录列表中，用户引用除了 上面 的标准库头文件 而是 自己的头文件，就用这种方式。例如 main.c 目录中有 inc 文件夹，里面有 test.h 文件，并且 main.c 中通过 `#include "test.h"` 调用了 test.h 文件，则命令为：`gcc main.c -I inc -o main`。
+-   编译时寻找库文件：
+    -   默认的系统目录：就是交叉编译工具链里的某个 lib 目录。
+    -   自己指定添加库文件搜索目录：链接时（-L dirname）。
+    -   自己指定添加某一个具体的库文件：加载库名选项（-l name），比如想链接 libabc.so，那链接时加上 `-labc`。
+    -   静态库选项（-static）等选型 略。
+
+-   运行时寻找库文件：（程序运行时不需要再加载头文件，因为编译时已经编译进去了）
+    -   系统目录：就是板子上的 /lib、/usr/lib 目录。
+    -   自己指定：用环境变量 `LD_LIBRARY_PATH` 指定，比如 `export  LD_LIBRARY_PATH=/xxx_dir  ;  ./test` 或 `LD_LIBRARY_PATH=/xxx_dir  ./test`。
+
 
 **代码优化选项**
 

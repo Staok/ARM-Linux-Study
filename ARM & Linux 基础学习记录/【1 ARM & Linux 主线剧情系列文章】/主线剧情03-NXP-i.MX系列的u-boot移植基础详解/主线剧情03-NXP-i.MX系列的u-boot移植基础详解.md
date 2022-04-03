@@ -8,6 +8,8 @@
 
 参考大量文章和教程以及触(连)类(猜)旁(带)通(蒙)的反复测试，记录成功的步骤，而成此文，如有错误恭谢指出！侵删。作者见 "署名" 一节。
 
+注：[在 Github 上的原版文章日后可能会更新](https://github.com/Staok/ARM-Linux-Study)，但这里不会跟进。[文章的 Gitee 仓库地址，Gitee 访问更流畅](https://gitee.com/staok/ARM-Linux-Study)。
+
 ------
 
 ## u-boot 篇
@@ -98,7 +100,8 @@
   - [正点原子【第三期】手把手教你学Linux之系统移植和跟文件系统构建篇_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV12E411h71h)；
   - [韦东山 _ 嵌入式Linux _ 第1期与2期间的衔接课程 _ u-boot编译体验和源码深度分析 _哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV1WW411L7Tb) 老版本。
   - [【韦东山 】移植U-boot 2012 04 01 到JZ2440_哔哩哔哩 (゜-゜)つロ 干杯~-bilibili](https://www.bilibili.com/video/BV1Pt411n7cv)  老版本。
-  - [linux-----uboot和kernel移植 - 灰信网（软件开发博客聚合） (freesion.com)](https://www.freesion.com/article/2426374191/)。
+  - [linux-----uboot和kernel移植 - 灰信网（软件开发博客聚合） (freesion.com)](https://www.freesion.com/article/2426374191/)，基本移植过程记录。
+  - [ Linux驱动开发_嵌入式up笔记的博客-CSDN博客](https://blog.csdn.net/qq_45396672/category_11169829.html)，内容比较丰富。
 
 芯片公司、开发板厂家和用户三者之间的联系：
 
@@ -316,7 +319,7 @@
 
 ##### 工具链构建的更多方法
 
-以下两种方法选其一即可。
+以下方法选其一即可。
 
 ###### 基于 yocto 的 bitbake
 

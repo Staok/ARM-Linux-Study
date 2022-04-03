@@ -1,4 +1,5 @@
-/*
+
+
 
 ********************** 一些 Shell命令 API ***********************************
 函数原型：
@@ -37,5 +38,3 @@ int rename(const char *oldpath, const char *newpath);
 		#include <unistd.h>
 
 
-
-*/

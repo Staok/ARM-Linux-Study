@@ -1,0 +1,792 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><style type="text/css"></style><script id="uyan_script" charset="utf-8" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/a"></script><script charset="utf-8" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/shares.php"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=GB2312">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<title>Linux下Socket编程_网络编程_酷勤网</title>
+<meta name="keywords" content="Socket,Socket编程">
+<meta name="description" content="网络的Socket数据传输是一种特殊的I/O，Socket也是一种文件描述符。Socket也具有一个类似于打开文件的函数调用Socket()，该函数返回一个整型的Socket描述符，随后的连接建立、数据传输等操作都是通过该Socket实现的。">
+<link href="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/style.css" rel="stylesheet" type="text/css" media="screen">
+<link rel="alternate" type="application/rss+xml" title="酷勤网_程序员的那点事" href="http://rss.kuqin.com/">
+<script type="text/javascript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/head.js"></script>
+<script src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/relatedItems" type="text/javascript"></script></head>
+<body><link type="text/css" rel="stylesheet" href="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jiathis_counter.css"><script charset="utf-8" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jiathis.php"></script><link type="text/css" rel="stylesheet" href="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jiathis_share.css"><iframe style="position: fixed; display: none; opacity: 0;" frameborder="0"></iframe><div style="position: absolute; z-index: 1000000000; display: none; top: 50%; left: 50%; overflow: auto;" class="jiathis_style"></div><div style="position: absolute; z-index: 1000000000; display: none; overflow: auto;" class="jiathis_style"></div><iframe src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jiathis_utility.htm" style="display: none;" frameborder="0"></iframe>
+<!-- ShortCut begin -->
+<div class="shortcut">
+	<div class="vmid">
+		<!-- SiteDescription begin -->
+			<p class="description">酷勤网 – 程序员的那点事！</p>
+		<!-- SiteDescription end -->
+	</div>
+</div>
+<!-- ShortCut end -->
+<!-- Wrapper begin -->
+<div class="wrapper vmid">
+	<!-- Header begin -->
+    <div class="header">
+		<div class="toplb">
+			<!-- Logo begin -->
+			<div class="logo"><a href="http://www.kuqin.com/" title="酷勤网-程序员的那点事">酷勤网</a></div>
+			<!-- Logo end -->
+			<!-- AD_LogoBanner begin -->
+			<div class="ad_logobanner">
+				<script src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/ad_js.htm" language="javascript"></script><a target="_blank" href="http://www.kuqin.com/"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/top.gif" alt="酷勤网-程序员的那点事" border="0" height="60" width="468"></a>                
+				<div class="clear"></div>
+			</div>
+			<!-- AD_LogoBanner end -->
+			
+			<!-- TopFunction begin -->
+			<div class="toptxt">
+				<div>
+					<a rel="external nofollow" href="#" onclick="this.style.behavior='url(#default#homepage)';this.setHomePage('http://www.kuqin.com');">设为首页</a><br>
+					<a rel="external nofollow" href="javascript:window.external.AddFavorite('http://www.kuqin.com','%E9%85%B7%E5%8B%A4%E7%BD%91')">加入收藏</a><br>
+					<a href="http://rss.kuqin.com/" title="订阅本站" target="_blank">订阅本站</a>
+				</div>
+			</div>
+			<!-- TopFunction end -->
+		</div>
+		<div class="clear"></div>
+		<!-- Navigation begin -->
+		<div id="menu_out" style="margin-bottom:10px;">
+<div id="menu_in">
+
+<div id="menu">
+<ul id="nav">
+<li><a href="http://www.kuqin.com/" onmouseover="javascript:qiehuan(0)" id="mynav0" class=""><span>首页</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/jingyan/" onmouseover="javascript:qiehuan(1)" id="mynav1" class="nav_on"><span>编程</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/product/" onmouseover="javascript:qiehuan(2)" id="mynav2" class=""><span>产品</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/career/" onmouseover="javascript:qiehuan(3)" id="mynav3" class=""><span>职业</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/manage/" onmouseover="javascript:qiehuan(4)" id="mynav4" class=""><span>管理</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/shuoit/" onmouseover="javascript:qiehuan(5)" id="mynav5" class=""><span>资讯</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/kaoshi/" onmouseover="javascript:qiehuan(6)" id="mynav6" class=""><span>考试</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://game.kuqin.com/" onmouseover="javascript:qiehuan(7)" id="mynav7" class=""><span>游戏</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/book/" onmouseover="javascript:qiehuan(8)" id="mynav8" class=""><span>读书</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/topics/" onmouseover="javascript:qiehuan(9)" id="mynav9" class=""><span>主题</span></a></li>
+<li class="menu_line"></li>
+<li><a target="_blank" href="http://www.ithao123.com/" onmouseover="javascript:qiehuan(10)" id="mynav10" class=""><span>导航</span></a></li>
+<li class="menu_line"></li>
+<li><a href="http://www.kuqin.com/down/" onmouseover="javascript:qiehuan(11)" id="mynav11" class=""><span>下载</span></a></li>
+</ul>
+
+<div id="menu_con">
+<div id="qh_con0" style="display:none">
+<ul>
+  
+  <li><a href="http://www.kuqin.com/topics/12306.html" target="_blank"><span>12306火车票系统</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/google.html" target="_blank"><span>Google谷歌</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/miliao.html" target="_blank"><span>米聊</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/Eclipse.html" target="_blank"><span>Eclipse</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/Hadoop.html" target="_blank"><span>Hadoop</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/Apache.html" target="_blank"><span>Apache</span></a></li>
+  <li class="menu_line2"></li>
+  
+</ul>
+</div>
+ 
+<div id="qh_con1" style="display:block">
+<ul>
+  	
+	<li><a href="http://www.kuqin.com/gamedev/" target="_blank"><span>游戏开发</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/cio/" target="_blank"><span>企业信息化</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/system-analysis/" target="_blank"><span>系统架构</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/web/" target="_blank"><span>Web开发</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/java/" target="_blank"><span>Java技术</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/dotnet/" target="_blank"><span>.Net技术</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/linux/" target="_blank"><span>Linux社区</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/mobile/" target="_blank"><span>移动开发</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div> 
+
+<div id="qh_con2" style="display:none">
+<ul>
+	
+	<li><a href="http://www.kuqin.com/uidesign/" target="_blank"><span>交互设计</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/artdesign/" target="_blank"><span>视觉设计</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/webpagedesign/" target="_blank"><span>网页设计</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/web-marketing/" target="_blank"><span>网络营销</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/advertisement/" target="_blank"><span>网络广告</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div> 
+
+<div id="qh_con3" style="display:none">
+<ul>
+	
+	<li><a href="http://www.kuqin.com/law/" target="_blank"><span>IT法律</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/humor/" target="_blank"><span>IT幽默</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/itlife/" target="_blank"><span>程序人生</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/job/" target="_blank"><span>求职招聘</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/itman/" target="_blank"><span>IT人物</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/chuangye/" target="_blank"><span>IT人创业</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/zhanz/" target="_blank"><span>站长经验</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/editor/" target="_blank"><span>网络编辑</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div> 
+<div id="qh_con4" style="display:none">
+<ul>
+	
+	<li><a href="http://www.kuqin.com/ruhe/" target="_blank"><span>如何学习</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/pragmatic/" target="_blank"><span>修炼之道</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/managetool/" target="_blank"><span>管理工具</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/developtool/" target="_blank"><span>开发工具</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/projectmanage/" target="_blank"><span>项目管理</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/software-engineer/" target="_blank"><span>软件工程</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/health/" target="_blank"><span>程序员健康</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div>
+
+<div id="qh_con5" style="display:none">
+<ul>
+	
+	<li><a href="http://www.kuqin.com/shuoit/it/" target="_blank"><span>业界</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/telecom/" target="_blank"><span>通信与电信</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/digital/" target="_blank"><span>数码与手机</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/data/" target="_blank"><span>数据中心</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/elec/" target="_blank"><span>家电</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/web/" target="_blank"><span>互联网</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/service/" target="_blank"><span>网络服务</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/shuoit/it-history/" target="_blank"><span>IT史记</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div>
+
+<div id="qh_con6" style="display:none">
+<ul>
+	
+	<li><a href="http://www.kuqin.com/baike/" target="_blank"><span>IT知识百科</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/itkaoyan/" target="_blank"><span>IT考研</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/contest/" target="_blank"><span>竞赛比赛</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/kaozheng/" target="_blank"><span>培训考证</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/tiku/" target="_blank"><span>题库中心</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/english/" target="_blank"><span>程序员英语</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/math/" target="_blank"><span>程序员数学</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/CET4-CET6/" target="_blank"><span>英语四六级</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div>
+
+<div id="qh_con7" style="display:none">
+<ul>
+	
+	<li><a href="http://www.kuqin.com/game/51mole/" target="_blank"><span>摩尔庄园</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/game/haidi001/" target="_blank"><span>海宝彩虹城</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/game/gogo517/" target="_blank"><span>网娃乐园</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/game/haqi/" target="_blank"><span>哈奇小镇</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/news/" target="_blank"><span>游戏资讯</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/pc/" target="_blank"><span>单机游戏</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/tv/" target="_blank"><span>电视游戏</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/m/" target="_blank"><span>手机游戏</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div>
+
+<div id="qh_con8" style="display:none">
+<ul>
+  <li><a href="http://www.kuqin.com/book/" target="_blank"><span>书籍百科</span></a></li>
+  <li class="menu_line2"></li>
+  <li><a href="http://www.kuqin.com/shuping/" target="_blank"><span>书籍书评</span></a></li>
+  <li class="menu_line2"></li>
+</ul>
+</div>
+
+<div id="qh_con9" style="display:none">
+<ul>
+  
+  <li><a href="http://www.kuqin.com/topics/163.html" target="_blank"><span>网易163</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/360buy.html" target="_blank"><span>京东商城</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/youku.html" target="_blank"><span>优酷网</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/jutaobao.html" target="_blank"><span>聚划算</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/tianmao.html" target="_blank"><span>天猫</span></a></li>
+  <li class="menu_line2"></li>
+  
+  <li><a href="http://www.kuqin.com/topics/tmall.html" target="_blank"><span>淘宝商城</span></a></li>
+  <li class="menu_line2"></li>
+  
+</ul>
+</div>
+
+<div id="qh_con10" style="display:none">
+<ul>
+  <li><span>ITHao123.COM - 导航计算机优秀网站</span></li>
+</ul>
+</div>
+
+<div id="qh_con11" style="display:none">
+<ul>
+	
+	<li><a href="http://www.kuqin.com/book/" target="_blank"><span>电子书下载</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/soft/" target="_blank"><span>常用软件下载</span></a></li>
+	<li class="menu_line2"></li>
+	
+	<li><a href="http://www.kuqin.com/code/" target="_blank"><span>源码下载</span></a></li>
+	<li class="menu_line2"></li>
+	
+</ul>
+</div>
+	<!-- Search begin -->
+	<div style="float:right; margin-top:7px;">
+	<form action="http://www.google.com/cse" id="cse-search-box" target="_blank">
+	<input name="cx" value="003441317781501573535:of4gx8okfgw" type="hidden">
+	<input name="ie" value="gb2312" type="hidden">
+	<input name="q" class="search_k" type="text">
+	<input name="sa" value="" class="search_s" type="submit">
+	</form>
+	</div>
+	<!-- Search end -->
+
+</div>
+</div></div></div> 
+		<!-- Navigation end -->
+		<div class="clear"></div>
+	</div>
+	<!-- Header end -->
+	<!-- Container begin -->
+	<div class="container">
+		<!-- Content begin -->
+		<div class="content">
+		
+		<div class="ccca">
+		
+		  <div class="breadcrumb article_dq">
+				当前位置：<a href="http://www.kuqin.com/">首页</a> &gt; <a href="http://www.kuqin.com/jingyan/">编程</a> &gt; <a href="http://www.kuqin.com/networkprog/">网络编程</a> &gt; 正文
+			</div>
+			<!-- SinglePost begin -->
+			<div class="single">
+				<h1><a href="http://www.kuqin.com/networkprog/20080512/8361.html" target="_blank">Linux下Socket编程</a></h1>
+				<div class="meta singlemeta">
+					<span>浏览次数：<script src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/count.htm" type="text/javascript" language="javascript"></script>29436次</span>
+					<span>2008年05月12日</span>
+					<span class="cmts"><a rel="external nofollow" href="#source" title="点击跳到来源地址">CSDN博客</a></span>
+					<span>字号: <a rel="external nofollow" class="mfbig" href="javascript:void(0)">大</a> <a rel="external nofollow" class="mfmid" href="javascript:void(0)">中</a> <a rel="external nofollow" class="mfsml mfcurrent" href="javascript:void(0)">小</a> </span>
+				</div>
+				<!-- JiaThis Button BEGIN -->
+				<script language="JavaScript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jia1.js" type="text/JavaScript"></script><div id="ckepop">
+	<span class="jiathis_txt">分享到：</span>
+	<a title="分享到QQ空间" class="jiathis_button_qzone"><span class="jiathis_txt jiathis_separator jtico jtico_qzone">QQ空间</span></a>
+	<a title="分享到新浪微博" class="jiathis_button_tsina"><span class="jiathis_txt jiathis_separator jtico jtico_tsina">新浪微博</span></a>
+	<a title="分享到腾讯微博" class="jiathis_button_tqq"><span class="jiathis_txt jiathis_separator jtico jtico_tqq">腾讯微博</span></a>
+	<a title="分享到人人网" class="jiathis_button_renren"><span class="jiathis_txt jiathis_separator jtico jtico_renren">人人网</span></a>
+	<a title="分享到豆瓣" class="jiathis_button_douban"><span class="jiathis_txt jiathis_separator jtico jtico_douban">豆瓣网</span></a>
+	<a title="分享到开心网" class="jiathis_button_kaixin001"><span class="jiathis_txt jiathis_separator jtico jtico_kaixin001">开心网</span></a>
+	<a href="http://www.jiathis.com/share?uid=1531230" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"><span title="累计分享93次" id="jiathis_counter_102" class="jiathis_button_expanded jiathis_counter jiathis_bubble_style">93</span></a>
+</div>
+
+				<!-- JiaThis Button END -->
+				<div class="clear"></div>
+				<!-- PostContent begin -->
+				<div class="entry">
+					<div class="entrycontent">
+						<div style="float:right;margin-top:20px;margin-left:0px">
+						<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-9317413389774415";
+						/* 2012年文章页头部336&#42;280 */
+						google_ad_slot = "9598016854";
+						google_ad_width = 336;
+						google_ad_height = 280;
+						//-->
+						</script>
+						<script type="text/javascript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/show_ads.js">
+						</script><ins style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><ins id="aswift_0_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){i+='.call';setTimeout(h,0)}else if(h.match){i+='.nav';w.location.replace(h)}s.log&amp;&amp;s.log.push(i)}" vspace="0" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="280" scrolling="no" width="336"></iframe></ins></ins>
+						</div>
+						<div>
+<p><strong>什么是Socket</strong><br>　　 Socket接口是TCP/IP网络的API，Socket接口定义了许多函数或例程，程序员可以用它们来开发TCP/IP网络上的应用程序。要学Internet上的TCP/IP网络编程，必须理解Socket接口。<br>　
+ 　 Socket接口设计者最先是将接口放在Unix操作系统里面的。如果了解Unix系统的输入和输出的话，就很容易了解Socket了。网络的 
+Socket数据传输是一种特殊的I/O，Socket也是一种文件描述符。Socket也具有一个类似于打开文件的函数调用Socket()，该函数返
+ 回一个整型的Socket描述符，随后的连接建立、数据传输等操作都是通过该Socket实现的。常用的Socket类型有两种：流式Socket 
+（SOCK_STREAM）和数据报式Socket（SOCK_DGRAM）。流式是一种面向连接的Socket，针对于面向连接的TCP服务应用；数据
+ 报式Socket是一种无连接的Socket，对应于无连接的UDP服务应用。</p>
+<p><strong>Socket建立</strong><br>　　为了建立Socket，程序可以调用Socket函数，该函数返回一个类似于文件描述符的句柄。socket函数原型为：<br>　　 int socket(int domain, int type, int protocol);<br>　
+ 　 domain指明所使用的协议族，通常为PF_INET，表示互联网协议族（TCP/IP协议族）；type参数指定socket的类型： 
+SOCK_STREAM 
+或SOCK_DGRAM，Socket接口还定义了原始Socket（SOCK_RAW），允许程序使用低层协议；protocol通常赋值"0"。 
+Socket()调用返回一个整型socket描述符，你可以在后面的调用使用它。<br>　　 Socket描述符是一个指向内部数据结构的指针，它指向描述符表入口。调用Socket函数时，socket执行体将建立一个Socket，实际上"建立一个Socket"意味着为一个Socket数据结构分配存储空间。Socket执行体为你管理描述符表。<br>　　两个网络程序之间的一个网络连接包括五种信息：通信协议、本地协议地址、本地主机端口、远端主机地址和远端协议端口。Socket数据结构中包含这五种信息。</p>
+<p><strong>Socket配置</strong><br>　 
+　通过socket调用返回一个socket描述符后，在使用socket进行网络传输以前，必须配置该socket。面向连接的socket客户端通过
+ 调用Connect函数在socket数据结构中保存本地和远端信息。无连接socket的客户端和服务端以及面向连接socket的服务端通过调用 
+bind函数来配置本地信息。<br>Bind函数将socket与本机上的一个端口相关联，随后你就可以在该端口监听服务请求。Bind函数原型为：<br>　　 int bind(int sockfd,struct sockaddr *my_addr, int addrlen);<br>　　 Sockfd是调用socket函数返回的socket描述符,my_addr是一个指向包含有本机IP地址及端口号等信息的sockaddr类型的指针；addrlen常被设置为sizeof(struct sockaddr)。<br>　　 struct sockaddr结构类型是用来保存socket信息的：<br>　　 struct sockaddr {<br>　　 unsigned short sa_family; /* 地址族， AF_xxx */<br>char sa_data[14]; /* 14 字节的协议地址 */<br>};<br>　　 sa_family一般为AF_INET，代表Internet（TCP/IP）地址族；sa_data则包含该socket的IP地址和端口号。<br>　　 另外还有一种结构类型：<br>　　 struct sockaddr_in {<br>　　 short int sin_family; /* 地址族 */<br>　　 unsigned short int sin_port; /* 端口号 */<br>　　 struct in_addr sin_addr; /* IP地址 */<br>　　 unsigned char sin_zero[8]; /* 填充0 以保持与struct sockaddr同样大小 */<br>　　 };<br>　
+ 　这个结构更方便使用。sin_zero用来将sockaddr_in结构填充到与struct 
+sockaddr同样的长度，可以用bzero()或memset()函数将其置为零。指向sockaddr_in 
+的指针和指向sockaddr的指针可以相互转换，这意味着如果一个函数所需参数类型是sockaddr时，你可以在函数调用的时候将一个指向 
+sockaddr_in的指针转换为指向sockaddr的指针；或者相反。<br>　　使用bind函数时，可以用下面的赋值实现自动获得本机IP地址和随机获取一个没有被占用的端口号：<br>　　 my_addr.sin_port = 0; /* 系统随机选择一个未被使用的端口号 */<br>　　 my_addr.sin_addr.s_addr = INADDR_ANY; /* 填入本机IP地址 */<br>通过将my_addr.sin_port置为0，函数会自动为你选择一个未占用的端口来使用。同样，通过将my_addr.sin_addr.s_addr置为INADDR_ANY，系统会自动填入本机IP地址。<br>注意在使用bind函数是需要将sin_port和sin_addr转换成为网络字节优先顺序；而sin_addr则不需要转换。<br>　　计算机数据存储有两种字节优先顺序：高位字节优先和低位字节优先。Internet上数据以高位字节优先顺序在网络上传输，所以对于在内部是以低位字节优先方式存储数据的机器，在Internet上传输数据时就需要进行转换，否则就会出现数据不一致。<br>　　 下面是几个字节顺序转换函数：<br>·htonl()：把32位值从主机字节序转换成网络字节序<br>·htons()：把16位值从主机字节序转换成网络字节序<br>·ntohl()：把32位值从网络字节序转换成主机字节序<br>·ntohs()：把16位值从网络字节序转换成主机字节序<br>　　 Bind()函数在成功被调用时返回0；出现错误时返回"-1"并将errno置为相应的错误号。需要注意的是，在调用bind函数时一般不要将端口号置为小于1024的值，因为1到1024是保留端口号，你可以选择大于1024中的任何一个没有被占用的端口号。</p>
+<p><strong>连接建立</strong><br>　　面向连接的客户程序使用Connect函数来配置socket并与远端服务器建立一个TCP连接，其函数原型为：<br>　　 int connect(int sockfd, struct sockaddr *serv_addr,int addrlen);<br>Sockfd
+ 是socket函数返回的socket描述符；serv_addr是包含远端主机IP地址和端口号的指针；addrlen是远端地质结构的长度。 
+Connect函数在出现错误时返回-1，并且设置errno为相应的错误码。进行客户端程序设计无须调用bind()，因为这种情况下只需知道目的机器
+ 
+的IP地址，而客户通过哪个端口与服务器建立连接并不需要关心，socket执行体为你的程序自动选择一个未被占用的端口，并通知你的程序数据什么时候到
+ 打断口。<br>　　 Connect函数启动和远端主机的直接连接。只有面向连接的客户程序使用socket时才需要将此socket与远端主机相连。无连接协议从不建立直接连接。面向连接的服务器也从不启动一个连接，它只是被动的在协议端口监听客户的请求。<br>　　 Listen函数使socket处于被动的监听模式，并为该socket建立一个输入数据队列，将到达的服务请求保存在此队列中，直到程序处理它们。<br>　　 int listen(int sockfd， int backlog);<br>Sockfd
+ 是Socket系统调用返回的socket 
+描述符；backlog指定在请求队列中允许的最大请求数，进入的连接请求将在队列中等待accept()它们（参考下文）。Backlog对队列中等待
+ 
+服务的请求的数目进行了限制，大多数系统缺省值为20。如果一个服务请求到来时，输入队列已满，该socket将拒绝连接请求，客户将收到一个出错信息。<br>当出现错误时listen函数返回-1，并置相应的errno错误码。<br>　　 accept()函数让服务器接收客户的连接请求。在建立好输入队列后，服务器就调用accept函数，然后睡眠并等待客户的连接请求。<br>　　 int accept(int sockfd, void *addr, int *addrlen);<br>　
+ 　 
+sockfd是被监听的socket描述符，addr通常是一个指向sockaddr_in变量的指针，该变量用来存放提出连接请求服务的主机的信息（某
+ 台主机从某个端口发出该请求）；addrten通常为一个指向值为sizeof(struct 
+sockaddr_in)的整型指针变量。出现错误时accept函数返回-1并置相应的errno值。<br>　　首先，当accept函数监视的 
+socket收到连接请求时，socket执行体将建立一个新的socket，执行体将这个新socket和请求连接进程的地址联系起来，收到服务请求的
+ 初始socket仍可以继续在以前的 socket上监听，同时可以在新的socket描述符上进行数据传输操作。</p>
+<p><strong>数据传输</strong><br>　　 Send()和recv()这两个函数用于面向连接的socket上进行数据传输。<br>　　 Send()函数原型为：<br>　　 int send(int sockfd, const void *msg, int len, int flags);<br>Sockfd是你想用来传输数据的socket描述符；msg是一个指向要发送数据的指针；Len是以字节为单位的数据的长度；flags一般情况下置为0（关于该参数的用法可参照man手册）。<br>　　 Send()函数返回实际上发送出的字节数，可能会少于你希望发送的数据。在程序中应该将send()的返回值与欲发送的字节数进行比较。当send()返回值与len不匹配时，应该对这种情况进行处理。<br>char *msg = "Hello!";<br>int len, bytes_sent;<br>……<br>len = strlen(msg);<br>bytes_sent = send(sockfd, msg,len,0);<br>……<br>　　 recv()函数原型为：<br>　　 int recv(int sockfd,void *buf,int len,unsigned int flags);<br>　　 Sockfd是接受数据的socket描述符；buf 是存放接收数据的缓冲区；len是缓冲的长度。Flags也被置为0。Recv()返回实际上接收的字节数，当出现错误时，返回-1并置相应的errno值。<br>Sendto()和recvfrom()用于在无连接的数据报socket方式下进行数据传输。由于本地socket并没有与远端机器建立连接，所以在发送数据时应指明目的地址。<br>sendto()函数原型为：<br>　　 int sendto(int sockfd, const void *msg,int len,unsigned int flags,const struct sockaddr *to, int tolen);<br>　　该函数比send()函数多了两个参数，to表示目地机的IP地址和端口号信息，而tolen常常被赋值为sizeof (struct sockaddr)。Sendto 函数也返回实际发送的数据字节长度或在出现发送错误时返回-1。<br>　　 Recvfrom()函数原型为：<br>　　 int recvfrom(int sockfd,void *buf,int len,unsigned int flags,struct sockaddr *from,int *fromlen);<br>　
+ 　 from是一个struct sockaddr类型的变量，该变量保存源机的IP地址及端口号。fromlen常置为sizeof (struct
+ 
+sockaddr)。当recvfrom()返回时，fromlen包含实际存入from中的数据字节数。Recvfrom()函数返回接收到的字节数或
+ 当出现错误时返回-1，并置相应的errno。<br>如果你对数据报socket调用了connect()函数时，你也可以利用send()和recv()进行数据传输，但该socket仍然是数据报socket，并且利用传输层的UDP服务。但在发送或接收数据报时，内核会自动为之加上目地和源地址信息。</p>
+<p><strong>结束传输</strong><br>　　当所有的数据操作结束以后，你可以调用close()函数来释放该socket，从而停止在该socket上的任何数据操作：<br>close(sockfd);<br>　　你也可以调用shutdown()函数来关闭该socket。该函数允许你只停止在某个方向上的数据传输，而一个方向上的数据传输继续进行。如你可以关闭某socket的写操作而允许继续在该socket上接受数据，直至读入所有数据。<br>　　 int shutdown(int sockfd,int how);<br>　　 Sockfd是需要关闭的socket的描述符。参数 how允许为shutdown操作选择以下几种方式：<br>　　 ·0-------不允许继续接收数据<br>　　 ·1-------不允许继续发送数据<br>　　 ·2-------不允许继续发送和接收数据，<br>　　 ·均为允许则调用close ()<br>　　 shutdown在操作成功时返回0，在出现错误时返回-1并置相应errno。</p>
+<p><strong>Socket编程实例</strong><br>　　 代码实例中的服务器通过socket连接向客户端发送字符串"Hello, you are connected!"。只要在服务器上运行该服务器软件，在客户端运行客户软件，客户端就会收到该字符串。<br>　　 该服务器软件代码如下：<br>#include &lt;stdio.h&gt;<br>#include &lt;stdlib.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#include &lt;sys/wait.h&gt;<br>#define SERVPORT 3333 /*服务器监听端口号 */<br>#define BACKLOG 10 /* 最大同时连接请求数 */<br>main()<br>{<br>　 int sockfd,client_fd; /*sock_fd：监听socket；client_fd：数据传输socket */<br>　 struct sockaddr_in my_addr; /* 本机地址信息 */<br>　 struct sockaddr_in remote_addr; /* 客户端地址信息 */<br>　 if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {<br>　　 perror("socket创建出错！"); exit(1);<br>　 }<br>　 my_addr.sin_family=AF_INET;<br>　 my_addr.sin_port=htons(SERVPORT);<br>　 my_addr.sin_addr.s_addr = INADDR_ANY;<br>　 bzero(&amp;(my_addr.sin_zero),8);<br>　 if (bind(sockfd, (struct sockaddr *)&amp;my_addr, sizeof(struct sockaddr)) == -1) {<br>　 　 perror("bind出错！");<br>　 　 exit(1);<br>　 }<br>　 if (listen(sockfd, BACKLOG) == -1) {<br>　 　 perror("listen出错！");<br>　 　 exit(1);<br>　 }<br>　 while(1) {<br>　　 sin_size = sizeof(struct sockaddr_in);<br>　　 if ((client_fd = accept(sockfd, (struct sockaddr *)&amp;remote_addr, &amp;sin_size)) == -1) {<br>　 　 　 perror("accept出错");<br>　 　 　 continue;<br>　 　}<br>　　 printf("received a connection from %s
+", inet_ntoa(remote_addr.sin_addr));<br>　 　if (!fork()) { /* 子进程代码段 */<br>　　 　 if (send(client_fd, "Hello, you are connected!
+", 26, 0) == -1)<br>　　 　 perror("send出错！");<br>　 　 　close(client_fd);<br>　 　 　exit(0);<br>　 　}<br>　　 close(client_fd);<br>　　 }<br>　 }<br>}<br>　
+ 　服务器的工作流程是这样的：首先调用socket函数创建一个Socket，然后调用bind函数将其与本机地址以及一个本地端口号绑定，然后调用 
+listen在相应的socket上监听，当accpet接收到一个连接服务请求时，将生成一个新的socket。服务器显示该客户机的IP地址，并通过
+ 新的socket向客户端发送字符串"Hello，you are connected!"。最后关闭该socket。<br>　　代码实例中的fork()函数生成一个子进程来处理数据传输部分，fork()语句对于子进程返回的值为0。所以包含fork函数的if语句是子进程代码部分，它与if语句后面的父进程代码部分是并发执行的。</p>
+<p>客户端程序代码如下：<br>#include&lt;stdio.h&gt;<br>#include &lt;stdlib.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#define SERVPORT 3333<br>#define MAXDATASIZE 100 /*每次最大数据传输量 */<br>main(int argc, char *argv[]){<br>　 int sockfd, recvbytes;<br>　 char buf[MAXDATASIZE];<br>　 struct hostent *host;<br>　 struct sockaddr_in serv_addr;<br>　 if (argc &lt; 2) {<br>fprintf(stderr,"Please enter the server"s hostname!
+");<br>exit(1);<br>}<br>　 if((host=gethostbyname(argv[1]))==NULL) {<br>herror("gethostbyname出错！");<br>exit(1);<br>}<br>　 if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1){<br>perror("socket创建出错！");<br>exit(1);<br>}<br>　 serv_addr.sin_family=AF_INET;<br>　 serv_addr.sin_port=htons(SERVPORT);<br>　 serv_addr.sin_addr = *((struct in_addr *)host-&gt;h_addr);<br>　 bzero(&amp;(serv_addr.sin_zero),8);<br>　 if (connect(sockfd, (struct sockaddr *)&amp;serv_addr, <br>　　 sizeof(struct sockaddr)) == -1) {<br>perror("connect出错！");<br>exit(1);<br>}<br>　 if ((recvbytes=recv(sockfd, buf, MAXDATASIZE, 0)) ==-1) {<br>perror("recv出错！");<br>exit(1);<br>}<br>　 buf[recvbytes] = "\0";<br>　 printf("Received: %s",buf);<br>　 close(sockfd);<br>}<br>　　客户端程序首先通过服务器域名获得服务器的IP地址，然后创建一个socket，调用connect函数与服务器建立连接，连接成功之后接收从服务器发送过来的数据，最后关闭socket。<br>　　函数gethostbyname()是完成域名转换的。由于IP地址难以记忆和读写，所以为了方便，人们常常用域名来表示主机，这就需要进行域名和IP地址的转换。函数原型为：<br>　　 struct hostent *gethostbyname(const char *name);<br>　　 函数返回为hosten的结构类型，它的定义如下：<br>　　 struct hostent {<br>　 char *h_name; /* 主机的官方域名 */<br>　　 char **h_aliases; /* 一个以NULL结尾的主机别名数组 */<br>　　 int h_addrtype; /* 返回的地址类型，在Internet环境下为AF-INET */<br>　　 int h_length; /* 地址的字节长度 */<br>　　 char **h_addr_list; /* 一个以0结尾的数组，包含该主机的所有地址*/<br>　　 };<br>　　 #define h_addr h_addr_list[0] /*在h-addr-list中的第一个地址*/<br>　　 当 gethostname()调用成功时，返回指向struct hosten的指针，当调用失败时返回-1。当调用gethostbyname时，你不能使用perror()函数来输出错误信息，而应该使用herror()函数来输出。</p>
+<p>　　无连接的客户/服务器程序的在原理上和连接的客户/服务器是一样的，两者的区别在于无连接的客户/服务器中的客户一般不需要建立连接，而且在发送接收数据时，需要指定远端机的地址。</p>
+<p>阻塞和非阻塞<br>　 
+　阻塞函数在完成其指定的任务以前不允许程序调用另一个函数。例如，程序执行一个读数据的函数调用时，在此函数完成读操作以前将不会执行下一程序语句。当
+ 服务器运行到accept语句时，而没有客户连接服务请求到来，服务器就会停止在accept语句上等待连接服务请求的到来。这种情况称为阻塞 
+（blocking）。而非阻塞操作则可以立即完成。比如，如果你希望服务器仅仅注意检查是否有客户在等待连接，有就接受连接，否则就继续做其他事情，则
+ 可以通过将Socket设置为非阻塞方式来实现。非阻塞socket在没有客户在等待时就使accept调用立即返回。<br>　　 #include &lt;unistd.h&gt;<br>　　 #include &lt;fcntl.h&gt;<br>　　 ……<br>sockfd = socket(AF_INET,SOCK_STREAM,0);<br>fcntl(sockfd,F_SETFL,O_NONBLOCK)；<br>……<br>　
+ 　通过设置socket为非阻塞方式，可以实现"轮询"若干Socket。当企图从一个没有数据等待处理的非阻塞Socket读入数据时，函数将立即返
+ 回，返回值为-1，并置errno值为EWOULDBLOCK。但是这种"轮询"会使CPU处于忙等待方式，从而降低性能，浪费系统资源。而调用 
+select()会有效地解决这个问题，它允许你把进程本身挂起来，而同时使系统内核监听所要求的一组文件描述符的任何活动，只要确认在任何被监控的文件
+ 
+描述符上出现活动，select()调用将返回指示该文件描述符已准备好的信息，从而实现了为进程选出随机的变化，而不必由进程本身对输入进行测试而浪费
+ CPU开销。Select函数原型为:<br>int select(int numfds,fd_set *readfds,fd_set *writefds，<br>fd_set *exceptfds,struct timeval *timeout);<br>　
+ 
+　其中readfds、writefds、exceptfds分别是被select()监视的读、写和异常处理的文件描述符集合。如果你希望确定是否可以
+ 
+从标准输入和某个socket描述符读取数据，你只需要将标准输入的文件描述符0和相应的sockdtfd加入到readfds集合中；numfds的值
+ 
+是需要检查的号码最高的文件描述符加1，这个例子中numfds的值应为sockfd+1；当select返回时，readfds将被修改，指示某个文件
+ 描述符已经准备被读取，你可以通过FD_ISSSET()来测试。为了实现fd_set中对应的文件描述符的设置、复位和测试，它提供了一组宏：<br>　　 FD_ZERO(fd_set *set)----清除一个文件描述符集；<br>　　 FD_SET(int fd,fd_set *set)----将一个文件描述符加入文件描述符集中；<br>　　 FD_CLR(int fd,fd_set *set)----将一个文件描述符从文件描述符集中清除；<br>　　 FD_ISSET(int fd,fd_set *set)----试判断是否文件描述符被置位。<br>　　 Timeout参数是一个指向struct timeval类型的指针，它可以使select()在等待timeout长时间后没有文件描述符准备好即返回。struct timeval数据结构为：<br>　　 struct timeval {<br>　　 int tv_sec; /* seconds */<br>　　 int tv_usec; /* microseconds */<br>};</p>
+<p>POP3客户端实例<br>　　下面的代码实例基于POP3的客户协议，与邮件服务器连接并取回指定用户帐号的邮件。与邮件服务器交互的命令存储在字符串数组POPMessage中，程序通过一个do-while循环依次发送这些命令。<br>#include&lt;stdio.h&gt;<br>#include &lt;stdlib.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;string.h&gt;<br>#include &lt;netdb.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;netinet/in.h&gt;<br>#include &lt;sys/socket.h&gt;<br>#define POP3SERVPORT 110<br>#define MAXDATASIZE 4096</p>
+<p>main(int argc, char *argv[]){<br>int sockfd;<br>struct hostent *host;<br>struct sockaddr_in serv_addr;<br>char *POPMessage[]={<br>"USER userid
+",<br>"PASS password
+",<br>"STAT
+",<br>"LIST
+",<br>"RETR 1
+",<br>"DELE 1
+",<br>"QUIT
+",<br>NULL<br>};<br>int iLength;<br>int iMsg=0;<br>int iEnd=0;<br>char buf[MAXDATASIZE];</p>
+<p>if((host=gethostbyname("your.server"))==NULL) {<br>perror("gethostbyname error");<br>exit(1);<br>}<br>if ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) == -1){<br>perror("socket error");<br>exit(1);<br>}<br>serv_addr.sin_family=AF_INET;<br>serv_addr.sin_port=htons(POP3SERVPORT);<br>serv_addr.sin_addr = *((struct in_addr *)host-&gt;h_addr);<br>bzero(&amp;(serv_addr.sin_zero),8);<br>if (connect(sockfd, (struct sockaddr *)&amp;serv_addr,sizeof(struct sockaddr))==-1){<br>perror("connect error");<br>exit(1);<br>}</p>
+<p>do {<br>send(sockfd,POPMessage[iMsg],strlen(POPMessage[iMsg]),0);<br>printf("have sent: %s",POPMessage[iMsg]);</p>
+<p>iLength=recv(sockfd,buf+iEnd,sizeof(buf)-iEnd,0);<br>iEnd+=iLength;<br>buf[iEnd]="\0";<br>printf("received: %s,%d
+",buf,iMsg);</p>
+<p>iMsg++;<br>} while (POPMessage[iMsg]);</p>
+<p>close(sockfd);<br>}</p>
+<p>来自：Linux下Socket编程</p>
+</div>
+						<div style="float: left;margin-top:0px;margin-right:0px">
+						<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-9317413389774415";
+						/* 2012年底部广告336x280, */
+						google_ad_slot = "9618407928";
+						google_ad_width = 336;
+						google_ad_height = 280;
+						//-->
+						</script>
+						<script type="text/javascript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/show_ads.js">
+						</script><ins style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><ins id="aswift_1_anchor" style="display:block;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:336px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){i+='.call';setTimeout(h,0)}else if(h.match){i+='.nav';w.location.replace(h)}s.log&amp;&amp;s.log.push(i)}" vspace="0" id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;" frameborder="0" height="280" scrolling="no" width="336"></iframe></ins></ins>
+						</div>
+					</div>
+					<div class="clear"></div>
+					<!-- topics begin -->
+					<div class="otherContent_01" style="margin-top:10px;">
+						<div class="cMovie_01" style="position:relative">
+							<div class="cM01_tit">&gt; <strong>相关主题：</strong><span style="position:absolute;right:30px;top:1px"><a target="_blank" href="http://www.kuqin.com/topics/">学习编程，上酷勤网&gt;&gt;</a></span></div>
+						 
+						 <div class="cM01_cont">
+						  
+							<div class="cM01_item">
+							  <div class="cM01_pic">
+							  <a href="http://www.kuqin.com/topics/163.html" target="_blank"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/163.jpg" alt="网易163" height="90" width="90"></a>
+							  </div>
+							   <div class="cM01_txt"><a href="http://www.kuqin.com/topics/163.html" target="_blank">网易163</a></div>
+							</div>
+							 
+							<div class="cM01_item">
+							  <div class="cM01_pic">
+							  <a href="http://www.kuqin.com/topics/360buy.html" target="_blank"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/360buy.jpg" alt="京东商城" height="90" width="90"></a>
+							  </div>
+							   <div class="cM01_txt"><a href="http://www.kuqin.com/topics/360buy.html" target="_blank">京东商城</a></div>
+							</div>
+							 
+							<div class="cM01_item">
+							  <div class="cM01_pic">
+							  <a href="http://www.kuqin.com/topics/youku.html" target="_blank"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/youku.jpg" alt="优酷网" height="90" width="90"></a>
+							  </div>
+							   <div class="cM01_txt"><a href="http://www.kuqin.com/topics/youku.html" target="_blank">优酷网</a></div>
+							</div>
+							 
+							<div class="cM01_item">
+							  <div class="cM01_pic">
+							  <a href="http://www.kuqin.com/topics/jutaobao.html" target="_blank"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jutaobao.jpg" alt="聚划算" height="90" width="90"></a>
+							  </div>
+							   <div class="cM01_txt"><a href="http://www.kuqin.com/topics/jutaobao.html" target="_blank">聚划算</a></div>
+							</div>
+							
+							
+						</div>
+					   </div>
+					</div>
+					<!-- topics end -->
+					<!-- source begin -->
+					<div style="margin:0 auto;text-align:right;padding:10px 25px 0 25px; font-size:12px;">
+					<a name="source" target="_blank" href="http://www.kuqin.com/">酷勤网</a> 
+					
+					</div>
+					<!-- source end -->
+					<div class="clear"></div>
+					<div class="entrycontent">
+						<!-- Wumi Button BEGIN -->
+						<p>
+							</p><div class="wumii-hook"><div id="wumiiBtnDiv" style="clear:both;overflow:hidden;margin:0;padding:10px 0 0;text-shadow: none;text-indent:0;">
+    <div id="wumiiLikeBtnDiv" style="position: static; float: left; display: inline; width: 89px; height: 28px; margin: 0px 0px 0px 218px; padding: 0px; background: url(&quot;http://static.wumii.cn/images/blogWidget/widget_buttons_red.png&quot;) no-repeat scroll 0px 0px transparent; text-indent: 0px;" onmouseover="this.style.backgroundPosition='-89px 0';" onmouseout="this.style.backgroundPosition='0 0';">
+        <span id="wumiiNumLikes" style="float:left;width:45px;height:19px;line-height:21px;*line-height:19px;margin:4px 0 0 0;padding:0;color:#943939;letter-spacing:0;text-align:center;text-indent:0;font-size:12px;">5</span>
+        <span style="float:left;width:40px;height:29px;margin:0;padding:0;outline:none;cursor:pointer;" id="wumiiLikeBtn" hidefocus="true"></span>
+    </div>
+    <div id="wumiiRecommendBtnDiv" style="position:static;clear:none;float:left;display:inline;height:28px;margin:0;padding:0 5px;text-indent:0;">
+        <span id="wumiiRecommendBtn" hidefocus="true" style="float:left;display:inline;width:60px;height:28px;margin:0 0 0 5px;padding:0;background:url('http://static.wumii.cn/images/blogWidget/widget_buttons_red.png') no-repeat -267px 0;cursor:pointer;outline:none;" onmouseover="this.style.backgroundPosition='-328px 0';" onmouseout="this.style.backgroundPosition='-267px 0';"></span>
+        <img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/loading.gif" id="wumiiLoading" style="clear:none;display:none;height:15px;margin:7px 0 0 8px;padding:0;border:0;background:none;cursor:default;" alt="正在加载推荐文章">
+    </div>
+</div>
+<div class="wumii-related-items-div" style="margin: 0; border: none; padding: 0; clear: both; overflow: hidden; *zoom: 1; *position: relative;">
+    <div class="wumii-internal" style="padding: 0; margin: 0; border: none; clear: both; display: block;">
+        <div class="wumii-widget-title" style="margin: 0; border: none; padding: 20px 0 5px; _padding-top:10px; text-indent: 0; text-align: left; font-weight: bold; ">您可能也喜欢：</div>
+            <div class="wumii-image-row" style="clear: both; border: none; margin: 0 0 0 -1px; padding: 0; overflow: hidden; _zoom: 1;">
+                    <a class="wumii-image-block" hidefocus="true" title="如何学习linux编程" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#E3E4FA'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 102px; text-align: left; outline: none; background-image: none; border-left: 1px solid #DDDDDD !important;" href="http://www.kuqin.com/linux/20080512/8363.html" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.kuqin.com%2Flinux%2F20080512%2F8363.html&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.kuqin.com%2Fnetworkprog%2F20080512%2F8361.html' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.kuqin.com/linux/20080512/8363.html';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 100px; border: 1px solid #DDDDDD;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 96);" onerror="wumiiImageError(this);" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/38681805.png" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 96px; height: 96px; clip: rect(0px, 96px, 96px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 60px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #333333; overflow: hidden;">如何学习linux编程</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="Linux异步IO编程实例分析" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#E3E4FA'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 102px; text-align: left; outline: none; background-image: none; border-left: 1px solid #DDDDDD !important;" href="http://www.kuqin.com/linux/20120908/330333.html" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.kuqin.com%2Flinux%2F20120908%2F330333.html&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.kuqin.com%2Fnetworkprog%2F20080512%2F8361.html' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.kuqin.com/linux/20120908/330333.html';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 100px; border: 1px solid #DDDDDD;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 96);" onerror="wumiiImageError(this);" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/47262500.gif" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 96px; height: 96px; clip: rect(0px, 96px, 96px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 60px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #333333; overflow: hidden;">Linux异步IO编程实例分析</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="Linux/Unix 编程学习之路" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#E3E4FA'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 102px; text-align: left; outline: none; background-image: none; border-left: 1px solid #DDDDDD !important;" href="http://www.kuqin.com/linux/20070907/933.html" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.kuqin.com%2Flinux%2F20070907%2F933.html&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.kuqin.com%2Fnetworkprog%2F20080512%2F8361.html' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.kuqin.com/linux/20070907/933.html';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 100px; border: 1px solid #DDDDDD;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 96);" onerror="wumiiImageError(this);" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/38709374.jpg" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 96px; height: 96px; clip: rect(0px, 96px, 96px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 60px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #333333; overflow: hidden;">Linux/Unix 编程学习之路</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="揭开Socket编程的面纱" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#E3E4FA'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 102px; text-align: left; outline: none; background-image: none; border-left: 1px solid #DDDDDD !important;" href="http://www.kuqin.com/networkprog/20090221/35953.html" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.kuqin.com%2Fnetworkprog%2F20090221%2F35953.html&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.kuqin.com%2Fnetworkprog%2F20080512%2F8361.html' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.kuqin.com/networkprog/20090221/35953.html';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 100px; border: 1px solid #DDDDDD;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 96);" onerror="wumiiImageError(this);" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/15238349.jpg" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 96px; height: 96px; clip: rect(0px, 96px, 96px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 60px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #333333; overflow: hidden;">揭开Socket编程的面纱</div>
+                    </a>
+                    <a class="wumii-image-block" hidefocus="true" title="Socket网络编程学习笔记（2）：面向连接的Socket" onmouseout="this.style.backgroundColor=''" onmouseover="this.style.backgroundColor='#E3E4FA'" style="display: block; float: left; text-decoration: none; border-bottom: none; cursor: pointer; position: relative; margin: 5px 0; padding: 5px; width: 102px; text-align: left; outline: none; background-image: none; border-left: 1px solid #DDDDDD !important;" href="http://www.kuqin.com/networkprog/20070905/869.html" onmousedown="this.href='http://app.wumii.com/ext/redirect?url=http%3A%2F%2Fwww.kuqin.com%2Fnetworkprog%2F20070905%2F869.html&amp;ts=' + (new Date()).getTime() + '&amp;from=http%3A%2F%2Fwww.kuqin.com%2Fnetworkprog%2F20080512%2F8361.html' + '&amp;ref=relatedItems'; return true;" onmouseup="t=this; setTimeout(function() {t.href='http://www.kuqin.com/networkprog/20070905/869.html';}, 50); return true;">
+                        <div class="wumii-image-border" style="margin: 0; padding: 0; width: auto; height: 100px; border: 1px solid #DDDDDD;"></div>
+                        <img class="wumii-image" onload="wumiiImageResize(this, 96);" onerror="wumiiImageError(this);" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/38627557.jpg" style="position: absolute; border: medium none; background: none repeat scroll 0% 0% transparent; visibility: visible; padding: 0px; margin: 0px; width: 96px; height: 96px; clip: rect(0px, 96px, 96px, 0px); left: 8px; top: 8px;">
+                        <div class="wumii-image-title" style="height: 60px; width: 100%; margin: 3px 0 0 0; padding: 0; text-indent: 0; border: none; font: 12px/15px arial; color: #333333; overflow: hidden;">Socket网络编程学习笔记（2）：面向连接的Socket</div>
+                    </a>
+            </div>
+    </div>
+        <div style="margin: 0px; border: medium none; padding: 5px 0px; clear: both; text-align: right; width: 564px;">
+            <a href="http://www.wumii.com/widget/relatedItems" target="_blank" title="无觅相关文章插件" style="font: 12px arial; color: rgb(187, 187, 187); border-bottom: medium none; word-wrap: normal; display: inline;">无觅</a>
+            
+        </div>
+</div>
+
+</div>
+							<script>
+								var wumiiSitePrefix = "http://www.kuqin.com//";
+							</script>
+						<p></p>
+						<!-- Wumi Button END -->
+						<!-- JiaThis Button BEGIN -->
+						<script language="JavaScript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jia3.js" type="text/JavaScript"></script><div id="jiathis_style_32x32">
+	<a title="分享到QQ空间" class="jiathis_button_qzone"><span class="jiathis_txt jtico jtico_qzone"></span></a>
+	<a title="分享到新浪微博" class="jiathis_button_tsina"><span class="jiathis_txt jtico jtico_tsina"></span></a>
+	<a title="分享到腾讯微博" class="jiathis_button_tqq"><span class="jiathis_txt jtico jtico_tqq"></span></a>
+	<a title="分享到人人网" class="jiathis_button_renren"><span class="jiathis_txt jtico jtico_renren"></span></a>
+	<a title="分享到开心网" class="jiathis_button_kaixin001"><span class="jiathis_txt jtico jtico_kaixin001"></span></a>
+	<a title="分享到豆瓣" class="jiathis_button_douban"><span class="jiathis_txt jtico jtico_douban"></span></a>
+	<a class="jiathis_button_googlereader"></a>
+	<a title="分享到搜狐微博" class="jiathis_button_tsohu"><span class="jiathis_txt jtico jtico_tsohu"></span></a>
+	<a title="分享到网易微博" class="jiathis_button_t163"><span class="jiathis_txt jtico jtico_t163"></span></a>
+	<a title="分享到Twitter" class="jiathis_button_twitter"><span class="jiathis_txt jtico jtico_twitter"></span></a>
+	<a title="分享到Gmail邮箱" class="jiathis_button_gmail"><span class="jiathis_txt jtico jtico_gmail"></span></a>
+	<a title="分享到QQ书签" class="jiathis_button_qq"><span class="jiathis_txt jtico jtico_qq"></span></a>
+	<a href="http://www.jiathis.com/share?uid=1531230" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"><span title="累计分享93次" id="jiathis_counter_126" class="jiathis_button_expanded jiathis_counter jiathis_bubble_style">93</span></a>
+</div>
+
+						<script language="JavaScript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jia2.js" type="text/JavaScript"></script><script type="text/javascript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/jia.js" charset="utf-8"></script><script type="text/javascript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/plugin.js" charset="utf-8"></script><div style="position:absolute;width:0px;height:0px;"><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="JIATHISSWF" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" height="0" width="0"><param name="allowScriptAccess" value="always"><param name="swLiveConnect" value="true"><param name="movie" value="http://www.jiathis.com/code/swf/m.swf"><param name="FlashVars" value="z=a"><embed name="JIATHISSWF" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/m.swf" flashvars="z=a" allowscriptaccess="always" swliveconnect="true" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" height="0" width="0"></object></div>
+
+						<!-- JiaThis Button END -->
+					</div>
+				</div>
+				<!-- PostContent end -->
+				<!-- PageNavigation begin -->
+				<div class="clear"></div>
+				<div class="postnavi">
+					<div class="previous_post">上一篇：<a href="http://www.kuqin.com/networkprog/20080501/7753.html">系统设计之 网络模型（三）多路复用模型</a> </div>
+					<div class="next_post">下一篇：<a href="http://www.kuqin.com/networkprog/20080512/8362.html">windows下C网络编程入门</a>  </div>
+				</div>
+				<!-- PageNavigation end -->
+			</div>
+			<!-- SinglePost end -->
+			<!-- PostComment begin -->
+			<div class="postcomment">
+				<!-- PingLun.La Begin -->
+				<!-- UY BEGIN -->
+				<div id="uyan_frame"><div style="width: 100%; font-family: 'Microsoft YaHei'; position: relative; float: left;"><div id="uyan_top" style="height: 30px; font-size: 12px; font-weight: bold;"><div id="uyan_like" style="float: left; padding-right: 13px; padding-top: 2px; width: 88px;"><a id="uyan_vu" onclick="UYAN.voteUD('uu');" style="background: url('http://v2.uyan.cc/code/images/like.png') no-repeat scroll 19px 5px #999; border-radius: 3px 3px 3px 3px; color: #F2F2F2; cursor: pointer; float: left; font-weight: normal; height: 16px; padding: 3px; width: 48px;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/upDig.png" style="float: left; padding: 2px 5px 0 2px; border: 0 none;"></a><a id="uyan_vd" onclick="UYAN.voteUD('du');" style="background-color: #999; border-radius: 3px 3px 3px 3px; color: #F2F2F2; cursor: pointer; float: left; font-weight: normal; height: 16px; margin-left: 5px; padding: 3px; width: 16px;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/downDig.png" style="float: left; padding: 3px 0 0 2px;"></a><div style="clear: both;"></div></div><div id="uyan_count" style="font-size: 12px; color: #888888; float: left; font-weight: normal; padding: 5px 5px 0 0;">共有<span id="uyan_vun">0</span>人喜欢&nbsp;&nbsp;共<span id="uyan_acn">1</span>条评论</div><a onclick="UYAN.login();" style="background-color: #999; border-radius: 3px 3px 3px 3px; color: #EEEEEE; cursor: pointer; float: right; font-size: 13px; font-weight: bold; height: 20px; margin-left: 5px; margin-top: 2px; height: 16px; line-height: 17px; padding: 3px 15px; text-shadow: 0 1px 0 #646464;">登录</a><a onclick="UYAN.cmty();" style="background-color: #999; border-radius: 3px 3px 3px 3px; color: #EEEEEE; cursor: pointer; display: block; float: right; font-size: 13px; font-weight: bold; height: 20px; margin-left: 5px; margin-top: 2px; height: 16px; line-height: 17px; padding: 3px 15px; text-shadow: 0 1px 0 #646464;">社区</a><div style="clear: both;"></div></div><div style="height: 22px; padding: 0 0 0 60px; overflow: hidden;"><div style="float: left;"><a id="uyan_vs_1" onclick="UYAN.voteStar(1);" onmouseover="UYAN.cagStar(1);" onmouseout="UYAN.cagStar(0);" style="background: url('http://v2.uyan.cc/code/images/star_un.png') no-repeat scroll 0 0 transparent; cursor: pointer; float: left; height: 16px; padding-right: 5px; width: 16px;"></a><a id="uyan_vs_2" onclick="UYAN.voteStar(2);" onmouseover="UYAN.cagStar(2);" onmouseout="UYAN.cagStar(0);" style="background: url('http://v2.uyan.cc/code/images/star_un.png') no-repeat scroll 0 0 transparent; cursor: pointer; float: left; height: 16px; padding-right: 5px; width: 16px;"></a><a id="uyan_vs_3" onclick="UYAN.voteStar(3);" onmouseover="UYAN.cagStar(3);" onmouseout="UYAN.cagStar(0);" style="background: url('http://v2.uyan.cc/code/images/star_un.png') no-repeat scroll 0 0 transparent; cursor: pointer; float: left; height: 16px; padding-right: 5px; width: 16px;"></a><a id="uyan_vs_4" onclick="UYAN.voteStar(4);" onmouseover="UYAN.cagStar(4);" onmouseout="UYAN.cagStar(0);" style="background: url('http://v2.uyan.cc/code/images/star_un.png') no-repeat scroll 0 0 transparent; cursor: pointer; float: left; height: 16px; padding-right: 5px; width: 16px;"></a><a id="uyan_vs_5" onclick="UYAN.voteStar(5);" onmouseover="UYAN.cagStar(5);" onmouseout="UYAN.cagStar(0);" style="background: url('http://v2.uyan.cc/code/images/star_un.png') no-repeat scroll 0 0 transparent; cursor: pointer; float: left; height: 16px; padding-right: 5px; width: 16px;"></a><div style="clear: both;"></div></div></div><div style="padding: 0 0 3px 60px;"><div style="clear: both;"></div></div><div style="height: 78px; overflow: hidden; padding: 0 0 20px 0; _padding: 0;"><div style="float: left; border-radius: 6px 6px 6px 6px; width: 50px; height: 50px; overflow: hidden; margin-right: 10px;"><img style="width: 50px; height: 50px;" onload="UYAN.loadUface(this, 'http://v2.uyan.cc/code/images/duface.png', 'http://v2.uyan.cc/code/images/duface.png');" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/duface.png" onerror="UYAN.noUface(this, 'http://v2.uyan.cc/code/images/duface.png');"></div><div style="padding: 0 0 0 60px; overflow: visible;"><div onclick="UYAN.hidIntro(this.firstChild);" style="height: 60px; background: url('http://v2.uyan.cc/code/images/textareabg.png') repeat-x scroll 0 0 #FFFFFF; border: 1px solid #d7d7d7; border-radius: 4px 4px 4px 4px; padding: 7px; position: relative; overflow: hidden; cursor: text;"><textarea id="uyan_comment" onkeyup="UYAN.checkTxt(this, 140);" onkeydown="UYAN.checkTxt(this, 140);" onfocus="UYAN.hidIntro(this);" onblur="UYAN.shoIntro(this);" style="background: none repeat scroll 0 0 #FFFFFF; padding: 0; box-shadow: 0 0; color: #BDBBBB; border: 0; z-index: 90; overflow: hidden; float: left; font-size: 13px; font-family: 'Microsoft YaHei'; resize: none; height: 60px; display: block; outline: none; word-wrap: break-word; margin: 0;">输入你的评论...</textarea><pre style="width: 100%; font-size: 13px; left: 0; line-height: 18px; position: absolute; top: 0; visibility: hidden; word-wrap: break-word; white-space: pre-wrap;" id="uyan_cmt_cnt"></pre></div><div style="clear: both;"></div></div><div id="uyan_smile" onclick="UYAN.shoSmile(this);" style="display: none; background: url('http://v2.uyan.cc/code/images/emotion.png') no-repeat scroll 6px 2px #FFFFFF; color: #3A82FF; cursor: pointer; font-size: 11px; height: 17px; left: 70px; position: relative; top: -2px; width: 60px; z-index: 5500; border: 1px solid #d7d7d7; border-top: none; border-radius: 2px; margin: 0; line-height: 20px; padding-bottom: 2px; font-family: 'Microsoft YaHei'; text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表情</div></div><div id="uyan_ssmile" style="margin-left: 60px; margin-top: -20px; _margin-top: 0; position: absolute; z-index: 9999; display: none;"><div style="border: 1px solid #989999; border-radius: 5px; width: 322px; height: 160px; background: #fff; font-size: 12px; padding: 6px;"><ul style="margin: 5px 0 0 0; padding: 0; height: 24px;"><li id="uyan_ssmile_df" onclick="UYAN.shoSmile(this, 'df');" style="float: left; list-style: none; line-height: 22px; background: url('http://v2.uyan.cc/code/images/smileb.gif') no-repeat scroll 0 center transparent; color: #fff; width: 68px; height: 24px; overflow: hidden; text-align: center; margin: 0 5px; display: inline; cursor: pointer; padding: 0;">默认表情</li><li id="uyan_ssmile_al" onclick="UYAN.shoSmile(this, 'al');" style="float: left; list-style: none; line-height: 22px; background: none repeat scroll 0 center transparent; width: 68px; height: 24px; overflow: hidden; text-align: center; margin: 0 5px; display: inline; cursor: pointer; padding: 0;">阿狸</li></ul><ul id="uyan_ssmile_list" style="margin: 0; padding: 0; width: 310px; border-top: 1px solid #d3e4f0; border-left: 1px solid #d3e4f0; margin: 5px 0 0 5px;"></ul></div></div><div style="color: #D2D2D2; height: 20px; font-size: 13px; position: absolute; z-index: 100; margin-right: 10px; margin-top: -42px; right: 0;"><span id="uyan_tts">140</span></div><div style="position: relative; height: 40px; overflow: hidden; margin-top: -20px; _margin-top: 0;"><a id="uyan_cmt_btn" onmouseover="UYAN.cagBtn('on', this);" onmouseout="UYAN.cagBtn('out', this);" style="background: url('http://v2.uyan.cc/code/images/buttonLarge.png') repeat-x scroll 0 0 transparent; border: 1px solid #d0cfcf; border-radius: 5px 5px 5px 5px; color: #666; cursor: pointer; float: right; font-size: 13px; font-weight: bold; height: 24px; line-height: 21px; margin: 4px 0 0; padding: 3px 25px 1px; text-align: center; text-shadow: 0 1px 0 #FFFFFF;" onclick="UYAN.addCmt(this);">发&nbsp;&nbsp;布</a><div style="float: right; padding: 11px 15px 0 3px;"><div style="color: #AAAAAA; float: right; font-size: 12px; padding-left: 5px;"><span style="float: right;">&nbsp;&nbsp;或<span style="text-decoration: underline; cursor: pointer;" onclick="UYAN.login();">游客留言</span></span><span onmouseover="UYAN.show('uyan_slog');" onmouseout="UYAN.hide('uyan_slog');" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/arrow.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginRenren();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/renren.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginTQq();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tqq.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginQq();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/qq.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginTSina();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tsina.png" style="margin: 1px 2px 0;"></span><span style="float: right;">社会化登录：</span></div><div style="clear: both;"></div></div><div style="clear: both;"></div></div><div id="uyan_slog" onmouseover="UYAN.show(this);" onmouseout="UYAN.hide(this);" style="background-color: #FFFFFF; border-color: #d3d2d2; border-width: 1px 1px 2px; border-style: solid; position: absolute; z-index: 90000; padding: 1px 3px; right: 162px; display: none; width: 20px;"><div onclick="UYAN.loginKaixin001();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/kaixin001.png"></div><div onclick="UYAN.loginTSohu();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tsohu.png"></div><div onclick="UYAN.loginT163();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/t163.png"></div><!-- <div onclick="UYAN.loginMsn();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="http://v2.uyan.cc/code/images/msn.png"></div> --></div><div id="uyan_sort" style="color: #424242; height: 20px; font-size: 12px; margin-top: -10px; _margin-top: 0;"><div style="height: 20px; overflow: hidden; float: left;"><a id="uyan_sort_name" onclick="UYAN.cmtSort();" style="background: url('http://v2.uyan.cc/code/images/sorttype.png') no-repeat scroll right 7px transparent; color: #424242; cursor: pointer; display: block; float: left; font-size: 12px; padding-right: 15px;">按时间排序</a></div><div style="clear: both;"></div></div><div id="uyan_sort_box" style="background-color: #FFFFFF; border-color: #d3d2d2; border-width: 1px 1px 2px; border-style: solid; left: 15px; position: absolute; width: 115px; z-index: 90000; display: none;"><div style="color: #9797C4; font-size: 12px; font-weight: normal; padding-bottom: 2px; padding-left: 21px; padding-top: 4px; height: 16px;">排序方式:</div><a id="uyan_sort_time" onclick="UYAN.cmtSort(0);" style="background: url('http://v2.uyan.cc/code/images/currentSort.png') no-repeat scroll 8px 8px transparent; font-weight: bold; color: #1C1C1C; cursor: pointer; display: block; font-size: 12px; padding-bottom: 2px; padding-left: 21px; padding-top: 2px; height: 16px;">按时间排序</a><a id="uyan_sort_hot" onclick="UYAN.cmtSort(1);" style="color: #1C1C1C; cursor: pointer; display: block; font-size: 12px; padding-bottom: 2px; padding-left: 21px; padding-top: 2px; height: 16px;">按热度排序</a></div><div id="uyan_cmt_list"><div id="uyan_cmt_1202050" style="border-top: 1px solid #D7D7D7; margin-top: 10px; padding-top: 10px;"><div style="float: left; border-radius: 6px 6px 6px 6px; width: 50px; height: 50px; overflow: hidden; margin-right: 10px;"><img style="width: 50px; height: 50px;" onload="UYAN.loadUface(this, 'http://qzapp.qlogo.cn/qzapp/216508/64CABF08ED8D569EB92734C3F1D7773C/50', 'http://v2.uyan.cc/code/images/duface.png');" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/50.jpg" onerror="UYAN.noUface(this, 'http://v2.uyan.cc/code/images/duface.png');"></div><div style="padding-left: 60px;"><div style="color: #303030; font-size: 13px; line-height: 18px; height: 26px;"><a id="uyan_cmt_uname_1202050" class="uyan_cmt_uname" href="http://qzone.qq.com/" target="_blank" style="color: #3B5998; cursor: pointer; float: left; text-decoration: none; padding-right: 6px;"></a><span class="uyan_cmt_ufromname" style="color: #aaaaaa; float: left;">(<a style="color: #aaaaaa; text-decoration: none;" href="http://qzone.qq.com/" target="_blank">QQ空间</a>)</span><div style="float: right;"><a style="background: url('http://v2.uyan.cc/code/images/star.png') no-repeat scroll 0 -0px transparent; cursor: pointer; float: left; height: 16px; padding-right: 5px; width: 100px;"></a><div style="clear: both;"></div></div></div><div class="uyan_cmt_txt" style="color: #303030; font-size: 14px; line-height: 18px; word-wrap: break-word; text-align: left;">非常感谢</div><div class="uyan_cmt_exp" style="padding: 12px 5px 0 0; line-height: 14px;"><a onclick="UYAN.addRpy(1202050);" style="color: #303030; cursor: pointer; display: block; float: right; font-size: 12px; padding: 0 4px 0 0;">回复</a><a onclick="UYAN.cmtUD('du', 1202050);" style="border-right: 1px solid #E2D4E2; color: #303030; cursor: pointer; display: block; float: right; font-size: 12px; margin-right: 10px; padding: 0 14px 0 0;">踩<span id="uyan_cd_1202050" style="padding-left: 3px;">0</span></a><a id="uyan_cdw_1202050" onclick="UYAN.cmtUD('du', 1202050);" style="background: url('http://v2.uyan.cc/code/images/downDig2.png') no-repeat scroll 0 0 transparent; cursor: pointer; display: block; float: right; height: 13px; margin-right: 4px; margin-top: 3px; width: 13px;"></a><a onclick="UYAN.cmtUD('uu', 1202050);" style="border-right: 1px solid #E2D4E2; color: #303030; cursor: pointer; display: block; float: right; font-size: 12px; margin-right: 10px; padding: 0 14px 0 0;">顶<span id="uyan_cu_1202050" style="padding-left: 3px;">0</span></a><a id="uyan_cuw_1202050" onclick="UYAN.cmtUD('uu', 1202050);" style="background: url('http://v2.uyan.cc/code/images/upDig2.png') no-repeat scroll 0 0 transparent; cursor: pointer; display: block; float: right; height: 13px; margin-right: 4px; margin-top: 3px; width: 13px;"></a><div style="color: #303030; float: left; font-size: 12px; padding: 0 10px 0 0;">6月26日 10:04</div><div style="clear: both;"></div></div></div><div style="clear: both;"></div></div></div><div style="float: right; font-size: 12px; padding: 20px 8px 10px 0;">    <a style="color: #aaaaaa; text-decoration: none;" target="_blank" title="社会化评论是什么？" href="http://www.uyan.cc/">友言[?]</a>    </div>    <div style="clear: both;"></div></div><div id="uyan_rpy" style="display: none; padding-left: 60px; padding-top: 10px;"><div style="height: 78px; overflow: hidden; padding: 0 0 20px 0; _padding: 0;"><div style="float: left; border-radius: 6px 6px 6px 6px; width: 38px; height: 38px; overflow: hidden; margin-right: 10px;"><img style="width: 38px; height: 38px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/duface.png" onerror="UYAN.noUface(this, 'http://v2.uyan.cc/code/images/duface.png');"></div><div style="padding: 0 0 0 48px; overflow: visible;"><div onclick="UYAN.hidIntro(this.firstChild, uyan_smile_region);" style="height: 60px; background: url('http://v2.uyan.cc/code/images/textareabg.png') repeat-x scroll 0 0 #FFFFFF; border: 1px solid #d7d7d7; border-radius: 4px 4px 4px 4px; padding: 7px; position: relative; overflow: hidden; cursor: text;"><textarea id="uyan_comment" onkeyup="UYAN.checkTxt(this, 140, uyan_tts_region);" onkeydown="UYAN.checkTxt(this, 140, uyan_tts_region);" onfocus="UYAN.hidIntro(this, uyan_smile_region);" onblur="UYAN.shoIntro(this, uyan_smile_region);" style="background: none repeat scroll 0 0 #FFFFFF; padding: 0; box-shadow: 0 0; color: #BDBBBB; border: 0; z-index: 90; overflow: hidden; float: left; font-size: 13px; font-family: 'Microsoft YaHei'; resize: none; height: 60px; display: block; outline: none; word-wrap: break-word; margin: 0;">输入你的评论...</textarea><pre style="width: 100%; font-size: 13px; left: 0; line-height: 18px; position: absolute; top: 0; visibility: hidden; word-wrap: break-word; white-space: pre-wrap;" id="uyan_cmt_cnt"></pre></div><div style="clear: both;"></div></div><div id="uyan_smile" onclick="UYAN.shoSmile(this, '', uyan_smile_region);" style="display: none; background: url('http://v2.uyan.cc/code/images/emotion.png') no-repeat scroll 6px 2px #FFFFFF; color: #3A82FF; cursor: pointer; font-size: 11px; height: 17px; left: 58px; position: relative; top: -2px; width: 60px; z-index: 5500; border: 1px solid #d7d7d7; border-top: none; border-radius: 2px; margin: 0; line-height: 20px; padding-bottom: 2px; font-family: 'Microsoft YaHei'; text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;表情</div></div><div id="uyan_ssmile" style="margin-left: 48px; margin-top: -20px; _margin-top: 0; position: absolute; z-index: 9999; display: none;"><div style="border: 1px solid #989999; border-radius: 5px; width: 322px; height: 160px; background: #fff; font-size: 12px; padding: 6px;"><ul style="margin: 5px 0 0 0; padding: 0; height: 24px;"><li id="uyan_ssmile_df" onclick="UYAN.shoSmile(this, 'df', uyan_smile_region);" style="float: left; list-style: none; line-height: 22px; background: url('http://v2.uyan.cc/code/images/smileb.gif') no-repeat scroll 0 center transparent; color: #fff; width: 68px; height: 24px; overflow: hidden; text-align: center; margin: 0 5px; display: inline; cursor: pointer; padding: 0;">默认表情</li><li id="uyan_ssmile_al" onclick="UYAN.shoSmile(this, 'al', uyan_smile_region);" style="float: left; list-style: none; line-height: 22px; background: none repeat scroll 0 center transparent; width: 68px; height: 24px; overflow: hidden; text-align: center; margin: 0 5px; display: inline; cursor: pointer; padding: 0;">阿狸</li></ul><ul id="uyan_ssmile_list" style="margin: 0; padding: 0; width: 310px; border-top: 1px solid #d3e4f0; border-left: 1px solid #d3e4f0; margin: 5px 0 0 5px;"></ul></div></div><div style="color: #D2D2D2; height: 20px; font-size: 13px; position: absolute; z-index: 100; margin-right: 10px; margin-top: -42px; right: 0;"><span id="uyan_tts">140</span></div><div style="position: relative; height: 40px; overflow: hidden; margin-top: -20px; _margin-top: 0;"><a id="uyan_cmt_btn" onmouseover="UYAN.cagBtn('on', this);" onmouseout="UYAN.cagBtn('out', this);" style="background: url('http://v2.uyan.cc/code/images/buttonLarge.png') repeat-x scroll 0 0 transparent; border: 1px solid #d0cfcf; border-radius: 5px 5px 5px 5px; color: #666; cursor: pointer; float: right; font-size: 13px; font-weight: bold; height: 24px; line-height: 21px; margin: 4px 0 0; padding: 3px 25px 1px; text-align: center; text-shadow: 0 1px 0 #FFFFFF;" onclick="UYAN.addCmt(this, uyan_comment_region);">回&nbsp;&nbsp;复</a><div style="float: right; padding: 11px 15px 0 3px;"><div style="color: #AAAAAA; float: right; font-size: 12px; padding-left: 5px;"><span style="float: right;">&nbsp;&nbsp;或<span style="text-decoration: underline; cursor: pointer;" onclick="UYAN.login();">游客留言</span></span><span onmouseover="UYAN.show('uyan_slog');" onmouseout="UYAN.hide('uyan_slog');" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/arrow.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginRenren();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/renren.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginTQq();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tqq.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginQq();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/qq.png" style="margin: 1px 2px 0;"></span><span onclick="UYAN.loginTSina();" style="float: right; cursor: pointer;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tsina.png" style="margin: 1px 2px 0;"></span><span style="float: right;">社会化登录：</span></div><div style="clear: both;"></div></div><div style="clear: both;"></div></div><div id="uyan_slog" onmouseover="UYAN.show(this);" onmouseout="UYAN.hide(this);" style="background-color: #FFFFFF; border-color: #d3d2d2; border-width: 1px 1px 2px; border-style: solid; position: absolute; z-index: 90000; padding: 1px 3px; right: 162px; display: none; width: 20px;"><div onclick="UYAN.loginKaixin001();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/kaixin001.png"></div><div onclick="UYAN.loginTSohu();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tsohu.png"></div><div onclick="UYAN.loginT163();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/t163.png"></div><!-- <div onclick="UYAN.loginMsn();" style="color: #9797C4;  font-size: 12px; font-weight: normal; width:16px; margin:0 auto; padding:2px 0; cursor: pointer; height: 17px; overflow: hidden;"><img src="http://v2.uyan.cc/code/images/msn.png"></div> --></div></div><div style="clear: both;"></div><div id="uyan_box" style="font-family: 'Microsoft YaHei'; display: none; top: 0px; left: 0px; z-index: 9999999; opacity: 1; empty-cells: show; position: absolute; background: none repeat scroll 0 0 #FFFFFF; text-align: left;"><table style="border: none;" border="0" cellpadding="0" cellspacing="0"><tbody><tr><td style="background: url('http://v2.uyan.cc/code/images/boxnw.png') repeat scroll 0 0 transparent; height: 10px; padding: 0; width: 10px; opacity: 0.5;"></td><td style="background-color: black; height: 10px; opacity: 0.3; padding: 0; filter: alpha(opacity=60);"></td><td onclick="UYAN.hideBox();" style="background: url('http://v2.uyan.cc/code/images/boxclose.png') no-repeat scroll 0 0 transparent; _background: url('http://v2.uyan.cc/code/images/boxclose.gif') no-repeat scroll 0 0 transparent; cursor: pointer; display: block; height: 23px; position: absolute; right: -8px; top: -8px; width: 23px; z-index: 100000; padding: 0;"></td></tr><tr><td style="background-color: black; opacity: 0.6; padding: 0; width: 10px; opacity: 0.3; filter: alpha(opacity=60);"></td><td style="background-color: white; padding: 0;"><div id="uyan_box_cnt"></div></td><td style="background-color: black; opacity: 0.6; padding: 0; width: 10px; opacity: 0.3; filter: alpha(opacity=60);"></td></tr><tr><td style="background: url('http://v2.uyan.cc/code/images/boxsw.png') repeat scroll 0 0 transparent; height: 10px; padding: 0; width: 10px; opacity: 0.5;"></td><td style="background-color: black; height: 10px; opacity: 0.3; padding: 0; filter: alpha(opacity=60);"></td><td style="background: url('http://v2.uyan.cc/code/images/boxse.png') repeat scroll 0 0 transparent; height: 10px; padding: 0; width: 10px; opacity: 0.5;"></td></tr></tbody></table></div><div id="uyan_cmty" style="display: none;"><div style="width: 520px;"><div style="border-bottom: 1px solid #b6b5b5; background: #eeeeee; color: #666; font-size: 16px; height: 22px; padding: 10px 0;"><span style="float: left; padding-left: 25px; text-shadow: 0 1px 0 #fff;">www.kuqin.com</span></div><div style="color: #666;"><div style="background: url('http://v2.uyan.cc/code/images/commentWeb.png') no-repeat 20px 13px; border-right: 1px solid #EEEEEE; float: left; height: 49px; padding-left: 70px; padding-top: 6px; width: 102px;"><span style="font-size: 18px;">454</span><br><span style="font-size: 12px;">评论数</span></div><div style="background: url('http://v2.uyan.cc/code/images/likeWeb.png') no-repeat 24px 10px; border-right: 1px solid #EEEEEE; float: left; height: 49px; padding-left: 70px; padding-top: 6px; width: 102px;"><span style="font-size: 18px;">943</span><br><span style="font-size: 12px;">喜欢数</span></div><div style="background: url('http://v2.uyan.cc/code/images/humanWeb.png') no-repeat 27px 13px; border-right: 1px solid #EEEEEE; float: left; height: 49px; padding-left: 70px; padding-top: 6px; width: 102px;"><span style="font-size: 18px;">169</span><br><span style="font-size: 12px;">用户数</span></div><div style="clear: both;"></div></div><div id="uyan_cmty_info_tmp" style="border-top: 1px solid #CCCCCC; padding: 10px 20px; font-size: 15px; color: #555555;">数据正在加载中...</div><div style="background-color: #F0F0F0; border-top: 1px solid #CCCCCC; height: 20px; padding-top: 6px;"><a target="_blank" href="http://www.uyan.cc/" style="color: #6B6B6B; cursor: pointer; display: block; float: right; font-family: Arial, Helvetica, sans-serif; font-size: 11px; margin-right: 15px; text-decoration: none;">友言</a><div style="clear: both;"></div></div></div></div><div id="uyan_login" style="display: none;"><div style="border-bottom: 1px solid #b6b5b5; background: #eeeeee; color: #666; font-size: 16px; height: 22px; padding: 10px 0;"><span style="padding-left: 25px; text-shadow: 0 1px 0 #fff; font-weight: 600;">社会化帐号登录</span></div><div style="width: 429px; padding: 22px;"><h2 style="margin: 0; font-size: 14px; font-weight: normal; color: #666; padding-left: 25px; padding-bottom: 5px; background: none repeat scroll 0 center transparent;">点击按钮，使用社交帐号评论</h2><div style="padding-bottom: 20px;"><span style="height: 16px; float: left; display: block; line-height: 16px; overflow: hidden; width: 60px; margin: 15px 22px 0 25px; display: inline;"><a title="用新浪微博帐号登录" onclick="UYAN.loginTSina();" style="cursor: pointer; font-size: 14px; color: #666; text-decoration: none;"><img title="用新浪微博帐号登录" style="display: block; float: left; width: 16px; height: 16px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tsina.png" border="0">&nbsp;&nbsp;新浪微博</a></span><span style="height: 16px; float: left; display: block; line-height: 16px; overflow: hidden; width: 60px; margin: 15px 22px 0 25px; display: inline;"><a title="用腾讯微博帐号登录" onclick="UYAN.loginTQq();" style="cursor: pointer; font-size: 14px; color: #666; text-decoration: none;"><img title="用腾讯微博帐号登录" style="display: block; float: left; width: 16px; height: 16px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tqq.png" border="0">&nbsp;&nbsp;腾讯微博</a></span><span style="height: 16px; float: left; display: block; line-height: 16px; overflow: hidden; width: 60px; margin: 15px 22px 0 25px; display: inline;"><a title="用QQ帐号登录" onclick="UYAN.loginQq();" style="cursor: pointer; font-size: 14px; color: #666; text-decoration: none;"><img title="用QQ帐号登录" style="display: block; float: left; width: 16px; height: 16px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/qq.png" border="0">&nbsp;&nbsp;QQ</a></span><span style="height: 16px; float: left; display: block; line-height: 16px; overflow: hidden; width: 60px; margin: 15px 22px 0 25px; display: inline;"><a title="用人人网帐号登录" onclick="UYAN.loginRenren();" style="cursor: pointer; font-size: 14px; color: #666; text-decoration: none;"><img title="用人人网帐号登录" style="display: block; float: left; width: 16px; height: 16px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/renren.png" border="0">&nbsp;&nbsp;人人网</a></span><span style="height: 16px; float: left; display: block; line-height: 16px; overflow: hidden; width: 60px; margin: 15px 22px 0 25px; display: inline;"><a title="用开心网帐号登录" onclick="UYAN.loginKaixin001();" style="cursor: pointer; font-size: 14px; color: #666; text-decoration: none;"><img title="用开心网帐号登录" style="display: block; float: left; width: 16px; height: 16px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/kaixin001.png" border="0">&nbsp;&nbsp;开心网</a></span><span style="height: 16px; float: left; display: block; line-height: 16px; overflow: hidden; width: 60px; margin: 15px 22px 0 25px; display: inline;"><a title="用搜狐微博帐号登录" onclick="UYAN.loginTSohu();" style="cursor: pointer; font-size: 14px; color: #666; text-decoration: none;"><img title="用搜狐微博帐号登录" style="display: block; float: left; width: 16px; height: 16px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tsohu.png" border="0">&nbsp;&nbsp;搜狐微博</a></span><span style="height: 16px; float: left; display: block; line-height: 16px; overflow: hidden; width: 60px; margin: 15px 22px 0 25px; display: inline;"><a title="用网易微博帐号登录" onclick="UYAN.loginT163();" style="cursor: pointer; font-size: 14px; color: #666; text-decoration: none;"><img title="用网易微博帐号登录" style="display: block; float: left; width: 16px; height: 16px;" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/t163.png" border="0">&nbsp;&nbsp;网易微博</a></span><div style="clear: both"></div></div><h2 style="padding-top: 10px; border-top: 1px solid #ccc; margin: 0; font-size: 14px; font-weight: normal; color: #666; padding-left: 25px; margin-top: 15px; background: none repeat scroll 0 center transparent;">作为游客留言</h2><span style="height: 30px; display: block; padding-left: 54px; overflow: hidden; margin-top: 15px;"><p style="text-indent: 0; display: block; float: left; width: 58px; line-height: 30px; text-align: left; margin: 0; font-size: 14px; color: #666;">Email <span style="color: #ff0000;">*</span></p><input onkeyup="UYAN.syncEN();" onkeydown="UYAN.syncEN();" id="uyan_email_tmp" style="border: 1px solid #c1c1c1; color: #687793; float: left; height: 24px; line-height: 24px; padding: 2px 8px; width: 230px; border-radius: 5px;" type="text"></span><span style="height: 30px; display: block; padding-left: 54px; overflow: hidden; margin-top: 18px;"><p style="text-indent: 0; display: block; float: left; width: 58px; line-height: 30px; text-align: left; margin: 0; font-size: 14px; color: #666;">昵&nbsp;&nbsp;称</p><input onfocus="UYAN.nnbg('h');" onblur="UYAN.nnbg('s');" id="uyan_uname_tmp" style="background: #f2f2f2; border: 1px solid #c1c1c1; color: #687793; float: left; height: 24px; line-height: 24px; padding: 2px 8px; width: 230px; border-radius: 5px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15) inset;" type="text"></span><span style="height: 30px; display: block; padding-left: 54px; overflow: hidden; margin-top: 15px; width: 306px;"><div id="uyan_login_warn_tmp" style="color: #ff0000; float: left; font-family: Arial, Helvetica, sans-serif; font-size: 13px; padding-right: 15px; padding-top: 8px; text-align: right; width: 150px;"></div><input onclick="UYAN.loginEmail();" style="background: url('http://v2.uyan.cc/code/images/btn.jpg') no-repeat; width: 86px; height: 26px; border: none; font-size: 14px; font-weight: bold; color: #666; float: right; cursor: pointer;" value="登录" type="submit"></span></div></div><div style="background-color: #FFFFFF; border-color: #D3D2D2; border-style: solid; border-width: 1px 1px 2px; height: 130px; position: absolute; top: 23px; width: 135px; z-index: 99999; display: none;"><div style="color: #9797C4; font-size: 12px; font-weight: normal; padding: 4px 0 4px 10px; line-height: 18px;">顶并分享到:</div><div style="padding: 3px 0;"><input id="sinaShareBox" style="float: left; margin: 2px 5px 0 10px; padding: 0;" type="checkbox"><div style="background: url('http://v2.uyan.cc/code/images/tsina.png') no-repeat scroll 0 0 transparent; color: #494949; float: left; height: 18px; line-height: 18px; font-size: 12px; font-weight: normal; padding-left: 18px;">新浪微博</div><div style="clear: both;"></div></div><div style="padding: 3px 0;"><input id="sinaShareBox" style="float: left; margin: 2px 5px 0 10px; padding: 0;" type="checkbox"><div style="background: url('http://v2.uyan.cc/code/images/tsina.png') no-repeat scroll 0 0 transparent; color: #494949; float: left; height: 18px; line-height: 18px; font-size: 12px; font-weight: normal; padding-left: 18px;">新浪微博</div><div style="clear: both;"></div></div><div style="padding: 3px 0;"><input id="sinaShareBox" style="float: left; margin: 2px 5px 0 10px; padding: 0;" type="checkbox"><div style="background: url('http://v2.uyan.cc/code/images/tsina.png') no-repeat scroll 0 0 transparent; color: #494949; float: left; height: 18px; line-height: 18px; font-size: 12px; font-weight: normal; padding-left: 18px;">新浪微博</div><div style="clear: both;"></div></div><div style="padding: 5px 0 0 10px;"><a style="border: 1px solid #D0CFCF; background: url('http://v2.uyan.cc/code/images/buttonLarge.png') repeat-x; border-radius: 3px 3px 3px 3px; color: #666; font-weight: bold; cursor: pointer; font-weight: normal; float: left; font-size: 12px; height: 20px; line-height: 22px; overflow: hidden; padding: 0 18px;">顶</a><a style="background-color: #FFFFFF; border: 1px solid #FFFFFF; color: #737373; height: 20px; line-height: 22px; overflow: hidden; cursor: pointer; display: block; float: left; font-size: 12px; font-weight: normal; padding: 0 18px;">取消</a><div style="clear: both; height: 1px; overflow: hidden;"></div></div></div></div>
+				<script type="text/javascript" id="UYScript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/iframe.js" async=""></script>
+				<!-- UY END -->
+				<!-- PingLun.La End -->
+				<div class="clear"></div>
+			</div>
+			<!-- PostComment end -->
+		</div>
+		</div>
+		<!-- Content end -->
+		<!-- Sidebar begin -->
+		<div class="sidebar">
+			<script language="JavaScript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/right.js" type="text/JavaScript"></script><div class="sns">
+<li id="text-3" class="widget widget_text">	
+<div class="textwidget">
+<div class="textwidget">
+<a target="_blank" href="http://www.weibo.com/kuqin" title="新浪微博"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tsina.gif"></a>
+<a target="_blank" href="http://t.qq.com/ikuqin" title="腾讯微博"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tqq.gif"></a>
+<a target="_blank" href="http://759213819.qzone.qq.com/" title="QQ空间"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/qqzone.png"></a>
+<a target="_blank" href="http://site.douban.com/141127/" title="豆瓣小站"><img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/douban.jpg" style="margin-right:0;"></a>
+<div>有以下事宜，请联系：<font color="#ff0066">admin@kuqin.com</font></div>
+</div>
+&#9745;投稿爆料  &#9745;小道消息  &#9745;案例分享  &#9745;发布招聘<br>&#9745;广告投放  &#9745;商务合作  &#9745;酷站推荐  &#9745;微博业务
+</div>
+</li>
+</div>
+
+			<ul>
+				<li class="mostviews archivemostviews">
+					<h3>&nbsp;<span class="mon">最火爆</span><span>最新鲜</span><span>最相关</span></h3>
+
+					<ul>
+					<li><a target="_blank" title="用Python实现一个简单的WebSocket服务器" href="http://www.kuqin.com/networkprog/20111127/315464.html">用Python实现一个简单的WebSocket服务器</a></li>
+<li><a target="_blank" title="客户端设计（CS模式）不符合互联网的精神吗？" href="http://www.kuqin.com/networkprog/20120129/317645.html">客户端设计（CS模式）不符合互联网的精神吗？</a></li>
+<li><a target="_blank" title="CERL2 系列2：网络编程该用同步还是异步？ " href="http://www.kuqin.com/networkprog/20111129/315558.html">CERL2 系列2：网络编程该用同步还是异步？ </a></li>
+<li><a target="_blank" title="HTTP幂等性概念和应用" href="http://www.kuqin.com/networkprog/20110611/91854.html">HTTP幂等性概念和应用</a></li>
+<li><a target="_blank" title="父子进程打开同一个文件" href="http://www.kuqin.com/networkprog/20120110/317253.html">父子进程打开同一个文件</a></li>
+<li><a target="_blank" title="多进程调试" href="http://www.kuqin.com/networkprog/20120110/317255.html">多进程调试</a></li>
+<li><a target="_blank" title="父子进程变量的地址一样，但值不一样" href="http://www.kuqin.com/networkprog/20120110/317254.html">父子进程变量的地址一样，但值不一样</a></li>
+<li><a target="_blank" title="黑马程序员——多线程原来是这么简单" href="http://www.kuqin.com/networkprog/20111225/316672.html">黑马程序员——多线程原来是这么简单</a></li>
+<li><a target="_blank" title="编程珠玑番外篇 -L. Plan 9 管道工的启发" href="http://www.kuqin.com/networkprog/20111126/315382.html">编程珠玑番外篇 -L. Plan 9 管道工的启发</a></li>
+<li><a target="_blank" title="几个优化中常用到的Time辨析" href="http://www.kuqin.com/networkprog/20111225/316670.html">几个优化中常用到的Time辨析</a></li>
+
+					</ul>
+					<ul style="display:none;">
+					<li><a target="_blank" title="客户端设计（CS模式）不符合互联网的精神吗？" href="http://www.kuqin.com/networkprog/20120129/317645.html">客户端设计（CS模式）不符合互联网的精神吗？</a></li>
+<li><a target="_blank" title="多进程调试" href="http://www.kuqin.com/networkprog/20120110/317255.html">多进程调试</a></li>
+<li><a target="_blank" title="父子进程变量的地址一样，但值不一样" href="http://www.kuqin.com/networkprog/20120110/317254.html">父子进程变量的地址一样，但值不一样</a></li>
+<li><a target="_blank" title="父子进程打开同一个文件" href="http://www.kuqin.com/networkprog/20120110/317253.html">父子进程打开同一个文件</a></li>
+<li><a target="_blank" title="关于Media SDK 测试码流的问题" href="http://www.kuqin.com/stream-media/20111228/316861.html">关于Media SDK 测试码流的问题</a></li>
+<li><a target="_blank" title="pthread_cond_wait的思考" href="http://www.kuqin.com/networkprog/20111226/316715.html">pthread_cond_wait的思考</a></li>
+<li><a target="_blank" title="黑马程序员——多线程原来是这么简单" href="http://www.kuqin.com/networkprog/20111225/316672.html">黑马程序员——多线程原来是这么简单</a></li>
+<li><a target="_blank" title="多线程之false sharing问题" href="http://www.kuqin.com/networkprog/20111225/316671.html">多线程之false sharing问题</a></li>
+<li><a target="_blank" title="几个优化中常用到的Time辨析" href="http://www.kuqin.com/networkprog/20111225/316670.html">几个优化中常用到的Time辨析</a></li>
+<li><a target="_blank" title="CERL2 系列2：网络编程该用同步还是异步？ " href="http://www.kuqin.com/networkprog/20111129/315558.html">CERL2 系列2：网络编程该用同步还是异步？ </a></li>
+
+					</ul>
+					<ul style="display:none;">
+					<li><a target="_blank" title="用Python实现一个简单的WebSocket服务器" href="http://www.kuqin.com/networkprog/20111127/315464.html">用Python实现一个简单的WebSocket服务器</a></li>
+<li><a target="_blank" title="多进程服务端实现-共享socket" href="http://www.kuqin.com/networkprog/20110910/264593.html">多进程服务端实现-共享socket</a></li>
+<li><a target="_blank" title="socket 1端写成功，另端收不到问题及解决" href="http://www.kuqin.com/networkprog/20090403/44007.html">socket 1端写成功，另端收不到问题及解决</a></li>
+<li><a target="_blank" title="揭开Socket编程的面纱" href="http://www.kuqin.com/networkprog/20090221/35953.html">揭开Socket编程的面纱</a></li>
+<li><a target="_blank" title="基于Socket的Java网络编程集粹" href="http://www.kuqin.com/networkprog/20090221/35948.html">基于Socket的Java网络编程集粹</a></li>
+<li><a target="_blank" title="系统设计之 网络模型（一）基础篇" href="http://www.kuqin.com/networkprog/20080501/7751.html">系统设计之 网络模型（一）基础篇</a></li>
+<li><a target="_blank" title="我们的项目中为socket通信服务的“心跳包”" href="http://www.kuqin.com/networkprog/20080414/6694.html">我们的项目中为socket通信服务的“心跳包”</a></li>
+<li><a target="_blank" title="Socket 死连接详解" href="http://www.kuqin.com/networkprog/20080316/4623.html">Socket 死连接详解</a></li>
+<li><a target="_blank" title="Socket编程知识必学" href="http://www.kuqin.com/networkprog/20070905/877.html">Socket编程知识必学</a></li>
+<li><a target="_blank" title="很幽默的讲解六种Socket I/O模型" href="http://www.kuqin.com/networkprog/20070905/876.html">很幽默的讲解六种Socket I/O模型</a></li>
+
+					</ul>
+					
+				</li>		
+				<li id="text-2" style="border:1px solid #F0C8C8;">
+					<script type="text/javascript"><!--
+					google_ad_client = "pub-9317413389774415";
+					/* 2011文章右上角300&#42;250 */
+					google_ad_slot = "7885739204";
+					google_ad_width = 300;
+					google_ad_height = 250;
+					//-->
+					</script>
+					<script type="text/javascript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/show_ads.js">
+					</script><ins style="display:inline-table;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><ins id="aswift_2_anchor" style="display:block;border:none;height:250px;margin:0;padding:0;position:relative;visibility:visible;width:300px"><iframe allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){i+='.call';setTimeout(h,0)}else if(h.match){i+='.nav';w.location.replace(h)}s.log&amp;&amp;s.log.push(i)}" vspace="0" id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;" frameborder="0" height="250" scrolling="no" width="300"></iframe></ins></ins>
+				</li>
+				<li id="specialcatposts-3" class="widget wpyou_widget_SpecialCatPosts">
+					<h3>&nbsp;&nbsp;<span>推荐阅读</span></h3>
+					<ul>
+					
+					</ul>
+				</li>
+				<li id="text-2" style="border:1px solid #F0C8C8;">
+					<script type="text/javascript">/*120*270，创建于2011-2-9*/ var cpro_id = 'u371492';</script><script src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/f.js" type="text/javascript"></script><script type="text/javascript" charset="utf-8" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/ecom"></script>
+					<script type="text/javascript">/*右侧顶部300*250，创建于2012-1-2*/ var cpro_id = 'u730982';</script><script src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/c.js" type="text/javascript"></script><script type="text/javascript" charset="utf-8" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/ecom_002"></script><div style="display:none">-</div> <iframe id="cproIframe3" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/uijs.htm" marginwidth="0" marginheight="0" allowtransparency="true" align="center,center" frameborder="0" height="250" scrolling="no" width="300"></iframe>
+				</li>
+			</ul>
+		</div>
+		<!-- Sidebar end -->
+		<!--cos-html-cache-safe-tag-->
+	</div>
+	<!-- Container end -->
+	<!-- FriendLink begin -->
+	<!-- FriendLink end -->
+	<!-- Footer begin -->
+	<div class="footer">
+		<div class="footpage">
+			<ul>
+			<script language="JavaScript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/aboutus.js" type="text/JavaScript"></script><li class="page_item page-item-24260"><a href="http://www.kuqin.com/common/aboutus.html" title="关于酷勤" rel="nofollow">关于酷勤</a></li>
+<li class="page_item page-item-53286"><a href="http://www.kuqin.com/teshulanmu/link.html" title="友情链接">友情链接</a></li>
+<li class="page_item page-item-53290"><a href="http://www.kuqin.com/common/66427.html" title="广告合作" rel="nofollow">广告合作</a></li>
+<li class="page_item page-item-53996"><a href="http://www.kuqin.com/common/mianze.html" title="免责声明" rel="nofollow">免责声明</a></li>
+<li class="page_item page-item-53301"><a href="http://www.kuqin.com/common/connectus.html" title="联系我们" rel="nofollow">联系我们</a></li>
+</ul>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<!-- Footer end -->
+	<div class="clear"></div>
+</div>
+<!-- Wrapper end -->
+<!-- Footer JavaScript begin -->
+<div style="display:none"><script language="JavaScript" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/tongji20120203.js" type="text/JavaScript"></script><script src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/stat.php" language="JavaScript"></script><script src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/cnzz_core.php" charset="utf-8" type="text/javascript"></script><a href="http://www.cnzz.com/stat/website.php?web_id=3349935" target="_blank" title="站长统计">站长统计</a>
+</div>
+<script type="text/javascript">
+	var wumiiParams = "&num=5&mode=2&pf=DedeCMS_V57_GBK";
+</script>
+<script type="text/javascript" id="wumiiRelatedItems" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/relatedItemsWidget.htm"></script>
+<a href="http://www.wumii.com/widget/relatedItems.htm" rel="external nofollow" style="border:0;">
+	<img src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/pixel.png" alt="无觅相关文章插件，快速提升流量" style="border:0;padding:0;margin:0;">
+</a>
+<!-- Footer JavaScript end -->
+
+
+<div id="cproIframe1holder" style="padding: 0px; display: block; visibility: visible; border: medium none; background: none repeat scroll 0% 0% transparent; float: none; overflow: hidden; position: fixed; z-index: 2147483647; width: 124px; height: 299px; line-height: 299px; right: 166px; top: 150px;"><div style="padding: 0px; display: block; visibility: visible; border: medium none; background: none repeat scroll 0% 0% transparent; float: none; overflow: hidden; width: 100%; height: 100%;"><div style="display:none">-</div> <iframe id="cproIframe1" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/uijs_002.htm" marginwidth="0" marginheight="0" allowtransparency="true" align="center,center" frameborder="0" height="299" scrolling="no" width="124"></iframe></div><div style="padding: 0px; display: block; visibility: visible; border: medium none; float: none; overflow: hidden; height: 20px; line-height: 20px; position: absolute; text-decoration: none; color: rgb(51, 51, 51); text-align: left; font-size: 14px; font-family: simsun,arial; cursor: pointer; background: none repeat scroll 0% 0% rgb(255, 255, 255); opacity: 0; width: 50px; right: 0px; bottom: 0px;">&nbsp;</div></div><div id="cproIframe2holder" style="padding: 0px; display: block; visibility: visible; border: medium none; background: none repeat scroll 0% 0% transparent; float: none; overflow: hidden; position: fixed; z-index: 2147483647; width: 124px; height: 299px; line-height: 299px; left: 166px; top: 150px;"><div style="padding: 0px; display: block; visibility: visible; border: medium none; background: none repeat scroll 0% 0% transparent; float: none; overflow: hidden; width: 100%; height: 100%;"><div style="display:none">-</div> <iframe id="cproIframe2" src="Linux%E4%B8%8BSocket%E7%BC%96%E7%A8%8B_files/uijs_003.htm" marginwidth="0" marginheight="0" allowtransparency="true" align="center,center" frameborder="0" height="299" scrolling="no" width="124"></iframe></div><div style="padding: 0px; display: block; visibility: visible; border: medium none; float: none; overflow: hidden; height: 20px; line-height: 20px; position: absolute; text-decoration: none; color: rgb(51, 51, 51); text-align: left; font-size: 14px; font-family: simsun,arial; cursor: pointer; background: none repeat scroll 0% 0% rgb(255, 255, 255); opacity: 0; width: 50px; right: 0px; bottom: 0px;">&nbsp;</div></div></body></html>

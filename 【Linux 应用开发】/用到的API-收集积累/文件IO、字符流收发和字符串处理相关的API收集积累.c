@@ -1,26 +1,12 @@
 /* 一些 文件 IO、字符流收发 和 字符串处理 相关的 API 的收集积累和整理 */
+/* 文档构建始于 2020/8/27 */
 
 /*
     有待收集的
         https://blog.csdn.net/qq_45396672/category_11169831.html
 */
 
-/*
 
-    注：最详细、全面的 函数参考 见：【算法-软件组件资料】\各种C标准库详解和用例 里面的！！！
-    help 只能用于查看某个命令的用法，man 命令既可以查看命令的用法，还可以查看函数的详细介绍等等，
-        比如想查看open函数的用法时，可以直接执行“man open”，发现这不是想要内容时再执行“man  2  open”
-        在man命令中可以及时按“h”查看帮助信息了解快捷键。常用的快捷键是：
-            f  往前翻一页
-            b  往后翻一页
-            /patten 往前搜
-            ?patten 往后搜
-
-
-*/
-
-
-/*
 
 ********************** 常用 文件 IO API ***********************************
 函数原型：
@@ -34,16 +20,23 @@
 			b. O_RDONLY 表示只读方式打开;
 			c. O_WRONLY 表示只写方式打开;
 			d. O_APPEND 表示如果这个文件中本来是有内容的，则新写入的内容会接续到原来内容的后面;
-			e. O_TRUNC 表示如果这个文件中本来是有内容的，则原来的内容会被丢弃，截断；
-			f. O_CREAT 表示当前打开文件不存在，我们创建它并打开它，通常与 O_EXCL 结合使用，当没有文件时创建文件，有这个文件时会报错提醒我们；
-		③ Mode 表示创建文件的权限，只有在 flags 中使用了 O_CREAT 时才有效，否则忽略。
-		④ 返回值：打开成功返回文件描述符，失败将返回-1。
+			e. O_TRUNC 表示如果这个文件中本来是有内容的，则原来的内容会被丢弃；
+			f. O_CREAT 表示当前打开文件不存在，我们创建它并打开它；若与 O_EXCL 结合使用，当没有文件时创建文件，有这个文件时会报错提醒我们；
+		③ Mode 表示创建文件的权限，只有在 flags 中使用了 O_CREAT 时才有效，否则忽略；有多种权限，用时现查。
+		④ 返回值：打开成功返回文件描述符，失败将返回 -1 或其它，有多种错误类型，用时现查。
 	头文件：
 		#include <sys/types.h>
 		#include <sys/stat.h>
 		#include <fcntl.h>
 		#include <unistd.h>
-		
+    重要说明：Linux 下 fopen 与 open 的区别
+        参考 
+            https://blog.csdn.net/u012803067/article/details/59053962
+            https://www.cnblogs.com/hnrainll/archive/2011/09/16/2178706.html
+		一般用 fopen 打开普通文件，用 open 打开设备文件，fopen 是标准 c 里的，而 open 是 linux 的系统调用。
+        fopen 与 open：前者有缓冲，后者无缓冲；前者与 fread, fwrite 等配合使用， 后者与 read, write 等配合使用。
+        fopen 是在 open 的基础上扩充而来的，根据要打开的文件类型（实际存在的文件 还是 驱动文件等虚拟文件）来选择。
+
 函数原型：
 	ssize_t read(int fd, void *buf, size_t count);
 	ssize_t write(int fd, const void *buf, size_t count);
@@ -71,8 +64,14 @@
 	头文件：
 		#include <unistd.h>
 
-函数原型：TODO   
-    fstat(fd_old, &stat)	
+函数原型：  
+    int fstat(int fd, struct stat *buf);
+    函数说明：
+        获取文件 状态/属性 信息，通过 struct stat *buf 返回，执行成功返回 0，失败返回 -1。
+        struct stat buf 里有很多信息，比如 buf.st_size 是文件大小。
+    头文件：
+        #include <sys/stat.h>
+		#include <unistd.h>
 
 函数原型：
 	int ioctl(int fd, unsigned long request, ...);
@@ -84,23 +83,36 @@
 	头文件：
 		#include <sys/ioctl.h>
 
-函数原型：		
-	void *mmap(void *addr, size_t length, int prot, int flags,int fd, off_t offset);
+函数原型：
+	void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
 	函数说明：
-		① addr 表示指定映射的內存起始地址，通常设为 NULL 表示让系统自动选定地址，并在成功映射后返回该地址；
-		② length 表示将文件中多大的内容映射到内存中；
+		① addr 表示指定映射的內存起始地址，通常设为 NULL 表示让系统自动选定地址，在成功映射后返回该地址；
+		② length 表示将文件 fd 中多大的内容映射到内存中；
 		③ prot 表示映射区域的保护方式，可以为以下 4 种方式的组合
-			a. PROT_EXEC 映射区域可被执行
+			a. PROT_EXEC 映射区域 *addr 可被执行
 			b. PROT_READ 映射区域可被读出
 			c. PROT_WRITE 映射区域可被写入
 			d. PROT_NONE 映射区域不能存取
 		④ Flags 表示影响映射区域的不同特性，常用的有以下两种
-			a. MAP_SHARED 表示对映射区域写入的数据会复制回文件内，原来的文件会改变。
+			a. MAP_SHARED 表示对映射区域 *addr 写入的数据会复制回文件 fd 内，原来的文件 fd 会改变；
+                而且允许其他映射该文件的进程共享。
 			b. MAP_PRIVATE 表示对映射区域的操作会产生一个映射文件的复制，对此区域的任何修改都不会写回原来的文件内容中。
-		⑤ 返回值：若成功映射，将返回指向映射的区域的指针，失败将返回-1。
-        TODO：fd 和 offset 参数，这个函数还需要说明具体是干啥的
+		⑤ fd 为被映射的文件。
+        ⑥ offset 文件映射的偏移量，通常为 0。
+        返回值：若成功映射，将返回指向映射的区域的指针，失败将返回-1。
+        例子：
+            static unsigned char *fb_base = (unsigned char *)mmap(NULL , screen_size, PROT_READ | PROT_WRITE, MAP_SHARED, fd_fb, 0);
+            ...
+            munmap(fb_base , screen_size);
     头文件：
 		#include <sys/mman.h>
+        #include <unistd.h>
+    
+    用完后，取消 内存重映射 int munmap(void *start, size_t length); start 是内存起始地址，length 是大小
+    
+    使用 mmap 来对一个文件（实体文件或块设备驱动文件）重映射到一块内存（虚拟内存），
+    从而让访问该文件内容时候就像读写内存一样（指针移动和读写），
+    常用在文件内容的搬运、屏幕的 Framebuffer（将屏幕驱动文件重映射到一块内存，然后读写内存就是读写屏幕）
 
 
 
@@ -155,12 +167,5 @@
     printf("%s", strtok(s,delim));
     while((p = strtok(NULL, delim)))
         printf("%s", p);
-
-
-
-*/
-
-
-
 
 
