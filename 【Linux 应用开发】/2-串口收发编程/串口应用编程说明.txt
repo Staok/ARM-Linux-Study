@@ -1,0 +1,8 @@
+实质上就是对 /dev/ttyx 中的串口的设备文件进行 open/read/write/ioctl/close 来配置和读写
+
+对于 串口的配置（波特率、校验位、停止位等） 有封装好的 API 在 termios.h 里面，在例子里面 直接使用 
+int set_opt(int fd,int nSpeed, int nBits, char nEvent, int nStop) 这个 API 就可以了
+然后正常 read/write 即可。
+
+
+在 shell 中验证，比如 串口发送 可以 echo xxx > /dev/ttyx

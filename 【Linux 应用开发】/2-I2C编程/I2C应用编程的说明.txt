@@ -1,0 +1,7 @@
+可以看100ask的I2C文档里面的I2Ctool的用法，这样可以直接用 系统调用 来运行它的app来读写i2c（这么做增加系统消耗，慢，用于小型验证可以）
+
+也可以看 100ask 的 i2c 例子 里面将 i2ctool 的相关源码拿出来 参考 其 app 的main 函数， 直接使用相关 api（i2c_smbus_开头的） 来读写 i2c
+i2c_smbus_开头的 API 本质都是调用 i2c_smbus_access 函数，这个 函数自动计算分别收发几个数据 然后填充设备驱动定义的结构体传给ioctl
+因此 i2ctool 就是对 /dev/i2c-x 设备文件 使用 open/read/write/ioctl/close 这几个 API 来进行高级封装
+
+实际上本质都是 对 /dev/i2c-x 设备文件 使用 open/read/write/ioctl/close 这几个 API 来传入配置参数和读写
