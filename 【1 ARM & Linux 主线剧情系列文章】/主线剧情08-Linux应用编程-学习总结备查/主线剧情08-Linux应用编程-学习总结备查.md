@@ -1,4 +1,4 @@
-# Linux 应用 - 学习总结备查
+# Linux 应用编程- 学习总结备查
 
 记 Linux 应用 相关的基本概念和流程，便于 备查 / 复习。*p.s Linux 系统性的入门与学习的 路线和途径 推荐去看 [【主线剧情 0.0】Linux 学习资源大综合 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/486903467)（[CSDN 链接](https://blog.csdn.net/Staokgo/article/details/123717871#t7)） 里面的 `!学习来源!` 、 `书籍推荐` 和 `Linux 应用编程内容补充`这几节！*。
 

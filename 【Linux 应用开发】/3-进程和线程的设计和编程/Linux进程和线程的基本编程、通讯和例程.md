@@ -1,4 +1,6 @@
-# 进程 和 线程 的基本 API、通讯 和 例程
+# Linux 进程 和 线程 的基本 编程、通讯 和 例程
+
+*注：【杂记】系列为日常网搜资料的堆砌而积累成之。如有错误恭谢指出。标识为“原创”其实不完全是，只是多引用再整理和加上自己的理解，进行记录备查，大都引自网络，侵删！*
 
 大量参考 100ask、网络文章等资料（参考源均以给出，侵删），这里参考网络文章和官方文档并做多处横向对比，形成系统性 一文全解，给出保姆级别的参考，则避免 同质化（不完全是直接引用，我整理了很好、很漂亮的格式，还为了 句子流畅、整理标点符号 和 补充说明（中文语境的名词混乱、口水话输出等等，你懂的） 做了很多 整理、修改和补充）。
 
@@ -237,20 +239,20 @@
 > 
 > int main()
 > {
->  int p_num = 0;
->  int c_num = 0;
->  int pid = fork();
->  if(pid == 0) // 返回的pid为0为子进程
->  {
->      c_num++;
->  }
->  else
->  {
->      p_num++; // 返回的pid大于0为父进程
->  }
->  printf("p_num=%d, c_num=%d\n",p_num,c_num);
->  printf("pid=%d\n",pid);
->  return 0;
+>      int p_num = 0;
+>      int c_num = 0;
+>      int pid = fork();
+>      if(pid == 0) // 返回的pid为0为子进程
+>      {
+>            c_num++;
+>      }
+>      else
+>      {
+>            p_num++; // 返回的pid大于0为父进程
+>      }
+>      printf("p_num=%d, c_num=%d\n",p_num,c_num);
+>      printf("pid=%d\n",pid);
+>      return 0;
 > }
 > 
 > // 运行结果如下所示
@@ -597,13 +599,13 @@
 
   ```c
   struct passwd { /* 这个结构体在 types.h 里面定义 */
-  char *pw_name; /* 登录名称 */ 
-  char *pw_passwd; /* 登录口令 */ 
-  uid_t pw_uid; /* 用户 ID */ 
-  gid_t pw_gid; /* 用户组 ID */ 
-  char *pw_gecos; /* 用户的真名 */ 
-  char *pw_dir; /* 用户的目录 */ 
-  char *pw_shell; /* 用户的 SHELL */ 
+      char *pw_name; /* 登录名称 */ 
+      char *pw_passwd; /* 登录口令 */ 
+      uid_t pw_uid; /* 用户 ID */ 
+      gid_t pw_gid; /* 用户组 ID */ 
+      char *pw_gecos; /* 用户的真名 */ 
+      char *pw_dir; /* 用户的目录 */ 
+      char *pw_shell; /* 用户的 SHELL */ 
   }; 
   struct passwd *getpwuid(uid_t uid); /* 返回 用户 ID 为 uid 的 用户信息的 struct passwd 结构体指针*/
   ```
@@ -654,7 +656,7 @@
 
 暂 总结有四种常用方法：
 
-- shell 种启动一个程序 最后 加 `&` 标识符 将其放入后台执行。
+- shell 中启动一个程序 最后 加 `&` 标识符 将其放入后台执行。
 - 一次 fork() 的方法（父进程终止，子进程进入后台）。
 - 两次 fork() 的方法（父进程运行，子进程终止，孙进程进入后台）。
 - 使用 daemon() 函数，`int daemon (int nochdir, int noclose);`，数：nochdir 非 0 表示不会将工作目录改为根目录，noclose 非 0 表示不会关闭所有打开的文件描述符，通常均设置为 0，成功则返回 0，失败返回 -1 并设置 errno 值。
@@ -672,7 +674,7 @@
 - 实时系统（Linux 的一些实时性的支持，主要包括设置调度策略、设置优先级等）。
 - 资源限制。
 
-参考专业书即可，用时现查。高级编程 比较专业了，看来很吃对系统的理解和经验等等。
+参考专业书即可，用时现查。进程的高级编程 比较专业了，看来很吃对系统的理解和经验等等。
 
 ### 使用这些 API 的例程
 
@@ -686,22 +688,27 @@
 - [linux基础——linux进程间通信（IPC）机制总结_千里之行，始于足下-CSDN博客](https://blog.csdn.net/a987073381/article/details/52006729)。
 - [Linux IPC总结（全）_xuexingyang的博客-CSDN博客_linuxipc](https://blog.csdn.net/dxdxsmy/article/details/6653189)。
 - [Linux进程间通信-详解(经典)_linux进程间通信,linux进程间通信-硬件开发文档类资源-CSDN文库](https://download.csdn.net/download/jmq_0000/3554996)。
+- [Linux进程间通信之管道(pipe)、命名管道(FIFO)与信号(Signal) - as_ - 博客园 (cnblogs.com)](https://www.cnblogs.com/biyeymyhjob/archive/2012/11/03/2751593.html)。
+- [Linux-应用编程-学习总结（3）：进程间通信（上）_努力学习的花椰菜的博客-CSDN博客](https://blog.csdn.net/jack123345667/article/details/107549086)。
 
-UNIX 进程间通信（IPC：InterProcess Communication）方式：包括管道(PIPE)，有名管道(FIFO)，和信号(Signal)；System V 进程通信方式：包括信号量(Semaphore)，消息队列(Message Queue)，和共享内存(Shared Memory)。这两种都是早期 UNIX 的 IPC，还有 套接字 和 内存映射，这基本的 八种方式，Linux 则都继承了下来。
+最初的 UNIX 进程间通信（IPC：InterProcess Communication）方式：包括管道(PIPE)，有名管道(FIFO)，和信号(Signal)；System V 进程通信方式：包括信号量(Semaphore)，消息队列(Message Queue)，和共享内存(Shared Memory)。这两种都是早期 UNIX 的 IPC，还有 套接字 和 内存映射，这基本的 八种方式，Linux 则都继承了下来。
 
 **总结起来：管道、命名管道、信号、信号量、消息队列、共享内存、内存映射 和 套接字。**
+
+### UNIX IPC
 
 #### 管道（Pipe）
 
 管道是一种半双工的通信方式，是内核的一段缓冲区，数据只能单向流动，一端写和一端读，而且只能在具有亲缘关系(父子进程)的进程间使用。另外管道传送的是无格式的字节流，并且管道缓冲区的大小是有限的（管道缓冲区存在于内存中，在管道创建时，为缓冲区分配一个页面大小）。
 
-**半双工**（双向通讯，同一时刻只能有一方发和一方收）；**用于父子、兄弟进程之间**（你看的下去这男权社会的命名方式吗？不如我们揭竿而起，都用 “亲子进程”、“同辈进程” 来叫吧！），管道也叫 无名管道；用于任意两个进程之间通讯的管道叫 有名管道。
+**半双工**（双向通讯，同一时刻只能有一方发和一方收）；**用于父子、兄弟进程之间通讯**（你看的下去这男权社会的命名方式吗？不如我们揭竿而起，都用 “亲子进程”、“同辈进程” 来叫吧！），管道也叫 无名管道 或 匿名管道；用于任意两个进程之间通讯的管道叫 有名管道。
 
 使用 pipe() 函数 创建一块用于管道通讯的 缓冲区，该函数 会返回 两个文件描述符 分别为 “读入文件描述符” 和 “写入文件描述符”，分别指向 该缓冲区 的 输入端/读取端 和 输出端/写入端，然后两个 有亲缘关系的进程 一个 用 write() 对 “写入文件描述符” 写入数据 另一个用 read() 对 “读入文件描述符” 读取数据即可。
 
 ```c
 #include <unistd.h>
 int pipe(int pipefd[2]);
+/* 参数 pipefd 数组，需要传入 两个文件描述符，pipefd[0] 为读取用的，pipefd[1] 为写入用的 */
 ```
 
 > 调用pipe函数时在内核中开辟一块缓冲区用于通信，它有一个读端，一个写端。pipefd[0]指向管道的读端，pipefd[1]指向管道的写端。所以管道在用户程序看起来就像一个打开的文件，通过read(pipefd[0])或者write(pipefd[1])向这个文件读写数据，其实是在读写内核缓冲区。
@@ -716,12 +723,38 @@ int pipe(int pipefd[2]);
 >
 > ![pipe例子](assets/pipe例子.jpg)
 >
-> **管道出现的四种特殊情况**
+> pipe()函数返回的是文件描述符(file descriptor)，因此只能使用底层的read()和write()系统调用来访问。
+>
+> **管道读写规则**
+>
+> 当没有数据可读时
+>
+> - O_NONBLOCK disable：read调用阻塞，即进程暂停执行，一直等到有数据来到为止。
+> - O_NONBLOCK enable：read调用返回-1，errno值为EAGAIN。
+>
+> 当管道满的时候
+>
+> - O_NONBLOCK disable： write调用阻塞，直到有进程读走数据。
+> - O_NONBLOCK enable：调用返回-1，errno值为EAGAIN。
+>
+> 管道出现的四种特殊情况
 >
 > 1. 写端关闭，读端不关闭：那么管道中剩余的数据都被读取后,再次read会返回0,就像读到文件末尾一样。
+>
+>    如果所有管道写端对应的文件描述符被关闭，则read返回0。
+>
 > 2. 写端不关闭，但是也不写数据，读端不关闭：此时管道中剩余的数据都被读取之后再次read会被阻塞，直到管道中有数据可读了才重新读取数据并返回。
+>
 > 3. 读端关闭，写端不关闭：此时该进程会收到信号SIGPIPE，通常会导致进程异常终止。
+>
+>    如果所有管道读端对应的文件描述符被关闭，则write操作会产生信号SIGPIPE。
+>
 > 4. 读端不关闭，但是也不读取数据，写端不关闭：此时当写端被写满之后再次write会阻塞，直到管道中有空位置了才会写入数据并重新返回。
+>
+> 写入数据量的情况
+>
+> - 当要写入的数据量不大于PIPE_BUF（Posix.1要求PIPE_BUF至少 512字节）时，linux将保证写入的原子性。
+> - 当要写入的数据量大于PIPE_BUF时，linux将不再保证写入的原子性。
 >
 > **使用管道的缺点**
 >
@@ -730,60 +763,753 @@ int pipe(int pipefd[2]);
 
 #### 命名管道（FIFO）
 
-也有叫有名管道。有名管道也是**半双工**的通信方式，但是它**允许无亲缘关系进程间的通信**。
+有名管道也是**半双工**通信的，但是它相比较于 管道/无名管道/匿名管道 来说 **允许无亲缘关系进程间的通信**。命名管道 也有叫 有名管道 或 实名管道（在中文语境下，仅我看见的，现在 Pipe 和 FIFO 这两个东西总共就有六个名字了啊）。
+
+参考：[Linux进程间通信之管道(pipe)、命名管道(FIFO)与信号(Signal) - as_ - 博客园 (cnblogs.com)](https://www.cnblogs.com/biyeymyhjob/archive/2012/11/03/2751593.html)，[Linux进程通信：命名管道FIFO小结_Mr_John_Liang的博客-CSDN博客](https://blog.csdn.net/liangzhao_jay/article/details/47109073)。
+
+命名管道 FIFO 详细的参考：[【Linux】进程间通信-命名管道FIFO_编程学习指南的博客-CSDN博客_命名管道fifo](https://blog.csdn.net/xiajun07061225/article/details/8471777)。
+
+> FIFO只是借用了文件系统(file system,命名管道是一种特殊类型的文件，因为Linux中所有事物都是文件，它在文件系统中以文件名的形式存在。)来为管道命名。写模式的进程向FIFO文件中写入，而读模式的进程从FIFO文件中读出。当删除FIFO文件时，管道连接也随之消失。FIFO的好处在于我们可以通过文件的路径来识别管道，从而让没有亲缘关系的进程之间建立连接。
+
+```c
+#include <sys/types.h>
+#include <sys/stat.h>
+int mkfifo(const char *filename, mode_t mode);
+int mknode(const char *filename, mode_t mode | S_IFIFO, (dev_t) 0 );
+/* 其中pathname是被创建的文件名称（该文件必须不存在），mode表示将在该文件上设置的权限位和将被创建的文件类型（指明其读写权限），dev是当创建设备特殊文件时使用的一个值。因此，对于先进先出文件它的值为0。 */
+```
+
+**操作流程**
+
+1. 可以先 使用 access() 先来判断 目标的 命名管道 FIFO 文件是否存在。如果存在则可以跳到第三步，如果不存在则跳到第二步。
+2. 使用 mkfifo() 创建一个 命名管道 FIFO 文件，mode 参数使用 `0777`。如果创建的 FIFO 文件是 `/tmp/my_fifo`，则可以使用命令行 `ls -lF /tmp/my_fifo` 看到该文件。
+3. 然后 使用 open() （或者 fopen() 这个高级封装）再去打开这个 FIFO 文件（传入标志有 O_RDONLY、O_WRONLY 和 O_NONBLOCK，单独或组合，关于传入标志在 后面 `关于 FIFO 读写时候的阻塞问题` 会详细讨论）。因为 FIFO 是文件，因此使用前必须先打开。
+4. 然后再使用 read/write （或者 fread/fwrite）进行读写。
+5. 最后使用 close() 关闭文件。
+
+**参考例子**
+
+> 写例子 wirte_fifo.c
+>
+> ```c
+> #include <stdio.h>
+> #include <unistd.h>
+> #include <stdlib.h>
+> #include <sys/types.h>
+> #include <sys/stat.h>
+> #include <string.h>
+> #include <fcntl.h>
+> int main(int argc, const char* argv[])
+> {
+>     if(argc < 2){ printf("./a.out fifoname\n"); exit(1); }
+>     
+>     // 判断文件是否存在
+>     int ret = access(argv[1], F_OK);
+>     if(ret == -1)
+>     {
+>         int r = mkfifo(argv[1], 0777); /* 在文件系统中创建一个文件，该文件用于提供FIFO功能，即命名管道 */
+>             if(r == -1){ perror("mkfifo error"); exit(1); }
+>         printf("有名管道%s创建成功\n", argv[1]);
+>     }
+> 
+>     int fd = open(argv[1], O_WRONLY);
+>         if(fd == -1){ perror("open error"); exit(1); }
+>     char *p = "hello, world";
+>     int len = write(fd, p, strlen(p)+1);
+>     close(fd);
+>     return 0;
+> }
+> ```
+>
+> 读例子 read_fifo.c
+>
+> ```c
+> #include <stdio.h>
+> #include <unistd.h>
+> #include <stdlib.h>
+> #include <sys/types.h>
+> #include <sys/stat.h>
+> #include <string.h>
+> #include <fcntl.h>
+> int main(int argc, const char* argv[])
+> {
+>     if(argc < 2) { printf("./a.out fifoname\n"); exit(1); }
+> 
+>     // 判断文件是否存在
+>     int ret = access(argv[1], F_OK);
+>     if(ret == -1)
+>     {
+>         int r = mkfifo(argv[1], 0664);
+>             if(r == -1){ perror("mkfifo error"); exit(1); }
+>         printf("有名管道%s创建成功\n", argv[1]);
+>     }
+> 
+>     int fd = open(argv[1], O_RDONLY);
+>         if(fd == -1){ perror("open error"); exit(1); }
+>     char buf[512];
+>     int len = read(fd, buf, sizeof(buf));
+>     buf[len] = 0;
+>     printf("buf = %s\n, len = %d", buf, len);
+>     close(fd);
+>     return 0;
+> }
+> ```
+
+**关于 FIFO 读写时候的阻塞问题**
+
+详细参考：
+
+- [Linux命名管道FIFO的读写规则_MONKEY_D_MENG的博客-CSDN博客](https://blog.csdn.net/MONKEY_D_MENG/article/details/5570468)。
+- [【Linux】进程间通信-命名管道FIFO_编程学习指南的博客-CSDN博客_命名管道fifo](https://blog.csdn.net/xiajun07061225/article/details/8471777)。
+
+在使用 open() 打开 FIFO 文件时候 若是以 阻塞的方式（即不传入 O_NONBLOCK 标志），那么 使用 read() 读取的时候是阻塞的（FIFO 为空 或者 其它进程正在读 的时候，则阻塞，直到阻塞解除），对于 write() 同理。
+
+打开 FIFO 文件的传入标志有 O_RDONLY、O_WRONLY 和 O_NONBLOCK，单独或组合，以下详细说明：
+
+> 打开FIFO一个主要的限制是，程序不能是O_RDWR模式打开FIFO文件进行读写操作，这样做的后果未明确定义。这个限制是有道理的，因为我们使用FIFO只是为了单身传递数据，所以没有必要使用O_RDWR模式。如果一个管道以读/写方式打开FIFO，进程就会从这个管道读回它自己的输出。如果确实需要在程序之间双向传递数据，最好使用一对FIFO，一个方向使用一个。
+>
+> 当一个Linux进程被阻塞时，它并不消耗CPU资源，这种进程的同步方式对CPU而言是非常有效率的。
+
+因此可以看出，除了，读/写之外，影响最大的就是 O_NONBLOCK 标志：
+
+> - flags = O_RDONLY：open将会调用阻塞，除非有另外一个进程以写的方式打开同一个FIFO，否则一直等待。
+> - flags = O_WRONLY：open将会调用阻塞，除非有另外一个进程以读的方式打开同一个FIFO，否则一直等待。
+> - flags = O_RDONLY | O_NONBLOCK：如果此时没有其他进程以写的方式打开FIFO，此时open也会成功返回，此时FIFO被读打开，而不会返回错误。
+> - flags = O_WRONLY | O_NONBLOCK：立即返回，如果此时没有其他进程以读的方式打开，open会失败打开，此时FIFO没有被打开，返回-1。
+
+对 FIFO 文件进行读写操作（open() 时候传入 O_NONBLOCK 标志的影响）：
+
+> open函数调用中的参数标志O_NONBLOCK会影响FIFO的读写操作。
+>
+> 规则如下：
+>
+> - 对一个空的阻塞的FIFO的read调用将等待，直到有数据可以读的时候才继续执行。
+> - 对一个空的非阻塞的FIFO的read调用立即返回0字节。
+> - 对一个完全阻塞的FIFO的write调用将等待，直到数据可以被写入时才开始执行。
+
+关于一次写入的数据大小的规则：
+
+> 系统规定：如果写入的数据长度小于等于PIPE_BUF字节，那么或者写入全部字节，要么一个字节都不写入。注意这个限制的作用：
+>
+> 当只使用一个FIF并允许多个不同的程序向一个FIFO读进程发送请求的时候，为了保证来自不同程序的数据块 不相互交错，即每个操作都原子化，这个限制就很重要了。如果能够包子所有的写请求是发往一个阻塞的FIFO的，并且每个写请求的数据长父小于等于PIPE_BUF字节，系统就可以确保数据绝不会交错在一起。通常将每次通过FIFO传递的数据长度限制为PIPE_BUF是一个好办法。
+>
+> 在非阻塞的write调用情况下，如果FIFO 不能接收所有写入的数据，将按照下面的规则进行：
+>
+> - 请求写入的数据的长度小于PIPE_BUF字节，调用失败，数据不能被写入。
+> - 请求写入的数据的长度大于PIPE_BUF字节，将写入部分数据，返回实际写入的字节数，返回值也可能是0。
+>
+> 其中。PIPE_BUF是FIFO的长度，它在头文件limits.h中被定义。在linux或其他类UNIX系统中，它的值通常是4096字节。
+
+**FIFO 文件的删除**
+
+> FIFO 文件使用完毕之后需删除，以免造成垃圾文件。
+>
+> ```c
+> #include <unistd.h>
+> int unlink(const char *pathname);
+> ```
+>
+> 关于unlink的详细内容参考：[unlink(2) - Linux man page](http://linux.die.net/man/2/unlink)。
 
 #### 信号（Signal）
 
-信号是一种比较复杂的通信方式，用于通知接收进程某个事件已经发生，传递一个 信号 进行异步通知（信号是异步的，一个进程不必通过任何操作来等待信号的到达，事实上，进程也不知道信号到底什么时候到达。信号是进程间通信机制中唯一的异步通信机制，可以看作是异步通知），而不能传输任何数据。
+额外引用/参考：[Chapter 10 信号 - as_ - 博客园 (cnblogs.com)](https://www.cnblogs.com/biyeymyhjob/archive/2012/08/04/2622265.html)，[ Linux-应用编程-学习总结（4）：进程间通信（下）_努力学习的花椰菜的博客-CSDN博客](https://blog.csdn.net/jack123345667/article/details/107605562)，[Linux进程间通信之管道(pipe)、命名管道(FIFO)与信号(Signal) - as_ - 博客园 (cnblogs.com)](https://www.cnblogs.com/biyeymyhjob/archive/2012/11/03/2751593.html)。
+
+> 信号 用于通知接收进程某个事件已经发生，传递一个 信号 进行异步通知（信号是异步的，一个进程不必通过任何操作来等待信号的到达，事实上，进程也不知道信号到底什么时候到达。信号是进程间通信机制中唯一的异步通信机制，可以看作是异步通知），而不能传输任何数据。信号是在软件层次上对中断机制的一种，模拟的效果和中断机制是类似的。
+>
+> 但是，信号和中断有所不同。中断的响应和处理都发生在内核空间，而信号的响应发生在内核空间，信号处理程序的执行却发生在用户空间。
+>
+> 那么，什么时候检测和响应信号呢？通常发生在两种情况下：
+>
+> - 当前进程由于系统调用、中断或异常而进入内核空间以后，从内核空间返回到用户空间前夕，即 一个进程在即将从内核态返回到用户态时（即在 内核态的时候 软中断信号不起作用，要等到返回用户态时才处理）。
+> - 当前进程在内核中进入睡眠以后刚被唤醒的时候，由于检测到信号的存在而提前返回到用户空间，即 在一个进程要进入或离开一个适当的低调度优先级睡眠状态时。
 
 > 引用 [信号（LINUX信号机制）_百度百科 (baidu.com)](https://baike.baidu.com/item/信号/7927794)。
 >
 > 在计算机科学中，信号是Unix、类Unix以及其他POSIX兼容的操作系统中进程间通讯的一种有限制的方式。它是一种异步的通知机制，用来提醒进程一个事件已经发生。当一个信号发送给一个进程，操作系统中断了进程正常的控制流程，此时，任何非原子操作都将被中断。如果进程定义了信号的处理函数，那么它将被执行，否则就执行默认的处理函数。
 >
-> 进程之间可以互相通过系统调用 kill （shell 中使用 kill 命令，应用编程中使用 kill() 函数）发送软中断信号。内核也可以因为内部事件而给进程发送信号，通知进程发生了某个事件。注意，信号只是用来通知某进程发生了什么事件，并不给该进程传递任何数据。
-
-- 驱动与应用之间：信号可以直接进行用户空间进程和内核进程（比如驱动程序）之间的交互，内核进程可以利用它来通知用户空间进程发生了哪些事件。
-- 应用与应用之间：还可以作为进程间通信或修改行为的一种方式，明确地由一个进程发送给另一个进程。一个信号的产生叫生成，接收到一个信号叫捕获。
+> 进程之间可以互相通过系统调用 kill （shell 中使用 kill 命令，应用编程中使用 kill() 函数）发送软中断信号。内核也可以因为内部事件而给进程发送信号，通知进程发生了某个事件。注意，信号只是用来通知某进程发生了什么事件，并不给该进程传递任何数据。shell 也可以使用信号将作业控制命令传递给它的子进程。
 
 信号种类：
 
-> 信号——序号——释义
+> 常见信号：
+>
+> |        信号名字 | 信号编号 | 处理内容                                                     |
+> | --------------: | :------: | :----------------------------------------------------------- |
+> |          SIGINT |    2     | Ctrl+C时OS送给前台进程组中每个进程                           |
+> |         SIGQUIT |    3     | 输入Quit Key的时候（CTRL+/）发送给所有Foreground Group的进程 |
+> |         SIGABRT |    6     | 调用abort函数，进程异常终止                                  |
+> |         SIGKILL |    9     | 中止某个进程。不能被忽略和捕获。                             |
+> |         SIGTERM |    15    | 请求中止进程，kill命令缺省发送。kill命令发送的OS默认终止信号 |
+> |         SIGTSTP |    20    | Suspend  Key，一般是Ctrl+Z。发送给所有Foreground Group的进程 |
+> |         SIGSTOP |    19    | 中止进程。不能被忽略和捕获。                                 |
+> |         SIGCONT |    18    | 当被stop的进程恢复运行的时候，自动发送                       |
+> |         SIGSEGV |    11    | 无效存储访问时OS发出该信号                                   |
+> |         SIGPIPE |    13    | 涉及管道和socket。在reader中止之后写Pipe的时候发送。向无人读到的管道写时产生。 |
+> |         SIGALRM |    14    | 用alarm函数设置的timer超时或setitimer函数设置的interval timer超时 |
+> |         SIGCHLD |    17    | 子进程终止或停止时OS向其父进程发此信号。<br />进程Terminate或Stop的时候，SIGCHLD会发送给它的父进程。缺省情况下该Signal会被忽略 |
+> | SIGPOLL / SIGIO |    8     | 指示一个异步IO事件，在高级IO中提及                           |
+> |         SIGUSR1 |    10    | 用户自定义信号，作用和意义由应用自己定义                     |
+> |         SIGUSR2 |    12    | 用户自定义信号，作用和意义由应用自己定义                     |
+> |         SIGTTIN |    21    | 后台进程想读                                                 |
+> |         SIGTTOU |    22    | 后台进程想写                                                 |
+>
+> 在 Shell 中查看所有信号和对应的编号：`kill -l`。
+>
+> **不可以被忽略的信号**
+>
+> - SIGKILL，它将结束进程。
+> - SIGSTOP，它是作业控制机制的一部分，将挂起作业的执行。不能被捕获或忽略。
+>
+> 这是为了提供一个确定的方法来Stop或者Kill一个Process。
+>
+> **作业控制信号**
+>
+> SIGCHILD：子进程已经被停止或终止；
+>
+> SIGCONT：如果进程停止，则使其继续运行；
+>
+> SIGSTOP：停止信号（不能被捕获或忽略）；
+>
+> SIGTSTP：交互的停止信号；
+>
+> SIGTTIN：后台进程组的成员读控制终端；
+>
+> SIGTTOU：后台进程组的成员向控制终端写。
 
-信号的三种处理类型：有的信号捕获到后默认进行 进程的退出；有的信号捕获到后默认进行 进程忽略该信号；进程收到信号后执行用户设定用系统调用 signal 的函数。
+Shell 中的进程作业控制：[linux任务控制bg,fg,jobs,kill,wait,suspend..-百度经验 (baidu.com)](https://jingyan.baidu.com/article/b907e6278fbd8946e7891c17.html)。有 bg、fg、jobs、kill、wait 和 suspend。
 
+信号的传递情况：
 
+- 驱动与应用之间：信号可以直接进行 用户空间进程 和 内核进程（比如驱动程序）之间的交互，内核进程可以利用它来通知用户空间进程发生了哪些事件（比如 驱动 常用 SIGIO 信号 来异步通知 应用）。
+- 应用与应用之间：还可以作为进程间通信或修改行为的一种方式，明确地由一个进程发送给另一个进程（或自己）。一个信号的产生叫生成，接收到一个信号叫捕获。
+
+产生信号的情形：
+
+- Shell 种 用户发出。比如 对 处于前台的进程 按下 CTRL+C 产生 SIGINT 信号 发送给 这个前台进程。
+- 用户态进程内的系统调用 API（如 kill()、raise()、alarm()、pause() 等等）。
+- 驱动程序发出信号以异步通知应用（常见的如 SIGIO），或者硬件错误。
+
+捕获到信号的三种处理类型：
+
+1. 进程忽略该信号。大部分信号都可以Ignore。此外，如果我们忽略部分硬件异常产生的信号，进程的行为未定义。其实个别信号的默认操作就是忽略。
+2. 捕获信号。进程收到信号后执行用户设定用系统调用 signal / sigaction 的函数（用户可设定信号回调函数）。
+3. 执行默认操作。如果不做任何处理，则执行缺省动作。大部分信号的缺省行为都是中止进程。
+
+> 部分信号的缺省行为不仅中止进程，同时还会产生core dump，也就是生成一个名为core的文件，其中保存了退出时进程内存的镜像，可以用来调试。在下面情况，不会生成core文件：
+>
+> - 当前进程不属于当前用户。
+> - 当前进程不属于当前组。
+> - 用户在当前目录下无写权限。
+> - Core文件已存在，用户无写权限。
+> - 文件过大，超过RLIMIT_CORE。
+
+> 本质都是：信号异步通知接收信号的进程发生了某个事件，然后操作系统将会中断接收到信号的进程的执行，转而去执行相应的信号处理程序（按照忽略、捕获 或 默认 的操作执行）。
+
+> ```c
+> #include <sys/types.h>
+> #include <signal.h>
+> #include <unistd.h>
+> 
+> void (*signal(int sig,void (*func)(int)))(int);
+> /* 绑定收到某个信号后 的回调函数
+>  第一个参数为信号，第二个参数为对此信号挂接用户自己的处理函数指针。
+>  返回值为以前信号处理程序的指针。
+> 
+>  例子：int ret = signal(SIGSTOP, sig_handle);
+> */
+> 
+> /* 由于 signal 不够健壮，推荐使用 sigaction 函数，sigaction 函数重新实现了 signal 函数 */
+> int sigaction(int signum, const struct sigaction *act,struct sigaction *oldact);
+> /* 关于 sigaction 的使用，用时现查 */
+> 
+> // kill函数向进程号为pid的进程发送信号，信号值为sig。当pid为0时，向当前系统的所有进程发送信号sig。
+> int kill(pid_t pid,int sig); 
+> /*
+> 	kill的pid参数有四种情况：
+>     1).pid > 0，   信号被发送给进程ID为pid的进程；
+>     2).pid == 0，  信号被发送给与发送进程属于同一进程组的所有进程(这些进程的进程组ID等于发送进程的进程组ID)，而且发送进程具有向这些进程发送信号的权限。注意术语“所有进程”不包括实现定义的系统进程集。对于多数UNIX系统，这个系统进程集包括内核进程和init（pid 1）；
+>     3).pid < 0，   将该信号发送给ID等于pid的绝对值，且发送者对其有发送信号的权限的所有进程。如上，所有进程集不包括系统进程。
+>     4).pid == -1， 将该信号发送给发送进程有权限向它们发送喜好的系统上的所有进程。和前面一样，不包含特定的系统进程。
+>     
+>     例子：结束父进程 kill(getppid(), SIGKILL);
+> */
+> 
+> // 向当前进程中自举一个信号sig, 即向当前进程发送信号。相当于 kill(getpid(),sig);
+> int raise(int sig);
+> 
+> // alarm()用来设置信号SIGALRM在经过参数seconds指定的秒数后传送给目前的进程。如果参数seconds为0,则之前设置的闹钟会被取消,并将剩下的时间返回。使用alarm函数的时候要注意alarm函数的覆盖性，即在一个进程中采用一次alarm函数则该进程之前的alarm函数将失效。
+> // seconds秒后，向进程本身发送SIGALRM信号。
+> unsigned int alarm(unsigned int seconds); 
+> /*
+>     当所设置的时间值被超过后，产生 SIGALRM 信号。如果不忽略或不捕捉此信号，则其认动作是终止该进程。
+>     如果在调用alarm时，以前已为该进程设置过闹钟时间，而且它还没有超时，则该闹钟时间的余留值作为本次alarm函数调用的值返回。以前登记的闹钟时间则被新值代换。如果有以前登记的尚未超过的闹钟时间，而且seconds值是0，则取消以前的闹钟时间，其余留值仍作为函数的返回值。
+> */
+> 
+> // 延时/睡眠 seconds 秒钟
+> unsigned int sleep(unsigned int seconds);
+> /*
+>     返回0或未睡眠的秒数。
+>     此函数使调用进程被挂起直到：
+>     (1) 已经过了seconds所指定的墙上时钟时间；
+>     (2) 该进程捕捉到一个信号并从信号处理程序返回。
+>     如同alarm信号一样，由于某些系统活动，实际返回时间比所要求的会迟一些
+> */
+> 
+> // 使调用进程（或线程）睡眠状态，直到接收到信号，要么终止，或导致它调用一个信号捕获函数。 
+> // pause函数使调用进程挂起直至捕捉到一个信号。
+> int pause(void); 
+> /*
+>     只有执行了一个信号处理程序并从其返回时， pause才返回。在这种情况下， pause返回-1，errno设置为EINTR。
+> */
+> 
+> // abort函数的功能是使程序异常终止。此函数将SIGABRT信号发送给调用进程。进程不应忽略此信号。
+> // abort函数决不返回。
+> void abort(void);
+> ```
+
+发送和捕获信号的一些例子：
+
+- [Linux 系统调用 wait()、signal()、kill() | feng 言 feng 语 (feng-qi.github.io)](https://feng-qi.github.io/2017/05/02/linux-system-call-wait-signal-kill/)。
+
+- [Linux的SIGUSR1和SIGUSR2信号 - 小 楼 一 夜 听 春 雨 - 博客园 (cnblogs.com)](https://www.cnblogs.com/kex1n/p/8296332.html)。[Linux的SIGUSR1和SIGUSR2信号_diaoqu4574的博客-CSDN博客](https://blog.csdn.net/diaoqu4574/article/details/102222884)。
+
+  使用 signal() 注册 SIGUSR1 信号的 回调函数，然后在 shell 中使用 `kill -USR1 <进程号>` 来发送 SIGUSR1 信号。
+
+  更多常用信号：使用 kill 命令发送 信号，指定信号名的时候都去掉 “SIG” 前缀，比如 要发送 SIGUSR1  就指定为 `-USR1`。
+
+  > INT        2      中断（同 Ctrl + C）
+  >
+  > QUIT     3      退出（同 Ctrl + \）
+  >
+  > TERM   15    终止
+  >
+  > KILL      9      强制终止
+  >
+  > CONT   18    继续（与STOP相反， fg/bg命令）
+  >
+  > STOP   19    暂停（同 Ctrl + Z）
+
+- 更多可网搜。
+
+### System V IPC
+
+> System V IPC指的是AT&T在System V.2发行版中引入的三种进程间通信工具:(1)信号量，用来管理对共享资源的访问 (2)共享内存，用来高效地实现进程间的数据共享 (3)消息队列，用来实现进程间数据的传递。我们把这三种工具统称为System V IPC的对象，每个对象都具有一个唯一的IPC标识符(identifier)。要保证不同的进程能够获取同一个IPC对象，必须提供一个IPC关键字(IPC key)，内核负责把IPC关键字转换成IPC标识符。   
+>
+> System V IPC 具有相似的语法，API 命名来说：semxxx() 用于信号量，shmxxx() 用于共享内存，msgxxx() 用于消息队列。
+>
+> System V IPC 一般操作如下：
+>
+> 1、选择IPC关键字（API 中的 形参 key_t key），可以使用如下三种方式：
+>
+> - IPC_PRIVATE。由内核负责选择一个关键字然后生成一个IPC对象并把IPC标识符直接传递给另一个进程。
+> - 直接选择一个已经存在的关键字。
+> - 使用 ftok() 函数生成一个关键字。
+>
+> 2、使用semget()/shmget()/msgget()函数根据IPC关键字key和一个标志flag创建或访问IPC对象。
+>
+> 如果key是IPC_PRIVATE、或者key尚未与已经存在的IPC对象相关联且flag中包含IPC_CREAT标志，那么就会创建一个全新的IPC对象。
+>
+> 3、使用semctl()/shmctl()/msgctl()函数修改IPC对象的属性。
+>
+> 4、使用semctl()/shmctl()/msgctl()函数和IPC_RMID标志销毁IPC对象。
+>
+> System V IPC为每个IPC对象设置了一个ipc_perm结构体并在创建IPC对象的时候进行初始化。这个结构体中定义了IPC对象的访问权限和所有者:
+>
+> ```c
+> struct ipc_perm{
+>    uid_t uid;   //所有者的用户id
+>    gid_t gid;   //所有者的组id
+>    uid_t cuid;  //创建者的用户id
+>    gid_t cgid;  //创建者的组id
+>    mode_t mode; //访问模式
+>    …
+> };
+> ```
+>
+> 消息队列、信号量以及共享内存 它们被统称为XSI IPC，它们在内核中有相似的IPC结构（消息队列的msgid_ds，信号量的semid_ds，共享内存的shmid_ds），而且都用一个非负整数的标识符加以引用（消息队列的msg_id，信号量的sem_id，共享内存的shm_id，分别通过msgget、semget以及shmget获得），标志符是IPC对象的内部名，每个IPC对象都有一个键（key_t key）相关联，将这个键作为该对象的外部名。
+>
+> XSI IPC的IPC结构是在系统范围内起作用，没用使用引用计数。如果一个进程创建一个消息队列，并在消息队列中放入几个消息，进程终止后，即使现在已经没有程序使用该消息队列，消息队列及其内容依然保留。而PIPE在最后一个引用管道的进程终止时，管道就被完全删除了。对于FIFO最后一个引用FIFO的进程终止时，虽然FIFO还在系统，但是其中的内容会被删除。和PIPE、FIFO不一样，XSI IPC不使用文件描述符，所以不能用ls查看IPC对象，不能用rm命令删除，不能用chmod命令删除它们的访问权限。只能使用ipcs和ipcrm来查看可以删除它们。
+>
+> shell 中管理IPC对象的命令是 ipcs、ipcmk 和 ipcrm。
+>
+> 如：
+>
+> - `ipcs -s` 查看创建的信号量集合的个数，`ipcrm -s <semid>` 删除一个编号为 semid 的信号量集合。
+> - `ipcs -m` 查看创建的共享内存的个数，`ipcrm -m shm_id` 删除共享内存。
 
 #### 信号量（Semaphore）
 
-信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。
+额外 参考/引用：[IPC对象之信号量_朝辞暮见的博客-CSDN博客_ipc信号量](https://blog.csdn.net/weixin_42048417/article/details/80431216)，[IPC之信号量详解_Qiuoooooo的博客-CSDN博客_ipc信号量](https://blog.csdn.net/Qiuoooooo/article/details/60573433)。
 
-常用来处理临界资源的访问同步问题。临界资源：为某一时刻只能由一个进程或线程操作的资源。
+> 信号量是一个计数器，它用来记录 各个进程 对某个资源的存取状况，可以用来控制多个进程对共享资源的访问（比如后面的 共享内存 就用到信号量）。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。常用来处理临界资源的访问同步问题（临界资源：为某一时刻只能由一个进程或线程操作的资源）。在任一时刻只能有一个线程访问临界资源。
+>
+> 信号量的工作流程：
+>
+> （1）创建 控制某资源的 信号量。
+>
+> （2）若此信号量的值为正，则允许进行使用该资源。进程将进号量减1。
+>
+> （3）若此信号量为0，则该资源目前不可用，进程进入睡眠状态，直至信号量值大于0，进程被唤醒，转入步骤（1）。
+>
+> （4）当进程不再使用一个信号量控制的资源时，信号量值加1。如果此时有进程正在睡眠等待此信号量，则唤醒此进程。
+>
+> 当一个进程不再使用资源时，信号量+1(对应的操作称为V操作)，反之当有进程使用资源时，信号量-1(对应的操作为P操作)。对信号量的值操作均为原子操作。
+>
+> P 操作，要准备开始读写，P(sv)：如果sv的值大于零，就给它减1；如果它的值为零，就挂起该进程的执行等待操作。
+>
+> V 操作，读写完毕可以释放，V(sv)：如果有其他进程因等待sv而被挂起，就让它恢复运行，如果没有进程因等待sv而挂起，就给它加1。
+>
+> 简单理解就是 P 相当于申请资源，V 相当于释放资源。
+>
+> 举个例子，就是两个进程共享信号量sv，初始值为 1，一旦其中一个进程执行了P(sv)操作，它将得到信号量，并可以进入临界区，使sv减1。而第二个进程将被阻止进入临界区，因为当它试图执行P(sv)时，sv为0，它会被挂起以等待第一个进程离开临界区域并执行V(sv)释放信号量，这时第二个进程就可以恢复执行了。
+
+> **二值信号量**：值为0或1。与互斥锁类似，资源可用时值为1，不可用时值为0；即 P操作相当于上锁，V操作相当于解锁。
+>
+> **计数信号量**：值在0到n之间。同来统计资源，其值代表可用资源数。
+>
+> 在Linux系统中，使用信号量通常需要创建信号量、初始化信号量、信号量PV操作以及信号量删除四种操作。
+
+创建/获取一个信号量集合：
+
+```c
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+int semget(key_t key, int nsems, int semflg);
+/*
+    key:信号量集合 编号/键值
+        可以用函数key_t ftok(const char *pathname, int proj_id);来获取
+        不同进程只要key值相同即可访问同一信号量集合
+        其中有个特殊值IPC_PRIVATE，表示创建当前进程的私有信号量
+    nsems:这个参数表示你要创建的信号量集合中的信号量的个数。信号量只能以集合的形式创建。
+        需要创建的信号量数目，通常为1。若创建多个信号量则称为信号量集。
+        如果是创建新集合，则必须指定nsems。
+        如果是引用一个现有的信号量集合则将nsems指定为0。如果只是获取信号量集的标识符(而非新建)，那么nsems可以为0。
+    semflg:
+        IPC_CREAT|IPC_EXCL 表示key对应的信号量不存在则创建，存在则报错。即会创建一个新的信号量集合，若已经存在的话则返回-1。
+        IPC_CREAT 表示key对应的信号量不存在则创建，存在则直接返回该信号量的标识符。返回一个新的或者已经存在的信号量集合。
+        flag的低8位作为信号量的访问权限位，类似于文件的访问权限.
+            flag低8位是权限位。一般用0666（6的二进制是110，表示可读，可写，不可执行，三个6分别对应当前用户，group组用户，其他用户）
+        例如，flag 可以为 IPC_CREAT|0666
+    返回值：成功返回信号量集合的semid（非负整数），失败返回-1。
+    
+    比如 A 进程和 B 进程之间要用同一个信号量，那么设计 A 先 产生/创建 信号量，然后 B 引用/绑定 这个信号量：
+        因此 A 调用 semget() 时候 semflg 参数应该传入 IPC_CREAT|IPC_EXCL|0666，且 nsems 为要创建的信号量数量；
+        而 B 因该传入 IPC_CREAT|0666 或 IPC_CREAT，且 nsems 为 0。
+*/
+
+key_t ftok( const char * fname, int id );
+/* IPC键值的格式转换函数。系统建立IPC通讯 （消息队列、信号量和共享内存） 时必须指定一个ID值。通常情况下，该id值通过ftok函数得到。
+    fname 就是你指定的文件名（已经存在的文件名），一般使用当前目录
+    id 是子序号。虽然是int类型，但是只使用8bits(1-255）。
+    计算过程：如指定文件的索引节点号为65538，换算成16进制为0x010002，而你指定的ID值为38，换算成16进制为0x26，则最后的key_t返回值为0x26010002。
+    用于保证 同一段程序，在两个不同用户下的两组相同程序 获得互不干扰的IPC键值。
+    例子 key_t key = ftok(".", 'a');
+*/
+```
+
+对信号量的设置（初始化值或销毁）：
+
+```c
+/* 内核中定义的结构体 */
+union semun{
+    int val;               // SETVAL 使用的值
+    struct semid_ds *buf;  // IPC_STAT、IPC_SET 使用缓存区
+    unsigned short *array; // GETALL、SETALL 使用的缓存区，ALL，某个信号量集合的所有信号量
+    struct seminfo *__buf; // IPC_INFO (linux 特有) 使用缓存区
+};
+
+/* 内核为每个信号量集合都维护一个semid_ds结构 */
+struct semid_ds{
+    struct ipc_perm sem_perm;
+    unsigned short sem_nsems;
+    time_t sem_otime;
+    time_t sem_ctime;
+    ...
+}
+
+int semctl(int semid, int semnum, int cmd, union semun arg);
+/* 
+    semid：填入要操作的 信号量集合 的编号
+    semnum：要操作 信号量集合 semid 中 第 semnum 个信号量（范围：0 ~ nsems-1）
+    cmd：在头文件sem.h中定义了多种不同的操作：以下举例
+        IPC_STAT: 获取某个信号量集合的semid_ds结构，并把它存储到semun联合体的buf参数指向的地址。
+        IPC_SET: 设置某个信号量集合的semid_ds结构的ipc_perm成员的值，所取的值是从semun联合体的buf参数中取到。
+        IPC_RMID: 内核删除该信号量集合。
+        GETVAL: 返回集合中某个信号量的值。
+        SETVAL: 把集合中单个信号量的值设置成为联合体val成员的值。
+        
+        cmd 常用的两个值是:
+            SETVAL：初始化第semnum个信号量的值为arg.val;
+            IPC_RMID：删除信号量。
+        	一般也就设置初始值和删除信号量，上面 cmd 定义了 很多种不同的操作，用时现查即可（网搜 或者用 man 查看内核手册）
+    返回值：成功： IPC_STAT、IPC_SETVAL或IPC_RMID操作：0，IPC_GETVAL操作：返回当前信号量的值；失败：返回 -1。
+*/
+```
+
+信号量操作（P/V操作，改变信号量的值）：
+
+```c
+/* 内核中维护的结构体，用于描述对某个信号量进行什么样的操作 */
+struct sembuf
+{
+    unsigned short sem_num; /* semaphore number */
+    short sem_op; /* semaphore operation */
+    short sem_flg; /* operation flags */
+}
+/*
+    sem_num：信号量集合 中的 第几个 信号量，从 0 开始
+    sem_op：示该信号量的操作(P操作还是V操作)。如果其值为正数，该值会加到现有的信号内含值中。通常用于释放所控资源的使用权；如果sem_op的值为负数，而其绝对值又大于信号的现值，操作将会阻塞，直到信号值大于或等于sem_op的绝对值。通常用于获取资源的使用权。
+        取值-1为P操作，取值1为V操作。
+    sem_flg:信号操作标志，它的取值有两种：IPC_NOWAIT和SEM_UNDO：
+        IPC_NOWAIT:对信号量的操作不能满足时，semop()不会阻塞，而是立即返回，同时设定错误信息；
+        SEM_UNDO: 程序结束时(不管是正常还是不正常)，保证信号值会被设定；同时，如果进程结束时没有释放资源的话，系统会自动释放
+            通常为 SEM_UNDO，表示调用该信号量的进程退出时，恢复相应信号量的计数值，
+            例如信号量初始值是20，进程a以SEM_UNDO方式操作信号量加1；在进程未退出时，信号量变成21；在进程退出时，信号量的值恢复20
+*/
+
+int semop(int semid, struct sembuf *sops, unsigned nsops);
+int semtimedop(int semid, struct sembuf *sops, unsigned nsops,struct timespec *timeout);
+/*
+    semid：信号量集合编号
+    sops：要进行的操作，先填充 struct sembuf 结构体，再传入其地址，可以传入一个数组（形参 struct sembuf sops[]）
+    nsops: 表示要操作信号量的个数。sops 参数可以传一个数组，然后 nsops 表示 sops 的个数，一个 sops 对应一个信号量的操作，
+        因此可以同时对一个集合中的多个信号量进行操作
+    返回值：成功返回0，失败返回-1。
+*/
+
+/* 例子，对一个信号量 V 操作，即信号量+1 */
+struct sembuf sops_v = {0, +1, SEM_UNDO}; // 对索引值为0的信号量加一
+semop(semid, &sops, 1);                   // 以上功能执行的次数为一次
+```
+
+使用流程：
+
+> 进程1（sem）：
+>
+> ①调用semget创建信号量；
+>
+> ②调用semctl的SETVAL给信号量设置一个初始值；
+>
+> ③调用semop，执行P操作和V操作
+>
+> 进程2（sem2）：
+>
+> ①调用semget获取已存在的信号量的标识符semid；
+>
+> ②调用semop，执行P操作和V操作。
+>
+> （注意：如果有另外一进程也使用了该信号量，并且执行了P操作使信号量的值-1，那么此时本进程执行P操作时会阻塞等待直到另一进城执行V操作+1释放资源）
+
+例子：参考 [IPC对象之信号量_朝辞暮见的博客-CSDN博客_ipc信号量](https://blog.csdn.net/weixin_42048417/article/details/80431216)，[IPC之信号量详解_Qiuoooooo的博客-CSDN博客_ipc信号量](https://blog.csdn.net/Qiuoooooo/article/details/60573433) 中给出的例子。
 
 #### 消息列队（Message Queue）
 
-消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。消息链表存于内核，每个消息队列由消息队列标识符标识；与管道不同的是，消息队列存放在内核中，只有在内核重启时才能删除一个消息队列；消息队列的大小受限制。
+> 消息队列是由消息的链表，存放在内核中并由消息队列标识符标识。消息队列克服了信号传递信息少、管道只能承载无格式字节流以及缓冲区大小受限等缺点。消息链表存于内核，每个消息队列由消息队列标识符标识；与管道不同的是，消息队列存放在内核中，只有在内核重启时才能删除一个消息队列；消息队列的大小受限制。
+>
+> 消息队列 具有特定的格式以及特定的优先级。有写权限的进程可以向消息队列中添加新消息；有读权限的进程则可以从消息队列中读走消息。
+>
+> 消息队列用于运行于同一台机器上的进程间通信，它和管道很相似，事实上，**它是一种正逐渐被淘汰的通信方式，我们可以用流管道或者套接口的方式来取代它**。
 
-消息队列 具有特定的格式以及特定的优先级。有写权限的进程可以向消息队列中添加新消息；有读权限的进程则可以从消息队列中读走消息。
+这里就不提用法了，用时现查。
 
 #### 共享内存（Shared Memory）
 
-可以说是最有用的进程间通信方式，也是最快的 IPC 形式。
+> 可以说是最有用的进程间通信方式，也是最快的 IPC 形式。共享内存是最快的 IPC 方式，它是针对其他进程间通信方式运行效率低而专门设计的。
+>
+> 通常由一个进程创建一块共享内存区，其余进程对这块内存区进行读写。共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问（只要修改两个进程的页表，使他们的虚拟地址映射到同一物理页就能实现共享了）。Proc A 进程给内存中写数据，Proc B 进程从内存中读取数据，在此期间一共发生了两次复制：Proc A 到共享内存 和 共享内存到 Proc B，因为直接在内存上操作，所以共享内存的速度也就提高了。常用的方式是通过 shmXXX 函数族来实现利用共享内存进行存储的。
+>
+> 两个进程通过页表将虚拟地址映射到物理地址时，在物理地址中有一块共同的内存区，即共享内存，这块内存可以被两个进程同时看到。这样当一个进程进行写操作，另一个进程读操作就可以实现进程间通信。
+>
+> **但是因为共享内存没有提供相应的互斥机制，所以一般共享内存都和信号量配合起来使用，需要程序员自己控制。**共享内存往往与其他通信机制，如信号量，配合使用，来实现进程间的同步和通信。我们要确保一个进程在写的时候不能被读，因此我们使用信号量来实现同步与互斥。
 
-共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。共享内存是最快的 IPC 方式，它是针对其他进程间通信方式运行效率低而专门设计的。它往往与其他通信机制，如信号量，配合使用，来实现进程间的同步和通信。
+创建共享内存：
 
-两个进程通过页表将虚拟地址映射到物理地址时，在物理地址中有一块共同的内存区，即共享内存，这块内存可以被两个进程同时看到。这样当一个进程进行写操作，另一个进程读操作就可以实现进程间通信。但是，我们要确保一个进程在写的时候不能被读，因此我们使用信号量来实现同步与互斥。
+```c
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+int shmget(key_t key, size_t size, int shmflg);
+/*
+    key：和上面介绍的信号量的semget函数的参数key一样，主要用于区分进程，可以用函数key_t ftok(const char *pathname, int proj_id);来获取
+    size：表示要申请的共享内存的大小，一般是4k的整数倍（即 4096 x n bytes）。
+    flags：
+        IPC_CREAT和IPC_EXCL一起使用，则创建一个新的共享内存，否则返回-1。用于创建新的。
+        IPC_CREAT单独使用时返回一个共享内存，有就直接返回，没有就创建。用于 引用/绑定 已经存在的key。
+        与 semget() 的 semflag 一样。
+        例如：IPC_CREAT|IPC_EXCL|0666
+    返回值：成功返回共享内存的id，即 shmid，失败返回-1。
+*/
+```
 
-Proc A 进程给内存中写数据，Proc B 进程从内存中读取数据，在此期间一共发生了两次复制：Proc A 到共享内存 和 共享内存到 Proc B，因为直接在内存上操作，所以共享内存的速度也就提高了。
+设置共享内存属性：
 
-进程间通讯的共享内存方式的加锁互斥访问介绍：[linux|进程间通信如何加锁 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/479824411)。
+```c
+/* shmid_ds 结构体，向共享内存发送设置命令的参数 */
+strcut shmid_ds{
+    struct ipc_perm    shm_perm;
+    size_t    shm_segsz;
+    time_t    shm_atime;
+    time_t    shm_dtime;
+    ......
+}
+
+int shmctl(int shmid,int cmd,const void* addr);
+/*
+    cmd的常用取值有:
+        (1)IPC_STAT获取当前共享内存的shmid_ds结构并保存在buf中
+        (2)IPC_SET使用buf中的值设置当前共享内存的shmid_ds结构
+        (3)IPC_RMID删除当前共享内存
+    当cmd是IPC_RMID时可以用来删除一块共享内存，例如：shmctl(shm_id, IPC_RMID, NULL);
+*/
+```
+
+> 使用共享存储来实现进程间通信的注意点是对数据存取的同步，必须确保当一个进程去读取数据时，它所想要的数据已经写好了。通常，信号量被要来实现对共享存储数据存取的同步，另外，可以通过使用shmctl函数设置共享存储内存的某些标志位如SHM_LOCK、SHM_UNLOCK等来实现。
+
+挂接 / 去挂接 函数：
+
+```c
+void *shmat(int shm_id,const void *shmaddr,int shmflg); 
+/*
+    shmat 函数通过 shm_id 将共享内存连接到进程的地址空间中
+    将申请的共享内存挂接在该进程的页表上，是将虚拟内存和物理内存相对应。
+    shmid：填入 共享内存的id。
+    shmaddr参数可以由用户指定共享内存映射到进程空间的地址，shm_addr如果为0，则由内核试着查找一个未映射的区域
+        shmaddr通常为NULL，由系统选择共享内存附加的地址.
+    shmflg 可以为SHM_RDONLY
+    返回值：返回这块内存的虚拟地址，进程可以对此进行读写操作
+    
+    例子用法：
+        char* mem = (char*)shmat(shm_id, NULL, 0);
+*/
+
+int shmdt(const void *shmaddr);
+/*
+    shmdt的作用是去挂接，将这块共享内存从页表上剥离下来，去除两者的映射关系。
+    shmaddr：表示这块物理内存的虚拟地址。
+    返回值：失败返回-1。
+    
+    例子用法：shmdt(mem);
+*/
+```
+
+使用流程：
+
+1. 使用 ftok() 获得 key_t key。
+2. 使用 shmget() 创建/引用 一块共享内存。再使用 shmat() 返回 shmid 号对应的 共享内存的地址。
+3. 直接对 共享内存的地址 进行读写即可。
+4. 结束不用时，用 shmdt() 取消链接；再用 shmctl() 销毁该共享内存。
+
+
+
+为了共享内存的互斥访问，可以使用 信号量 或 锁机制，进程间通讯的共享内存方式的加锁互斥访问的一种方式：[linux|进程间通信如何加锁 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/479824411)。
+
+### IPC 额外方式
 
 #### 内存映射（Memory Map）
 
+即 通过 mmap() 函数 将一个文件 映射到一块内存，然后进行读写操作。两个进程都对同一个文件都映射后，可以分别读写，不必调用 I/O API 而是 直接对 内存 进行操作。
 
+> 每一个使用该机制的进程通过把同一个共享的文件映射到自己的进程地址空间来实现多个进程间的通信（这里类似于共享内存，只要有一个进程对这块映射文件的内存进行操作，其他进程也能够马上看到）。
+
+```c
+#include <sys/mman.h>
+#include <unistd.h>
+void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+int munmap(void *start, size_t length);
+```
+
+> ```c
+> void *mmap(void*start,size_t length,int prot,int flags,int fd,off_t offset); 
+> //mmap函数将一个文件或者其它对象映射进内存。 第一个参数为映射区的开始地址，设置为0表示由系统决定映射区的起始地址，第二个参数为映射的长度，第三个参数为期望的内存保护标志，第四个参数是指定映射对象的类型，第五个参数为文件描述符（指明要映射的文件），第六个参数是被映射对象内容的起点。成功返回被映射区的指针，失败返回MAP_FAILED[其值为(void *)-1]。
+> 
+> int munmap(void* start,size_t length); 
+> //munmap函数用来取消参数start所指的映射内存起始地址，参数length则是欲取消的内存大小。如果解除映射成功则返回0，否则返回－1，错误原因存于errno中错误代码EINVAL。 
+> 
+> int msync(void *addr,size_t len,int flags); 
+> //msync函数实现磁盘文件内容和共享内存取内容一致，即同步。第一个参数为文件映射到进程空间的地址，第二个参数为映射空间的大小，第三个参数为刷新的参数设置。
+> ```
+
+API 详解可见文件里面：`【Linux 应用开发】\0-用到的API-收集积累\文件IO、字符流收发和字符串处理相关的API收集积累.c` 。更多可网搜。
+
+mmap() 详解 [Linux内存管理-详解mmap原理 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/465336136)。
+
+例子：这里的例子就是将 一个 文件 通过 mmap() 映射到一块内存，然后读这个内存。另外有一个进程将同样的文件 通过 mmap() 映射后可以修改。
+
+> ```c
+> #include <stdio.h>
+> #include <unistd.h>
+> #include <stdlib.h>
+> #include <sys/types.h>
+> #include <sys/stat.h>
+> #include <string.h>
+> #include <sys/mman.h>
+> #include <fcntl.h>
+> 
+> int main(int argc, const char* argv[])
+> {
+>     int fd = open("english.txt", O_RDWR); 
+>         if(fd == -1){ perror("open error"); exit(1); }
+>     // get file length
+>     int len = lseek(fd, 0, SEEK_END);
+>     void * ptr = mmap(NULL, len, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+>         if(ptr == MAP_FAILED){ perror("mmap error"); exit(1); }
+>     close(fd);
+>  
+>     char buf[4096];
+>     printf("buf = %s\n", (char*)ptr); // 从内存中读数据
+> 	
+>     // 释放内存映射区
+>     int ret = munmap(ptr, len);
+>         if(ret == -1){ perror("munmap error"); exit(1); }
+>     return 0;
+> }
+> ```
+
+> **共享内存和内存映射文件的区别**：
+>
+> 内存映射文件是利用虚拟内存把文件映射到进程的地址空间中去，在此之后进程操作文件，就像操作进程空间里的地址一样了，比如使用c语言的memcpy等内存操作的函数。这种方法能够很好的应用在需要频繁处理一个文件或者是一个大文件的场合，这种方式处理IO效率比普通IO效率要高。
+>
+> 共享内存是内存映射文件的一种特殊情况，内存映射的是一块内存，而非磁盘上的文件。共享内存的主语是进程（Process），操作系统默认会给每一个进程分配一个内存空间，每一个进程只允许访问操作系统分配给它的哪一段内存，而不能访问其他进程的。而有时候需要在不同进程之间访问同一段内存，怎么办呢？操作系统给出了 创建访问共享内存的API，需要共享内存的进程可以通过这一组定义好的API来访问多个进程之间共有的内存，各个进程访问这一段内存就像访问一个硬盘上的文件一样。
+>
+> **内存映射文件与虚拟内存的区别和联系**：
+>
+> 内存映射文件和虚拟内存都是操作系统内存管理的重要部分，两者有相似点也有不同点。
+>
+> 联系：虚拟内存和内存映射都是将一部分内容加载到内存，另一部放在磁盘上的一种机制。对于用户而言都是透明的。
+>
+> 区别：虚拟内存是硬盘的一部分，是内存和硬盘的数据交换区，许多程序运行过程中把暂时不用的程序数据放入这块虚拟内存，节约内存资源。内存映射是一个文件到一块内存的映射，这样程序通过内存指针就可以对文件进行访问。
+>
+> 虚拟内存的硬件基础是分页机制。另外一个基础就是局部性原理（时间局部性和空间局部性），这样就可以将程序的一部分装入内存，其余部分留在外存，当访问信息不存在，再将所需数据调入内存。而内存映射文件并不是局部性，而是使虚拟地址空间的某个区域银蛇磁盘的全部或部分内容，通过该区域对被映射的磁盘文件进行访问，不必进行文件I/O也不需要对文件内容进行缓冲处理。
 
 #### 套接字（Socket）
 
 创建 Socket 的时候 作用域 选择 系统内使用（而 选择 以太网 就是不同机器间的 TCP/UDP/IP 通讯了）。
+
+> 套接字有三个属性:域(domain)、类型(type)和协议(protocol)，对应于不同的域，套接字还有一个地址(address)来作为它的名字。
+>
+> 域(domain)指定了套接字通信所用到的协议族，最常用的域是AF_INET，代表网络套接字，底层协议是IP协议。对于网络套接字，由于服务器端有可能会提供多种服务，客户端需要使用IP端口号来指定特定的服务。AF_UNIX代表本地套接字，使用Unix/Linux文件系统实现。
+>
+> IP协议提供了两种通信手段:流(streams)和数据报(datagrams)（分别对应 TCP 协议 和 UDP 协议），对应的套接字类型(type)分别为流式套接字和数据报套接字。流式套接字(SOCK_STREAM)用于提供面向连接、可靠的数据传输服务。该服务保证数据能够实现无差错、无重复发送，并按顺序接收。流式套接字使用TCP协议。数据报套接字(SOCK_DGRAM)提供了一种无连接的服务。该服务并不能保证数据传输的可靠性，数据有可能在传输过程中丢失或出现数据重复，且无法保证顺序地接收到数据。数据报套接字使用UDP协议。
+
+```c
+#include <sys/types.h>
+#include <sys/socket.h>
+
+int socket(it domain,int type,int protocal);
+int bind(int socket,const struct sockaddr *address,size_t address_len);
+int listen(int socket,int backlog);
+int accept(int socket,struct sockaddr *address,size_t *address_len);
+int connect(int socket,const struct sockaddr *addrsss,size_t address_len);
+
+ssize_t send(int sockfd, const void *buf, size_t len, int flags);
+ssize_t recv(int sockfd, void *buf, size_t len, int flags);
+ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockaddr *src_addr, socklen_t *addrlen);
+ssize_t sendto(int sockfd, const void *buf, size_t len, int flags, const struct sockaddr *dest_addr, socklen_t addrlen);
+```
+
+参考 `【Linux 应用开发】\3-Socket编程\` 里面的内容。更多可网搜。
 
 ## Linux 线程
 
