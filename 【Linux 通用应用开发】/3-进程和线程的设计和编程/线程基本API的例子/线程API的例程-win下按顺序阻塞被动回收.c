@@ -19,10 +19,6 @@ pthread_t id_1, id_2_3_4[3];
 void *thread_1(void *in_arg)
 {
     int i = 0;
-
-    /* 这里是 在子线程 里面 对 自己设置 pthread_detach */
-    pthread_detach(pthread_self());
-
     printf("thread_1 ID = %lu\n", (unsigned long)pthread_self());
     for(;;)
     {
@@ -81,7 +77,7 @@ int main(void)
     }
     
     /* 创建线程 1 */
-    ret = pthread_create(&id_1, NULL, thread_1, NULL);
+    ret = pthread_create(&id_1, &attr_1, thread_1, NULL);
     if(ret != 0)
     {
         /* perror 把一个描述性错误消息输出到标准错误 stderr, 调用"某些"函数出错时，该函数已经重新设置了errno 的值。perror 函数只是将你输入的一些信息和 errno 所对应的错误一起输出 */
@@ -93,17 +89,23 @@ int main(void)
 	for(i = 0;i < 3;i++)
     {
         str_gru[i] = (char*)malloc(sizeof(char) * 42 + i);
-	    ret = pthread_create(&id_2_3_4[i], NULL, thread_2_3_4, (void *)str_gru[i]);
+	    ret = pthread_create(&id_2_3_4[i], &attr_2_3_4[i], thread_2_3_4, (void *)str_gru[i]);
 	    if(ret != 0)
         {
 		    perror("pthread 2 3 4, pthread_create: ");
 		    return -1;
 		}
-        /* 设置线程 为 unjoinable，即 子线程退出后 主动的回收资源，
-            主线程这里不必再调用 pthread_join 等待 子线程退出了  */
-        /* 这里是 在主线程 里面 对 线程设置 pthread_detach */
-        pthread_detach(id_2_3_4[i]);
 	}
+    
+    /* 等待所有线程结束，先等 线程 2、3、4 按顺序要求的 退出，再等 线程 1 退出 */
+    for(i = 0;i < 3;i++)
+    {
+        pthread_join(id_2_3_4[i], &exit_arg);
+        printf("pthread : %d exit with str: %s\n", id_2_3_4[i], (char*)exit_arg);
+        free(str_gru[i]);
+	}
+    pthread_join(id_1, NULL);
+    printf("pthread : 1 exit\n");
     
     getchar();
     return 0;

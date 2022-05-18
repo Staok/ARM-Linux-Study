@@ -1,0 +1,18 @@
+查了下资料发现可以手工实现cpu充分利用；taskset命令可以实现（具体的百度吧）；根据百度的结果来操作后；还是留下的遗憾；整个cpu-0,1.....资源的利用变化快；时而cpu1高时而cpu0高；没有实现负载均衡！
+想了下；写了个死循环的脚本实现了cpu资源充分利用和cpu负载均衡；终于实现了；
+观察了几天整体运行效果中cpu较低了；还是蛮不错的！很奏效！
+#!/bin/bash
+while [ 1 ];do
+taskset -pc 0 8158 >a 
+taskset -pc 1 8158 >a 
+taskset -pc 2 8158 >a
+taskset -pc 3 8158 >a
+done
+
+
+https://www.zhihu.com/question/19902075/answer/38823215
+
+
+https://blog.csdn.net/guotianqing/article/details/80958281
+[linux下把进程/线程绑定到特定cpu核上运行_guotianqing的博客-CSDN博客_线程绑定cpu核]
+这个可以先不用看，先合理分配进程和线程然后让OS调度，看看多个核的负载均衡的如何。

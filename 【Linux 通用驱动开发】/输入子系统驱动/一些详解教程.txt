@@ -1,0 +1,7 @@
+上报input_event的那个，按照 type code value 规则上报
+
+输入设备框架—驱动层—完整的代码工程
+https://blog.csdn.net/oyhb_1992/article/details/77622112
+
+https://blog.csdn.net/oyhb_1992/article/details/77606856
+

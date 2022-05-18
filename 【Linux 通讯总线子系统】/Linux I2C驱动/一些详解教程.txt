@@ -1,0 +1,10 @@
+Linux i2c 设备驱动程序框架详解
+https://blog.csdn.net/u010299133/article/details/90347070
+
+
+https://blog.csdn.net/wukery/article/details/77833277
+
+
+https://blog.csdn.net/softwoker/article/details/91383511
+
+https://blog.csdn.net/S96096/article/details/101832100

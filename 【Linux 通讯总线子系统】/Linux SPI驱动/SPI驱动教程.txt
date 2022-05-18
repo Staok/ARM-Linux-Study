@@ -1,0 +1,10 @@
+https://blog.csdn.net/MyArrow/article/details/123916663 丰富API说明，更偏底层，会了之后再总结这个
+https://blog.csdn.net/weixin_45309916/article/details/118652617 丰富API说明，偏应用，会了之后再总结这个
+
+https://blog.csdn.net/daocaokafei/article/details/114377669   各个结构体和API列出，加上一个demo
+
+https://blog.csdn.net/qq_41383847/article/details/123714078 有讲到设备树
+
+https://blog.csdn.net/borntox/article/details/51871480 有讲 ioctl 记录下来
+
+韦东山淘宝店 有卖 SPI驱动专题教程

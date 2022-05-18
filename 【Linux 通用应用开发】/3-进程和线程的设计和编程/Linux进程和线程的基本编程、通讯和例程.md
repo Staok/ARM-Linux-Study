@@ -663,7 +663,12 @@
 
 ### 高级进程管理
 
-可参考：《Linux System Prorgrammin》，Linux系统编程 _ 中文版 _ by _ 哈工大（翻译） 等等。
+可参考：
+
+- 《Linux System Prorgrammin》。
+- Linux系统编程 _ 中文版 _ by _ 哈工大（翻译）。
+- [Linux 高级进程管理_Arrow的博客-CSDN博客](https://blog.csdn.net/MyArrow/article/details/8940470)。
+- .etc
 
 内容包括：
 

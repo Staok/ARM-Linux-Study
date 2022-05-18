@@ -179,7 +179,7 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
   例 `rm -f 1[!1]*.txt`  删除名字中第一个字符是 “1” 而第二个字符不是为 “1” 的所有文件。
 
-- 流控制，输入输出重定向（< / <<，> / >>）：[Shell 输入/输出重定向 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-io-redirections.html)。
+- 流控制，输入 和 输出 重定向（< / <<，> / >>）：[Shell 输入/输出重定向 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-io-redirections.html)。
 
   - `command > file`，将输出重定向到 file（一个文件），即将 stdout 重定向到 file，将 command 的打印内容覆盖输入到文件 file 里；`command >> file`，将输出以追加的方式重定向到 file，追加输入到文件 file。
 
@@ -192,10 +192,12 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
     一般情况下，每个 Unix/Linux 命令运行时都会打开三个文件：
 
     - 标准输入文件(stdin)：stdin 的文件描述符为 0，Unix 程序默认从 stdin 读取数据。
-  - 标准输出文件(stdout)：stdout 的文件描述符为 1，Unix 程序默认向 stdout 输出数据。
+    
+    - 标准输出文件(stdout)：stdout 的文件描述符为 1，Unix 程序默认向 stdout 输出数据。
+    
     - 标准错误文件(stderr)：stderr 的文件描述符为 2，Unix 程序会向 stderr 流中写入错误信息。
-  
-    `command 2 >> file` 让执行命令后的错误信息 stderr 追加到 file 文件末尾。
+    
+      `command 2 >> file` 让执行命令后的错误信息 stderr 追加到 file 文件末尾。
 
 - 管道（ | ）：
 
@@ -242,7 +244,7 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
 ```bash
 # du log2012.log 
-300     log2012.log
+300    log2012.log
 ```
 
 **复制 文件或文件夹：cp**
@@ -572,19 +574,19 @@ diff log2014.log log2013.log
 
 例子：（选项前可以不加 "-"，以下还是加上的）
 
-- 查看：`tar -tvf dira.tar.gz`；
+- 查看：`tar -tvf dira.tar.gz`。
 
-- 压缩（目录）：`tar -czvf dira.tar.gz dira`；或者 `tar -cjvf dira.tar.bz2 dira`；前者使用 gzip （czvf），后者使用 bzip2 （cjvf）；
+- 压缩（目录）：`tar -czvf dira.tar.gz dira`；或者 `tar -cjvf dira.tar.bz2 dira`；前者使用 gzip （czvf），后者使用 bzip2 （cjvf）。
 
-  tar 打包、 bzip2 压缩：`tar -cjvf dira.tar.bz2 dira`，把目录 dira 压缩、打包为 dira.tar.bz2 文件；
+  tar 打包、 bzip2 压缩：`tar -cjvf dira.tar.bz2 dira`，把目录 dira 压缩、打包为 dira.tar.bz2 文件。
 
 - 解压：`tar -xzvf dira.tar.gz -C /home/book`，加 -C 指定目录，不加就是解压到当前目录，使用 gzip。
 
 总之：
 
-- 查看：`tar tvf <压缩文件>`；
-- 压缩（用 bzip2）：`tar cjvf /<目标位置>/xxx.tar.bz2 <要压缩的文件夹或文件>`；
-- 解压（用 bzip2）：`tar xjvf xxx.tar.bz2 -C <目标目录>`。
+- 查看：`tar tvf <压缩文件>`。
+- 压缩（用 bzip2）：`tar cjf /<目标位置>/xxx.tar.bz2 <要压缩的文件夹或文件>`；用 tar：`tar cf /.../<目标压缩文件.tar> <要压缩的文件或文件夹>`。
+- 解压（用 bzip2）：`tar xjf xxx.tar.bz2 -C <目标目录>`；用 tar ：`tar xf <压缩文件.tar> <解压目录>`。
 
 注意：要进入到被解压的目录下面，然后进行压缩命令，而不是输入压缩文件的全路径名，这样会连带把目录结构一同压缩！
 
@@ -801,7 +803,7 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 
     -   重启：`reboot`。
 
-    - 延时关机：`shutdown -t 10`，关机，-t 表示关机倒计时，单位秒。`shutdown` 更多例子：常用 `shutdown -h now` 来立即关机。
+    - 延时关机：`shutdown -t 10`，-t 表示关机倒计时，单位秒。`shutdown` 更多例子：常用 `shutdown -h now` 立即关机。
 
       ![关机 shutdown 命令](assets/关机shutdown命令.png)
 
@@ -858,7 +860,7 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 -   替换，`:%s/p1/p2/g` 将文件中所有的 p1 均用 p2 替换；`:%s/p1/p2/gc` 替换时需要确认。释义，“ s“ 全称： substitute 替换；“ g“ 全称： global 全局；“ c“ 全称： confirm， 确认。
 -   纵向分屏 来 新打开一个文件 `:sp <file>` 或 横向分屏 `:vsp <file>`，此时会同屏新增一个窗口；切换这多个窗口的方法（循环移动）：`ctrl + w，w`（先按 ctrl + w，再按键 w），在多文件编程时，切换不同的窗口很实用。让鼠标可以在多个屏幕间切换：`:set mouse=a`；在某个窗口输入`:q`，为退出此窗口。
 -   跳转到第 n 行，`:n`。打印当前文件名和行数，`:f` 。
--   从 a 到 b 行的内容写入 <filename> 文件，`:a,bw <filename>`。
+-   从 a 到 b 行的内容写入 filename 文件，`:a,bw <filename>`。
 -   在 Vim 命令行执行 Shell 命令，`:！+ shell 命令`。
 
 一日，一人，代码前坐禅，贤者模式，顿悟，曰：整个键盘，都是 Vim 的快捷键。
@@ -876,12 +878,12 @@ vi 在编辑某一个文件时，会生成一个临时文件，这个文件以 .
 
 ##### vim 命令行中的 选项
 
-- -d，Diff 模式 (同 "vimdiff", 可迅速比较两文件不同处)。
+- `-d`，Diff 模式 (同 "vimdiff", 可迅速比较两文件不同处)。
 
-- -R，只读模式 (同 "view")。
-- -b，二进制模式。
+- `-R`，只读模式 (同 "view")。
+- `-b`，二进制模式。
 
-- -r <filename>，恢复上次崩溃的文件 filename (Recover crashed session)。
+- `-r <filename>`，恢复上次崩溃的文件 filename (Recover crashed session)。
 
 ##### vim 编辑器的配置
 
@@ -1003,7 +1005,7 @@ C/C++ 程序文件的编译过程图示：
 
 -   运行时寻找库文件：（程序运行时不需要再加载头文件，因为编译时已经编译进去了）
     -   系统目录：就是板子上的 /lib、/usr/lib 目录。
-    -   自己指定：用环境变量 `LD_LIBRARY_PATH` 指定，比如 `export  LD_LIBRARY_PATH=/xxx_dir  ;  ./test` 或 `LD_LIBRARY_PATH=/xxx_dir  ./test`。
+    -   自己指定：用环境变量 `LD_LIBRARY_PATH` 指定，比如 `export LD_LIBRARY_PATH=/xxx_dir`。
 
 
 **代码优化选项**
@@ -1238,15 +1240,17 @@ clean:
 ```bash
 # "package" 替换为 包名。
 sudo apt-get update                         更新源
+sudo apt-get upgrade                        更新已安装的包
 sudo apt-get install package                安装包
 sudo apt-get remove package                 删除包
+
 sudo apt-cache search package               搜索软件包
 sudo apt-cache show package                 获取包的相关信息，例如说明、大小、脚本等
+
 sudo apt-get install package --reinstall    重新安装包
 sudo apt-get -f install                     修复安装
 sudo apt-get remove package --purge         删除包，包括配置文件等
 sudo apt-get build-dep package              安装相关的编译环境
-sudo apt-get upgrade                        更新已安装的包
 sudo apt-get dist-upgrade                   升级系统
 sudo apt-cache depends package              了解使用该包依赖那些包
 sudo apt-cache rdepends package             查看该包被那些包依赖
@@ -1327,7 +1331,7 @@ sudo apt-get source package                 下载该包的源代码
 **添加系统变量**
 
 -   临时：终端中键入 `export PATH=$PATH:<目录/要添加的系统变量>`，重启后丢失。
--   永久（只对当前用户有效）：改 ~/.bashrc 文件，在行尾添加 `export PATH=$PATH:<目录/要添加的系统变量>`，然后终端键入 `source ~/.bashrc` 使之生效，即可。
+-   永久（只对当前用户有效）：修改 `~/.bashrc` 文件，在行尾添加 `export PATH=$PATH:<目录/要添加的系统变量>`，然后终端键入 `source ~/.bashrc` 使之生效，即可。
 
 #### Ubuntu 下的卸载包
 
@@ -1360,7 +1364,7 @@ Ubuntu 终端里操作：
     这个会配置/安装一些基本应用如 NFS/TFTP 等，还建立 /home/book 目录，book 用户 等，具体看其 shell 程序。 
 
 - 百问网的 imx6ull pro 开发板的 SDK包（包括 Linux、uboot、buildroot 等源码和工具链，**这个需要 windows 电脑 和 虚拟机 ubuntu 各存一份，前者用来阅读，后者用来编译**）两个下载途径：
-  1. 本地拷贝法：[百问网 imx6ull pro 开发板 页面](http://download.100ask.net/boards/Nxp/100ask_imx6ull_pro/index.html)，找到 100ask_imx6ull_pro_2020.02.29_v2.0（这个很大，网盘下载），里面有固件、SDK包、原理图（底板+核心板）、应用例程、工具软件等等。其中 SDK包（包括 Linux、uboot、buildroot 等源码和工具链）在 07_Bsp_sdk (系统源码，包含uboot kernel rootfs 工具链 测试代码等)) 里面，自行拷贝到虚拟机 ubuntu 里面并解压。但是这是本地拷贝的不是最新的，最新的可以git下载（注意很大），看下面 “在线下载&更新法”。
+  1. 本地拷贝法：[百问网 imx6ull pro 开发板 页面](http://download.100ask.net/boards/Nxp/100ask_imx6ull_pro/index.html)，找到 100ask_imx6ull_pro_2020.02.29_v2.0（这个很大，网盘下载），里面有固件、SDK包、原理图（底板+核心板）、应用例程、工具软件等等。其中 SDK包（包括 Linux、uboot、buildroot 等源码和工具链）在 07_Bsp_sdk (系统源码，包含uboot kernel rootfs 工具链 测试代码等)) 里面，自行拷贝到虚拟机 ubuntu 里面并解压。但是这是本地拷贝的不是最新的，最新的可以 git 下载（注意很大），看下面 “在线下载&更新法”。
   
   2. 在线下载&更新法：参考 百问网的《嵌入式Linux应用开发完全手册》里面 第二篇 的 《8.2 使用repo获取内核及工具链等》 里面的 《8.2.2 在线下载》。
   
@@ -1408,6 +1412,15 @@ export PATH=$PATH:/.../100ask_imx6ull-sdk/ToolChain/arm-buildroot-linux-gnueabih
    - [转：ARM交叉编译工具链分类说明 arm-linux-gnueabi和arm-linux-gnueabihf 的区别_Beyoungbehappy的博客-CSDN博客](https://blog.csdn.net/Beyoungbehappy/article/details/80005573)。
    - [arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf等的区别 - 涛少& - 博客园 (cnblogs.com)](https://www.cnblogs.com/deng-tao/p/6432578.html)。
    - 带有 “bare-metal” 的为不支持操作系统的。
+   - 总的来说：
+     - 经过 Codesourcery 公司基于GCC优化，带有 none 标识的编译器。
+       - ARM GUN-A 官方编译器下载页面 https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads。要下载的编译器要运行在 x86_x64 机器的虚拟机里面的ubuntu 18.04 里面，因此找到 x86_64 Linux hosted cross toolchains 下面的各个编译器版本。
+       - AArch32 target with hard float (arm-none-linux-gnueabihf) —— 可用于交叉编译ARMv7 32位 目标系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
+       - AArch64 GNU/Linux target (aarch64-none-linux-gnu) —— 可用于交叉编译ARMv8 64位目标中的裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
+     - 由 Linaro 公司基于GCC推出。
+       - Linaro Releases 页面 https://releases.linaro.org/components/toolchain/binaries/。
+       - arm-linux-gnueabihf-gcc：可用于交叉编译ARMv7 32位 目标系统中所有环节的代码，包括裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
+       - aarch64-linux-gnu-gcc：可用于交叉编译ARMv8 64位目标中的裸机程序、u-boot、Linux kernel、filesystem和App应用程序。
 2. 在 `x86_64 Linux hosted cross compilers`下面找到 `AArch32 target with hard float (arm-none-linux-gnueabihf)`（i.mx6ull 为 A7 内核，即为 32 位的 armv7 指令集），并下载；（`AArch64 Linux hosted cross compilers`下的编译器可以运行在 64位的 嵌入式板子 SoC 的 Linux 上）；
 3. 使用 `tar xvf` 命令解压。
 
@@ -1460,7 +1473,7 @@ make dtbs
 
 释义：
 
--   make mrproper 命令会删除所有的编译生成文件、内核配置文件(.config文件)和各种备份文件，所以几乎只在第一次执行内核编译前才用这条命令。make clean 命令则是用于删除大多数的编译生成文件，但是会保留内核的配置文件.config，还有足够的编译支持来建立扩展模块。所以你若只想删除前一次编译过程的残留数据，只需执行 make clean 命令。总而言之，make mrproper删除的范围比 make clean 大，实际上，make mrproper 在具体执行时第一步就是调用 make clean。
+-   `make mrproper` 命令会删除所有的编译生成文件、内核配置文件(.config文件)和各种备份文件，所以几乎只在第一次执行内核编译前才用这条命令。`make clean` 命令则是用于删除大多数的编译生成文件，但是会保留内核的配置文件 .config，还有足够的编译支持来建立扩展模块。所以你若只想删除前一次编译过程的残留数据，只需执行 make clean 命令。总而言之，make mrproper 删除的范围比 make clean 大，实际上，make mrproper 在具体执行时第一步就是调用 make clean。
 
 得到 内核文件 和 设备树文件 这两个文件：
 
@@ -1630,7 +1643,7 @@ NFS 将服务端的文件系统目录树映射到客户端，而在客户端访�
 - 设定目录，例如允许开发板通过 NFS 访问 Ubuntu 的 `/home/book` 目录，则在 `/etc/exports` 文件中添加以下内容：
 
   ```bash
-  /home/book  *(rw,nohide,insecure,no_subtree_check,async,no_root_squash)
+  /home/book/  *(rw,nohide,insecure,no_subtree_check,async,no_root_squash)
   ```
 
 - 重启 NFS 服务：`sudo service nfs-kernel-server restart`。
@@ -1699,6 +1712,8 @@ NXP 公司给 IMX6ULL 提供了烧写工具： mfgtools。或者对于 imx6ull �
 在 “工地” 现场上 网口、USB 口 统统没有，那我们还可以使用串口。
 
 这里使用的上位机是 MobaXterm，要先设置 MobaXterm 取消 “右击粘贴”，这样鼠标右击的时候才会出现菜单。
+
+注意：串口传输非常非常的慢，KB 级别的文件还可以，MB 级别的传输十分漫长（十几分钟到一个小时），优先用网络吧。
 
 注意： rz/sz 命令不稳定，不可靠，在没有其他办法的情况下再用它。 rz/sz 命令传输速率太小，适合传输小文件，不适合大文件。 
 
