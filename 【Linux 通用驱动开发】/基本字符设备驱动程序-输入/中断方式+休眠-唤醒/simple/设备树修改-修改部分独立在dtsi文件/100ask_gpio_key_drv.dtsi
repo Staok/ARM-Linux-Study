@@ -1,0 +1,43 @@
+/*
+在 100ask_imx6ull-14x14.dts 中引用该 dtsi：
+	#include "100ask_gpio_key_drv.dtsi"
+*/
+
+/ {
+    gpio_keys_100ask {
+		status = "okay";
+        compatible = "100ask,gpio_key";
+        
+        pinctrl-names = "default", "sleep";
+        pinctrl-0 = <&key1_100ask 
+					 &key2_100ask>;
+		
+		gpios = <&gpio5 1 GPIO_ACTIVE_LOW
+		 		 &gpio4 14 GPIO_ACTIVE_LOW>;
+    };
+    
+    gpio-keys {
+        status = "disabled";
+    };
+
+};
+
+&iomuxc {
+    imx6ul-evk {
+        key2_100ask: key2_100ask {
+            fsl,pins = <
+                MX6UL_PAD_NAND_CE1_B__GPIO4_IO14           0x000010B0
+            >;
+            };
+        };
+    };
+    
+&iomuxc_snvs {
+    imx6ul-evk {
+        key1_100ask: key1_100ask {
+            fsl,pins = <
+                MX6ULL_PAD_SNVS_TAMPER1__GPIO5_IO01        0x000110A0
+            >;
+            };
+        };
+};

@@ -18,6 +18,25 @@
 #include <linux/gpio/consumer.h>
 #include <linux/of.h>
 
+/* 本例子对应设备树
+
+   myled {
+        compatible = "100ask,leddrv";
+        pinctrl-names = "default";
+        pinctrl-0 = <&myled_for_gpio_subsys>;
+        led-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
+    };
+    
+    
+    
+    &iomuxc_snvs {
+        ……
+        myled_for_gpio_subsys: myled_for_gpio_subsys{ 
+            fsl,pins = <
+                MX6ULL_PAD_SNVS_TAMPER3__GPIO5_IO03        0x000110A0
+            >;
+        };
+*/
 
 /* 1. 确定主设备号                                                                 */
 static int major = 0;

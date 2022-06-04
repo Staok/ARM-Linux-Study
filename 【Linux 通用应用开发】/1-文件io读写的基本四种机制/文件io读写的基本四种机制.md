@@ -4,10 +4,16 @@
 
 文件io的读写的基本四种机制：非阻塞（查询），阻塞（休眠死等-唤醒返回），poll/select（设置阻塞事件和时间），异步通知。
 
+**注意**：所有 应用程序 与 驱动程序 相互收发的机制，包括 read/write/ioctl，还有 poll、异步通知、mmap 等，都要在 设备文件 被打开 的状态 下去执行，否则啥也得不到。
+
 ##  非阻塞（查询）
 
 - open 时 传入 O_NONBLOCK 标志，然后正常的 使用 read/write 进行读写。
 - APP 调用 read 函数读取数据时，如果驱动程序中有数据，那么 APP 的 read 函数会返回数据，否则也会立刻返回错误。
+  - 对于普通文件、块设备文件，O_NONBLOCK 不起作用。
+  - 对于字符设备文件，O_NONBLOCK起作用的前提是驱动程序针对O_NONBLOCK做了处理。
+  - 在 open 之后，还可以通过 fcntl() 继续修改 flag 标志，修改为 阻塞 或 非阻塞。
+
 - 例子：`int fd = open(argv[1], O_RDWR | O_NONBLOCK);`。
 
  或者：
@@ -21,9 +27,13 @@ int set_nonblock(int fd)
  
         return old_option;
 }
-```
 
- 
+或者这么写
+
+int	flags = fcntl(fd, F_GETFL);
+fcntl(fd, F_SETFL, flags | O_NONBLOCK);   /* 非阻塞方式 */
+fcntl(fd, F_SETFL, flags & ~O_NONBLOCK);  /* 阻塞方式 */
+```
 
 ## 阻塞（休眠等待-唤醒返回）
 
@@ -33,9 +43,10 @@ int set_nonblock(int fd)
 
  
 
-##  poll/select（设置阻塞事件和时间）
+##  poll / select（设置阻塞事件和时间）
 
 - 先 open 时 传入 O_NONBLOCK 标志；再 调用 poll/select（二者 机制是完全一样的，只是 APP 接口函数不一样）
+  - 关于使用 poll 为什么一定要传入 O_NONBLOCK 标志 [为什么poll/select在open时要使用非阻塞NONBLOCK_stone_322的博客-CSDN博客_open 非阻塞](https://blog.csdn.net/weixin_44175439/article/details/119334114)。
   - 可以同时检测多个文件，每个文件可以设置不同的 阻塞/等待 条件 events（可以多个事件 用或 `|`），但 超时时间 都一并设置一样的。
 - 当 poll/select 返回时候，根据 返回事件 revents 判断，再进行 读写，否则返回是 超时 或者 错误。
   - 如果驱动程序中有数据，则立刻返回；否则就休眠。
@@ -50,11 +61,12 @@ int fd = open(argv[1], O_RDWR | O_NONBLOCK);
 struct pollfd fds[1]; /* fds 结构体对每一个文件填入文件描述符、poll 事件 */ 
 nfds_t nfds = 1; /* 要监测几个文件，这里是一个 所以 下面 只填入 fds 结构体数组中 第一个数组元素 fds[0] */
 
-fds[0].fd = fd; fds[0].events  = POLLIN; fds[0].revents = 0; /* 填入文件描述符、poll 事件，这个结构体就这三个元素 */ 
+/* 填入文件描述符、poll 事件（要等待的事件） 和 实际发生的事件，这个结构体就这三个元素 */
+fds[0].fd = fd; fds[0].events  = POLLIN; fds[0].revents = 0;  
 
 int ret = poll(fds, nfds, 5000); /* 5000 为超时时间，单位 毫秒，超时 写 0 表示不等待直接返回，写 -1 表示死等 直到条件发生 */
 
-if (ret > 0)
+if (ret > 0) /* 返回值大于 0 表示 有数据可读 */
 {
     if (fds[0].revents == POLLIN)
     {
@@ -63,12 +75,10 @@ if (ret > 0)
             printf("get event: type = 0x%x, code = 0x%x, value = 0x%x\n", event.type, event.code, event.value);
         }
     }
-}
-else if (ret == 0) /* 返回值为 0 表示 超时 */
+}else if (0 == ret) /* 返回值为 0 表示 超时 */
 {
     printf("time out\n");
-}
-else /* 返回值为 -1 表示 错误 */
+}else /* 返回值为 负值 表示 错误 */
 {
     printf("poll err\n");
 }
@@ -86,13 +96,14 @@ events 的选项：
     POLLWRNORM	等同于POLLOUT
     POLLWRBAND	Priority data may be written
     POLLERR	    发生了错误
-    POLLHUP	    挂起c
+    POLLHUP	    挂起
     POLLNVAL	无效的请求，一般是fd未open
 ```
 
  关于 poll 更详细的说明 / 更多好的参考：
 
 - [poll函数详解_青季的博客-CSDN博客_poll函数](https://blog.csdn.net/skypeng57/article/details/82743681)。
+- [ struct pollfd_wocjj的博客-CSDN博客_pollfd](https://blog.csdn.net/wocjj/article/details/7612335)。
 - [ linux基础——linux下多路IO复用接口之select/poll_yexz的博客-CSDN博客](https://blog.csdn.net/a987073381/article/details/52295690)。
 
 ##  异步通知（捕获信号 SIGIO）

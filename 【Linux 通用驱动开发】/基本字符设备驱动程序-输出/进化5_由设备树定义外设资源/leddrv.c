@@ -18,6 +18,25 @@
 #include "led_opr.h"
 
 
+/* 适用于本例的设备树
+
+	#define GROUP_PIN(g,p) ((g<<16) | (p))
+
+/ {
+	100ask_led@0 {
+		compatible = "100as,leddrv";
+		pin = <GROUP_PIN(3, 1)>;
+	};
+
+	100ask_led@1 {
+		compatible = "100as,leddrv";
+		pin = <GROUP_PIN(5, 8)>;
+	};
+
+};
+
+*/
+
 /* 1. 确定主设备号                                                                 */
 static int major = 0;
 static struct class *led_class;

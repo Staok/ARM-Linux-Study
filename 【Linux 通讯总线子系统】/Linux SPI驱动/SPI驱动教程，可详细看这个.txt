@@ -1,0 +1,22 @@
+https://blog.csdn.net/MyArrow/article/details/123916663 丰富API说明，更偏底层，会了之后再总结这个
+https://blog.csdn.net/weixin_45309916/article/details/118652617 丰富API说明，偏应用，会了之后再总结这个
+
+https://blog.csdn.net/lanmanck/article/details/4479185
+
+https://blog.csdn.net/wuhzossibility/article/details/7832438
+
+https://blog.csdn.net/lengyuefeng212/article/details/119720806       spi icm20608驱动
+
+
+
+以下补充看
+
+https://blog.csdn.net/daocaokafei/article/details/114377669   各个结构体和API列出，加上一个demo
+
+https://blog.csdn.net/qq_41383847/article/details/123714078 有讲到设备树
+
+https://blog.csdn.net/borntox/article/details/51871480 有讲 ioctl 记录下来
+
+https://biscuitos.github.io/blog/SPI/#Kernel%20%E4%B8%AD%E6%BA%90%E7%A0%81%E8%AE%BF%E9%97%AE%20SPI
+
+韦东山淘宝店 有卖 SPI驱动专题教程

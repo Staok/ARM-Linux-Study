@@ -2058,12 +2058,19 @@ int pthread_cond_timewait(pthread_cond_t *cond, pthread_mutex_t *mutex, const st
 int pthread_cond_signal(pthread_cond_t *cond); // 通知条件变量 条件满足啦，pthread_cond_signal 函数只会唤醒一个等待 cond 条件变量的线程
 
 使用：
-...
-pthread_mutex_lock(&mutex); /* 可以加锁的时候 加锁 然后往后运行，否则阻塞 */
-pthread_cond_wait(&cond, &mutex); /* 如果条件不满足则，会 先解锁 mutex，然后 阻塞/休眠 在这里等待条件满足；条件满足后被唤醒，先加锁 mutex 然后取消阻塞 往后执行*/
-.../* 在这里 操作临界资源 */
-pthread_mutex_unlock(&mutex);
-...
+    
+	发信号：
+    pthread_mutex_lock(&mutex);    先加锁
+        这里修改临界资源             再修改资源
+    pthread_cond_signal(&cond);    再发条件变量信号 
+    pthread_mutex_unlock(&mutex);  再解锁
+
+    等待信号：
+    pthread_mutex_lock(&mutex);    先加锁 /* 可以加锁的时候 加锁 然后往后运行，否则阻塞 */
+    pthread_cond_wait(&cond, &mutex); 再等待条件变量信号 /* 如果条件不满足则，会 先解锁 mutex，然后 阻塞/休眠 在这里等待条件满足；条件满足后被唤醒，先加锁 mutex 然后取消阻塞 往后执行*/
+        这里修改临界资源             再修改资源
+    pthread_mutex_unlock(&mutex);  再解锁
+    ...
 ```
 
 例程：参考 `pthread库-线程编程例程-来自百问网\02_视频配套源码\pthread5.c`。

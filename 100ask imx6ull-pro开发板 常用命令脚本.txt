@@ -1,0 +1,103 @@
+ubuntu 18.04 LTS：用户名 x，密码 x
+100ask imx6ull pro 开发板登陆 root，无密码
+
+内核目录
+/home/x/workshop/100ask_imx6ull-sdk/Linux-4.9.88
+
+传递文件：
+① 100ask_tool
+② 串口
+③ nfs
+
+开发板 soc 和 ubuntu 互 ping 基本要领（参考 100ask）
+① 连接方式（以路由器或以太网交换机，我的习惯为例）：开发板通过网线连到路由器/交换机，PC 通过 网线 连到路由器/交换机（此时 PC 可以通过 wifi 上网）
+	可选：PC通过wifi连路由器，路由器再连接能上网的网线
+① soc、ubuntu 和 PC 三者 ip 要在同一个网段里（比如都在192.168.43.x），然后子网掩码都是255.255.255.0，网关都是192.168.43.1（前三个与ip一样，最后一个写为1）
+	我的习惯是：PC连接网线后，查看其 ip，然后 开发板soc 和 ubuntu 都以 PC的 ip 为基准去改 ip、子网掩码和网关
+② 改 ubuntu 的 ip、子网掩码和网关（到设置->网络里面去手动输入，DNS改为8.8.8.8，然后网络开关重新打开一下），再改 开发板soc 的 ip（例子 ifconfig eth0 169.254.54.99）
+	固定改开发板soc的ip例子（ip写到文件里，每次开机都是这个ip）：echo “ifconfig eth0 169.254.54.99” >> /etc/init.d/rcS
+
+目前设置的ipv4地址：
+PC         以太网    169.254.54.36
+SoC       eth0       169.254.54.99
+ubuntu   inet        169.254.54.100
+
+开发板上 挂载 Ubuntu（假设 ipv4 169.254.54.100）目录 /home/x/workshop/nfs_to_soc
+	改 SoC IP
+ifconfig eth0 169.254.54.99
+	挂载
+mount -t nfs -o nolock,vers=3 169.254.54.100:/home/x/workshop/nfs_to_soc /mnt
+	卸载挂载
+umount /mnt
+
+在 shell 中显示内核驱动使用 printk() 打印的信息（有些板子默认打开了）
+echo "7 4 1 7" > /proc/sys/kernel/printk
+
+添加系统环境变量
+-   临时：终端中键入 `export PATH=$PATH:<目录/要添加的系统变量>`，重启后丢失。
+-   永久（只对当前用户有效）：修改 `~/.bashrc` 文件，在行尾添加 `export PATH=$PATH:<目录/要添加的系统变量>`，然后终端键入 `source ~/.bashrc` 使之生效，即可。
+
+
+
+设置交叉编译工具链的环境变量
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export PATH=$PATH:~/workshop/gnu_toolchain/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin
+	固定下来是：编辑 ~/.bashrc 文件 添加上面三句，然后 source ~/.bashrc 使其生效。
+
+
+
+-   ctrl + c，结束当前进程。
+-   ctrl + z，暂停当前进程，可使用 `fg` 命令 恢复，详见 "任务后台执行 / 任务&进程查看" 一节。
+-   多个命令写在一行并自动逐个执行，命令之间加 && 符号。
+
+
+
+vim
+-   gg，跳到第一行，（xgg 就是跳到第x行的行首）；G，跳到文件结尾。
+-   ctrl + u/d 进行 半屏的前后滚动；ctrl + f/b 进行 全屏的 上下翻页。
+-   使用 v 进入可视模式，移动光标来 选定文本块内容；用 y 复制选定块到缓冲区，用 d 剪切选定块到缓冲区，用 p 粘贴缓冲区中的内容。
+-   u，撤销上一步操作；ctrl + r，恢复，回退到前一个命令。
+
+
+
+包管理工具 apt
+sudo apt-get update                         更新源
+sudo apt-get upgrade                       更新已安装的包
+sudo apt-get install package              安装包
+sudo apt-get remove <package-name>                 只卸载程序但保留配置文件
+sudo apt-get --purge remove <package-name>    卸载程序和所有配置文件
+
+
+
+编译内核（所有驱动都应与编译的内核一致，因此这里将内核、所有模块均编译并覆盖到板子上）
+	源码仓库同步：../repo/repo sync -c
+	先设置好交叉编译工具链环境变量，进入 Linux 源码目录
+make mrproper
+make 100ask_imx6ull_defconfig
+make zImage -j4
+make dtbs
+	得到 内核文件 和 设备树文件 这两个文件：
+	arch/arm/boot/zImage
+	arch/arm/boot/dts/100ask_imx6ull-14x14.dtb
+编译内核模块
+make modules
+sudo make ARCH=arm INSTALL_MOD_PATH=/home/x/workshop/temp modules_install
+	编译出的模块 都装存到 ~/workshop/temp 下，会得到该目录下的 /lib/modules 里面的模块，自行更换
+到此，zImage、100ask_imx6ull-14x14.dtb 拷贝（cp）到开发板的 /boot 目录，lib/modules 文件夹拷贝到（cp -rfd）开发板的 /lib 目录里，即完成替换，重启即可。
+
+
+
+板子连wifi
+	板子开机后，稍微等一段时间
+ifconfig wlan0 up
+	扫描周围网络设备
+iw dev wlan0 scan | grep SSID
+	配置网络连接参数
+wpa_passphrase Tenda_1BCC88 13932935541 >> /etc/wpa_supplicant.conf
+	连接 wifi 设备
+wpa_supplicant -B -iwlan0 -c /etc/wpa_supplicant.conf
+	为 wlan0 获取 ip 地址
+udhcpc -i wlan0
+	测试 wlan0 是否可以上网
+ping -I wlan0 www.baidu.com
