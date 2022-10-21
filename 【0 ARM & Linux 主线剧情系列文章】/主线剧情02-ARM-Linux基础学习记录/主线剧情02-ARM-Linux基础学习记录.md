@@ -181,9 +181,9 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
 - 流控制，输入 和 输出 重定向（< / <<，> / >>）：[Shell 输入/输出重定向 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-io-redirections.html)。
 
-  - `command > file`，将输出重定向到 file（一个文件），即将 stdout 重定向到 file，将 command 的打印内容覆盖输入到文件 file 里；`command >> file`，将输出以追加的方式重定向到 file，追加输入到文件 file。
+  - `command > file`，将输出重定向到 file（一个文件），即将 command 的输出流 stdout 重定向到 file，将 command 的打印内容覆盖输入到文件 file 里；`command >> file`，将输出以追加的方式重定向到 file，追加输入到文件 file。
 
-  - `command < file`，将输入重定向到 file，即将 stdin 重定向到 file，本来需要从键盘获取输入的命令会转移到读取文件内容。
+  - `command < file`，将输入重定向到 file，即将 command 的输入流 stdin 重定向到 file，本来需要从键盘获取输入的命令会转移到读取文件内容。
 
   - 注意 输出重定向是大于号(>)，输入重定向是小于号(<)。
 
@@ -268,9 +268,9 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
 **关于 硬链接 和 符号链接：**
 
-> 引自：[Linux 文件与目录管理 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-file-content-manage.html)。
+> 引自：[Linux 文件与目录管理 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-file-content-manage.html)。[embedded-notes/linux.md at master · xiaowenxia/embedded-notes (github.com)](https://github.com/xiaowenxia/embedded-notes/blob/master/linux.md)。
 >
->  Linux 链接分两种，一种被称为硬链接（Hard Link），另一种被称为符号链接（Symbolic Link）。默认情况下，**ln** 命令产生硬链接。
+> Linux 链接分两种，一种被称为硬链接（Hard Link），另一种被称为符号链接（Symbolic Link）。默认情况下，**ln** 命令产生硬链接。
 >
 > **硬连接**
 >
@@ -278,9 +278,26 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 >
 > 硬连接的作用是允许一个文件拥有多个有效路径名，这样用户就可以建立硬连接到重要文件，以防止“误删”的功能。其原因如上所述，因为对应该目录的索引节点有一个以上的连接。只删除一个连接并不影响索引节点本身和其它的连接，只有当最后一个连接被删除后，文件的数据块及目录的连接才会被释放。也就是说，文件真正删除的条件是与之相关的所有硬连接文件均被删除。
 >
+> * 硬链接直接指向文件的i节点
+> * 硬链接和原文件的i节点是一样的
+> * 硬链接文件显示的大小是跟原文件是一样的
+> * 硬链接不能链接目录文件。
+>
+> ```sh
+> ln file2 /home/xiaxiaowen/file2hard
+> ```
+>
 > **软连接**
 >
 > 另外一种连接称之为符号连接（Symbolic Link），也叫软连接。软链接文件有类似于 Windows 的快捷方式。它实际上是一个特殊的文件。在符号连接中，文件实际上是一个文本文件，其中包含的有另一文件的位置信息。比如：A 是 B 的软链接（A 和 B 都是文件名），A 的目录项中的 inode 节点号与 B 的目录项中的 inode 节点号不相同，A 和 B 指向的是两个不同的 inode，继而指向两块不同的数据块。但是 A 的数据块中存放的只是 B 的路径名（可以根据这个找到 B 的目录项）。A 和 B 之间是“主从”关系，如果 B 被删除了，A 仍然存在（因为两个是不同的文件），但指向的是一个无效的链接。
+>
+> * 软链接则是建立了一个新文件
+> * 这个文件指向链接的文件，i节点不一样
+> * 可以链接目录
+>
+> ```sh
+> ln -s file2 /home/xiaxiaowen/file2soft
+> ```
 >
 > **实验**
 >
@@ -515,7 +532,7 @@ diff log2014.log log2013.log
 
 ##### 常用 find / grep / sed / awk
 
-可参考 [四个强大的linux文本处理工具（find、grep、sed、awk）_~青萍之末~的博客-CSDN博客_linux 文本处理 查找](https://blog.csdn.net/daaikuaichuan/article/details/82288634)。
+可参考 [四个强大的linux文本处理工具（find、grep、sed、awk）_~青萍之末~的博客-CSDN博客_linux 文本处理 查找](https://blog.csdn.net/daaikuaichuan/article/details/82288634)。[embedded-notes/linux.md at master · xiaowenxia/embedded-notes (github.com)](https://github.com/xiaowenxia/embedded-notes/blob/master/linux.md) 下面一些参考了这个链接。
 
 **查找/搜索：find**
 
@@ -523,12 +540,137 @@ diff log2014.log log2013.log
 -   举例，在某目录用名字查找名为 test1.txt 的文件：`find /home/book/dira/ -name "test1.txt"`；按格式查找：`-name " *.txt "`；
 -   其他高级用法很多，这里举例，查找 x 天内有变动的文件：`find /home/book -mtime -2`，查找 /home 目录下两天内有变动的文件。  
 
+用法
+
+```sh
+find [-path ..] [expression]
+```
+
+选项
+
+```sh
+-name     按照文件名
+-iname     按照文件名 忽略大小写
+-perm     按照文件权限
+-user     按照文件拥有者
+-group    按照文件所属的组
+-mtime -n +n 按照文件的更改时间来查找文件， -n：n天以内，+n：n天以前
+-type     查找某一类型：文件类型有：普通文件(f)，目录(d)，字符设备文件(c)，块设备文件(b)，符号链接文件(l)，套接字文件(s)，管道文件(p)
+-size n   查找文件长度为n块（一块等于512字节）的文件，带有c时表示文件长度以字节计。 
+-mount    不跨越文件系统
+-follow   遇到符号链接文件，就跟踪至链接所指向的文件
+-path     匹配文件路径或者文件
+-exec     执行后续命令操作
+-a        and 与操作
+-o        or  或操作
+-not      not 非操作
+```
+
+经典使用方法
+
+```sh
+#查找/run中所有的socket文件
+find /run -type s
+#搜索/dev中所有包含tty的文件
+find /dev -name "*tty*"
+#搜索/dev中大小大于10字节，名称包含bus的文件
+find /dev -size +10c -name "*bus*"
+#或操作，搜索debug开头的文件或者.rst的文件
+find -name 'debug*' -o -name '*.rst'
+#与操作，搜索debug开头的文件同时是.rst的文件
+find -name 'debug*' -a -name '*.rst'
+#找出文件大小大于10000块的文件，并复制到当前目录
+find -size +100000 -exec cp {} . \;
+```
+
+高级使用方法
+
+查询所有mk文件中的date文本
+
+```sh
+find ./build/ -name "*.mk" -print -exec grep -rwn "date" --color=auto {} \;
+```
+
 **文件内搜索：grep**
 
 -   格式：`grep [选项] [查找模式] [文件名]`；
 -   `grep -rn "字符串" 文件名`。字符串：要查找的字符串；文件名：要查找的目标文件，如果是 * 符号则表示查找当前目录下的所有文件和目录；r(recursive) 递归查找；n(number) 显示目标位置的行号；-w 全字匹配；
 -   在 test1.txt 中查找字符串abc： `grep -n "abc" test1.txt`，在当前目录递归查找字符串abc：`grep -rn "abc" *`；
 -   第一个命令的结果传入第二个命令，即在 grep 的结果中再次执行 grep 搜索：`grep “ABC” * -nR | grep “ \.h”`，搜索包含有 "ABC" 的头文件。
+
+```sh
+选项：
+    -c：只输出匹配行的计数。
+    -C：匹配的上下文分别显示[number]行。
+    -I：不区分大小写(只适用于单字符)。
+    -i：不区分大小写。
+    -h：查询多文件时不显示文件名。
+    -l：查询多文件时只输出包含匹配字符的文件名。
+    -L：列出不匹配的文件名。
+    -n：显示匹配行及 行号。
+    -s：不显示不存在或无匹配文本的错误信息。
+    -v：显示不包含匹配文本的所有行。
+    -w：只匹配整个单词。
+    -E：扩展的正则表达式
+    -R：递归搜寻
+    --exclude=FILE：跳过FILE
+
+正则表达式主要参数：
+	\：忽略正则表达式中特殊字符的原有含义。
+	^：匹配正则表达式的开始行。
+	$：匹配正则表达式的结束行。
+	\<：从匹配正则表达式的行开始。
+	\>：到匹配正则表达式的行结束。
+	[]：单个字符，如[A]即A符合要求 。
+	[-]：范围，如[A-Z]，即A、B、C一直到Z都符合要求 。
+	.：所有的单个字符。
+	*：有字符，长度可以为0。
+```
+
+
+
+
+```sh
+经典使用方法：
+
+#所有以d开头的文件，包含test的匹配行
+grep "test" d*
+#包含test或者zephyr 不区分大小写 显示行号 扩展正则表达式
+grep -inE "test|zephyr" d*
+#包含test和zephyr 不区分大小写 显示行号 扩展正则表达式
+grep -in "test" d* | grep 'zephyr'
+
+主要参数：
+	－c：只输出匹配行的计数。
+	－I：不区分大小写(只适用于单字符)。
+	－h：查询多文件时不显示文件名。
+	－l：查询多文件时只输出包含匹配字符的文件名。
+	－L：列出不匹配的文件名
+	－n：显示匹配行及行号。
+	－s：不显示不存在或无匹配文本的错误信息。
+	－v：显示不包含匹配文本的所有行。
+	－R：递归搜寻
+	－d skip：不递归搜寻
+	－w：匹配整个单词
+正则表达式主要参数：
+	\：忽略正则表达式中特殊字符的原有含义。
+	^：匹配正则表达式的开始行。
+	$：匹配正则表达式的结束行。
+	\<：从匹配正则表达式的行开始。
+	\>：到匹配正则表达式的行结束。
+	[]：单个字符，如[A]即A符合要求 。
+	[-]：范围，如[A-Z]，即A、B、C一直到Z都符合要求 。
+	.：所有的单个字符。
+	*：有字符，长度可以为0。
+
+grep 'test' d*		显示以d开头的文件中包含的test行
+grep 'test' aa bb cc 	查找文件aa bb cc 中匹配的test行
+grep 'test'|'hello' files 匹配test或者hello
+grep '\<man' files	匹配manic 和man 不匹配batman
+grep '\<man\>'		只匹配man 不匹配batman和manic
+grep '^man' files	匹配的字符行首
+grep '$man' files	匹配的字符串仔行尾
+```
 
 **计算字数：wc**
 
@@ -541,6 +683,110 @@ diff log2014.log log2013.log
 **文本处理：awk**
 
 - 用时现查。
+
+**列出当前打开的文件：lsof**
+
+```sh
+$ sudo lsof
+COMMAND    PID      USER   FD      TYPE     DEVICE     SIZE       NODE      NAME
+init       1         root  cwd      DIR       3,3       1024       2         /
+init       1         root  rtd      DIR       3,3       1024       2         /
+init       1         root  txt      REG       3,3       38432      1763452  /sbin/init
+init       1         root  mem      REG       3,3       106114     1091620  /lib/libdl-2.6.so
+init       1         root  mem      REG       3,3       7560696    1091614  /lib/libc-2.6.so
+init       1         root  mem      REG       3,3       79460      1091669  /lib/libselinux.so.1
+init       1         root  mem      REG       3,3       223280     1091668  /lib/libsepol.so.1
+init       1         root  mem      REG       3,3       564136     1091607  /lib/ld-2.6.so
+init       1         root  10u      FIFO      0,15                  1309     /dev/initctl
+```
+
+<table style="text-align:center">
+   <tr>
+      <td>COMMAND</td>
+      <td>进程的名称</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>PID</td>
+      <td>进程标识符</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>USER</td>
+      <td>进程所有者</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>FD</td>
+      <td>文件描述符</td>
+      <td>应用程序通过文件描述符识别该文件。如cwd、txt、mem等</td>
+   </tr>
+   <tr>
+      <td>TYPE</td>
+      <td>文件类型</td>
+      <td>REG(文件) DIR(目录) CHR(字符) BLK(块设备) FIFO(管道) UNIX(UNIX 域套接字) IPv4(IP套接字)</td>
+   </tr>
+   <tr>
+      <td>DEVICE</td>
+      <td>指定磁盘的名称</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>SIZE</td>
+      <td>文件大小</td>
+      <td></td>
+   </tr>
+   <tr>
+      <td>NODE</td>
+      <td>文件inode</td>
+      <td>每个文件都有一个唯一的inode</td>
+   </tr>
+   <tr>
+      <td>NAME</td>
+      <td>文件名称</td>
+      <td></td>
+   </tr>
+</table>
+
+
+参数列表
+
+```sh
+lsof  filename      显示打开指定文件的所有进程
+lsof -a             表示两个参数都必须满足时才显示结果
+lsof -c string      显示COMMAND列中包含指定字符的进程所有打开的文件
+lsof -u username    显示所属user进程打开的文件
+lsof -g gid         显示归属gid的进程情况
+lsof +d /DIR/       显示目录下被进程打开的文件
+lsof +D /DIR/       同上，但是会搜索目录下的所有目录，时间相对较长
+lsof -d FD          显示指定文件描述符的进程
+lsof -n             不将IP转换为hostname，缺省是不加上-n参数
+lsof -i             用以显示符合条件的进程情况
+lsof -i[46] [protocol][@hostname|hostaddr][:service|port]
+                    46 --> IPv4 or IPv6
+                    protocol --> TCP or UDP
+                    hostname --> Internet host name
+                    hostaddr --> IPv4地址
+                    service --> /etc/service中的 service name (可以不只一个)
+                    port --> 端口号 (可以不只一个)
+```
+
+查找应用程序打开的文件的名称和数目
+
+```sh
+#显示打开指定文件的所有进程
+$ lsof  filename
+#例如:打开所有使用/dev/urandom的进程
+$ lsof /dev/urandom
+#查看22端口现在运行的情况 
+$ lsof -i :22
+#查看所属xiaxiaowen用户进程所打开的文件类型为txt的文件
+$ lsof -a -u xiaxiaowen -d txt
+#查找谁在使用文件系统
+$ lsof /media/xiaxiaowen/机械硬盘
+COMMAND  PID       USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
+zsh     8465 xiaxiaowen  cwd    DIR   8,17     8192    5 /media/xiaxiaowen/机械硬盘
+```
 
 ##### 压缩打包：gzip、bzip2、tar、7z
 
@@ -1019,6 +1265,73 @@ C/C++ 程序文件的编译过程图示：
 - 输出带调试信息，可以用于 GDB 单步调试来 debug：加上`-g`选项。
 - 产生能被 GDB 调试器使用的调试信息：`gcc main.c -g -o main`。
 - GDB 的命令行调试指令详情略（包括运行、单步执行、加删查断点、打印变量等命令）。
+
+下面引用 [embedded-notes/linux.md at master · xiaowenxia/embedded-notes (github.com)](https://github.com/xiaowenxia/embedded-notes/blob/master/linux.md)。
+
+**gcc工具链**
+
+| 命令     | 描述                                                         |
+| -------- | ------------------------------------------------------------ |
+| Binutils | 由汇编器（as）产生的目标代码（*.o）是不能直接在computer上运行的，它必须经过链接器（ld）的处理才能生成可执行代码。 |
+| add2line | 将地址转换成文件名或行号对，以便调试程序                     |
+| ar       | 从文件中创建、修改、扩展文件                                 |
+| gasp     | 汇编宏处理器                                                 |
+| nm       | 从目标文件列举所有变量                                       |
+| objcopy  | 使用GNU BSD库把目标文件的内容从一种文件格式复制到另一种格式的目标文件中。 |
+| objdump  | 显示目标文件信息可发编译二进制文件，也可以对对象文件进行反汇编，并查看机器代码。 |
+| readelf  | 显示elf文件信息                                              |
+| ranlib   | 生成索引以加快对归档文件的访问，并将其保存到这个归档文件中。 |
+| size     | 列出目标模块或文件的代码尺寸。                               |
+| strings  | 打印可打印的目标代码符号（至少4个字符）                      |
+| strip    | 放弃所有符号连接，一般应用程序最终都要strip处理              |
+| C++filt  | 链接器ld通过该命令可过滤C++符号和JAVA符号，防止重载函数冲突。 |
+| gprof    | 显示程序调用段的各种数据                                     |
+
+**ld 交叉链接器**
+
+> 将多个编译后产生的过程文件连接为一个最终的可执行文件。
+
+```sh
+ld [options] 链接器脚本 -o 文件名.elf
+```
+
+**readelf 交叉ELF文件查看器**
+
+> 用来查看一个可执行文件的相关信息
+
+可以查看elf文件的运行架构，大小端等信息:
+
+```sh
+readelf -a 文件名.elf
+```
+
+显示程序需要的动态链接库:
+
+```sh
+readelf -d 文件名.elf
+```
+
+**objdump 交叉反汇编器**
+
+> 将一个可执行文件转换为汇编下的程序
+
+```sh
+-objdump -D -S elf文件名 >目标文件
+```
+
+**objcopy 交叉转换器**
+
+> 将elf格式文件转换成其他的格式
+
+```sh
+objcopy -O 目标文件格式 原ELF文件 目标文件
+```
+
+例子：
+
+```sh
+objcopy -O binary a.elf a.bin
+```
 
 ### Makefile 简述和模板
 
@@ -1528,6 +1841,29 @@ obj-m	+= hello_drv.o
 2. 在嵌入式 Linux 开发板上 安装驱动程序模块 `insmod hello_drv.ko`。
 3. 在 `lsmod` 命令下可以看到 `hello_drv` 模块；执行 `cat /proc/devices` 可以看到 对应的设备及其主设备号；执行 `ls -l /dev/<设备名称>` 可以看到此设备的主、此设备号等更多信息。
 4. 执行测试程序进行验证。
+
+#### linux内核编译操作
+
+```sh
+make bzImage                    # 编译生成压缩的内核二进制文件
+make vmlinux                    # 编译生成二进制内核文件
+make modules                    # 编译生成内核模块
+make modules_install # 安装模块
+make bzdisk|fdimage|isoimage    # 编译生成启动软盘镜像或者光盘镜像
+make install                    # 安装内核文件
+make all                        # 相当于vmlinux+modules+bzImage
+make rpm                        # 构建内核rpm包
+make foo/bar/foobar.ko          # 编译单个驱动
+make header_install             # 安装内核头文件
+make M=some/sub/dir             # 编译指定目录
+make O=/path/to/some/dir        # 指定生成的文件放到该目录
+make kernelversion              # 输出内核版本信息
+make kernelrelease              # 输出内核发行标识
+make rpm-pkg|deb-pkg|tar-pkg|targz-pkg|tarbz2-pkg   # 构建这种格式的内核包
+make clean                      # 清除生成文件（保留.config和部分模块文件）
+make mrproper                   # 清除全部文件（包括.config和备份文件）
+make distclean                  # 在make mrproper上还清除编辑器其他的备份文件
+```
 
 ### 学至此的一点启示
 

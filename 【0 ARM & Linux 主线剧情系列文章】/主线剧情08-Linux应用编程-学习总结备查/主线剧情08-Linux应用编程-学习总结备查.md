@@ -100,7 +100,7 @@ help、man 和 info 命令。
 
 这里就是日常用到的 API 的积累和整理，最详细、全面的 API 参考 见 上面 `通过手册的 API 详细描述参考` 一节。
 
-日常用到的 标准 API 富集 单独放在了 `【Linux 通用应用开发】` 文件夹 里面，包括：
+日常用到的 标准 API 富集 单独放在了 `【Linux 通用应用开发】` （**仓库地址 [Github](https://github.com/Staok/ARM-Linux-Study)、[Gitee](https://gitee.com/staok/ARM-Linux-Study)**）文件夹 里面，包括：
 
 - 文件 IO、字符流收发 和 字符串处理相关的 API 收集积累。
 
@@ -122,7 +122,7 @@ help、man 和 info 命令。
 
   实质上就是对各种设备驱动文件 进行 open/read/write/ioctl/close 来配置和读写，有一些标准接口有标准的信息结构，因此有专门的 库，通过这些库来间接的 配置 和 读写设备驱动文件，比如 tslib、i2ctool 等等。
 
-- 等等其它，用时补充。
+- 等等其它，用时补充。比如 进程高级编程、内存管理、Linux 高并发编程 epoll 等等。
 
 ## Linux 应用的基本编程思想
 

@@ -35,6 +35,9 @@ http://wiki.100ask.org/Buildroot
 1、buildroot 可以设置
 2、修改uboot的Makefile，make后直接合成flash.bin并改名为buildroot可以识别的uboot.bin之类的
 
+Linux之buildroot配置
+https://blog.csdn.net/qq_32348883/article/details/125830307
+
 【06】为ubuntu的移植 
 参考米尔 L4 里面的文章
 野火 P1891 制作带桌面的 ubuntu16 根文件系统
