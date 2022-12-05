@@ -8,15 +8,11 @@
 
 ##  非阻塞（查询）
 
-- open 时 传入 O_NONBLOCK 标志，然后正常的 使用 read/write 进行读写。
+- open 时 传入 O_NONBLOCK 标志，例子：`int fd = open(argv[1], O_RDWR | O_NONBLOCK);`，然后正常的 使用 read/write 进行读写。
+- 在 open 之后，还可以通过 fcntl() 继续修改 flag 标志，修改为 阻塞 或 非阻塞，本小节尾的例子程序。。
 - APP 调用 read 函数读取数据时，如果驱动程序中有数据，那么 APP 的 read 函数会返回数据，否则也会立刻返回错误。
   - 对于普通文件、块设备文件，O_NONBLOCK 不起作用。
-  - 对于字符设备文件，O_NONBLOCK起作用的前提是驱动程序针对O_NONBLOCK做了处理。
-  - 在 open 之后，还可以通过 fcntl() 继续修改 flag 标志，修改为 阻塞 或 非阻塞。
-
-- 例子：`int fd = open(argv[1], O_RDWR | O_NONBLOCK);`。
-
- 或者：
+  - 对于字符设备文件，O_NONBLOCK 起作用的前提是 驱动程序内 针对 O_NONBLOCK 做了处理，即驱动程序支持 阻塞/非阻塞。
 
 ```c
 int set_nonblock(int fd)
@@ -37,17 +33,17 @@ fcntl(fd, F_SETFL, flags & ~O_NONBLOCK);  /* 阻塞方式 */
 
 ## 阻塞（休眠等待-唤醒返回）
 
-- APP 调用 open 函数时，不要传入 O_NONBLOCK 标志。
-- APP 调用 read 函数读取数据时，如果驱动程序中有数据，那么 APP 的 read 函数会返回数据；
+- APP 调用 open 函数时，不要传入 O_NONBLOCK 标志。或者像上一节那样 通过 `fcntl(fd, F_SETFL, flags & ~O_NONBLOCK);` 主动设置为阻塞。
+- APP 调用 read 函数读取数据时，如果驱动程序中有数据，那么 APP 的 read 函数会返回数据。
 - 否则 APP 就会在内核态休眠，当有数据时驱动程序会把 APP 唤醒，read 函数恢复执行并返回数据给 APP。
 
  
 
-##  poll / select（设置阻塞事件和时间）
+##  poll / select（设置事件的等待时间）
 
 - 先 open 时 传入 O_NONBLOCK 标志；再 调用 poll/select（二者 机制是完全一样的，只是 APP 接口函数不一样）
   - 关于使用 poll 为什么一定要传入 O_NONBLOCK 标志 [为什么poll/select在open时要使用非阻塞NONBLOCK_stone_322的博客-CSDN博客_open 非阻塞](https://blog.csdn.net/weixin_44175439/article/details/119334114)。
-  - 可以同时检测多个文件，每个文件可以设置不同的 阻塞/等待 条件 events（可以多个事件 用或 `|`），但 超时时间 都一并设置一样的。
+  - 可以同时监测多个文件，每个文件可以设置不同的 阻塞/等待 条件 events（可以多个事件 用或 `|`），但 超时时间 都一并设置一样的。
 - 当 poll/select 返回时候，根据 返回事件 revents 判断，再进行 读写，否则返回是 超时 或者 错误。
   - 如果驱动程序中有数据，则立刻返回；否则就休眠。
   - 在休眠期间，如果有人操作了硬件，驱动程序获得数据后就会把 APP 唤醒，导致 poll 或 select 立刻返回；

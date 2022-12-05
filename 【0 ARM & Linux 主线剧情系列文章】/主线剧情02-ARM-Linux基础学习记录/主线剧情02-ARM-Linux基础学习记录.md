@@ -1848,7 +1848,7 @@ obj-m	+= hello_drv.o
 make bzImage                    # 编译生成压缩的内核二进制文件
 make vmlinux                    # 编译生成二进制内核文件
 make modules                    # 编译生成内核模块
-make modules_install # 安装模块
+make modules_install            # 安装模块
 make bzdisk|fdimage|isoimage    # 编译生成启动软盘镜像或者光盘镜像
 make install                    # 安装内核文件
 make all                        # 相当于vmlinux+modules+bzImage

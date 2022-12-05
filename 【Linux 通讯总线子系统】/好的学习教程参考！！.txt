@@ -1,3 +1,6 @@
+github不好上，在gitee看源码
+https://gitee.com/BiscuitOS_team/HardStack
+
 I2C
 https://github.com/BiscuitOS/HardStack/tree/master/bus/i2c
 https://biscuitos.github.io/blog/I2CBus/

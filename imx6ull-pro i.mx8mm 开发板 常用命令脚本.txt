@@ -1,0 +1,166 @@
+ubuntu 18.04 LTS：用户名 x，密码 x
+100ask imx6ull pro 开发板登陆 root，无密码
+myd imx8mm 开发板登陆 root，无密码
+
+传递文件：
+① 100ask_tool（对于 100ask 的 i.mx6ull pro 来说）
+② 串口
+③ nfs
+
+开发板 soc 和 ubuntu 互 ping 基本要领（参考 100ask）
+① 连接方式（以路由器或以太网交换机，我的习惯为例）：开发板通过网线连到路由器/交换机，PC 通过 网线 连到路由器/交换机（此时 PC 可以通过 wifi 上网）
+	可选：PC通过wifi连路由器，路由器再连接能上网的网线
+① soc、ubuntu 和 PC 三者 ip 要在同一个网段里（比如都在192.168.43.x），然后子网掩码都是255.255.255.0，网关都是192.168.43.1（前三个与ip一样，最后一个写为1）
+	我的习惯是：PC连接网线后，查看其 ip，然后 开发板soc 和 ubuntu 都以 PC的 ip 为基准去改 ip、子网掩码和网关
+② 改 ubuntu 的 ip、子网掩码和网关（到设置->网络里面去手动输入，DNS改为8.8.8.8，然后网络开关重新打开一下），再改 开发板soc 的 ip（例子 ifconfig eth0 169.254.54.99）
+	固定改开发板soc的ip例子（ip写到文件里，每次开机都是这个ip）：echo “ifconfig eth0 169.254.54.99” >> /etc/init.d/rcS
+
+目前设置的ipv4地址：
+PC         以太网    169.254.54.36
+SoC       eth0       169.254.54.99
+ubuntu   网线inet        169.254.54.100
+ubuntu   WLAN/ens33        192.168.43.100
+
+开发板上 挂载 Ubuntu（假设 ubuntu ipv4 169.254.54.100）目录 /home/x/workshop/nfs_to_soc
+	改 SoC IP
+ifconfig eth0 169.254.54.99
+	挂载
+mount -t nfs -o nolock,vers=3 169.254.54.100:/home/x/workshop/nfs_to_soc /mnt
+	卸载挂载
+umount /mnt
+
+在 shell 中显示内核驱动使用 printk() 打印的信息（有些板子默认打开了）
+echo "7 4 1 7" > /proc/sys/kernel/printk
+
+添加系统环境变量
+-   临时：终端中键入 `export PATH=$PATH:<目录/要添加的系统变量>`，重启后丢失。
+-   永久（只对当前用户有效）：修改 `~/.bashrc` 文件，在行尾添加 `export PATH=$PATH:<目录/要添加的系统变量>`，然后终端键入 `source ~/.bashrc` 使之生效，即可。
+
+
+
+设置交叉编译工具链的环境变量——对于 armv7 32bit soc（i.mx6ull，单核A7）
+export ARCH=arm
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export PATH=$PATH:~/workshop/gnu_toolchain/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin
+	固定下来是：编辑 ~/.bashrc 文件 添加上面三句，然后 source ~/.bashrc 使其生效。
+
+100ask 的 i.mx6ull pro 使用交叉编译器名字为 $(CROSS_COMPILE)gcc
+
+设置交叉编译工具链的环境变量——对于 armv8 64bit soc（i.mx8mm，四核A53）
+注意，对于 myir 的 myd i.mx8mm，应该使用其 fsl-imx-xwayland-glibc-x86_64-myir-image-full-aarch64-myd-imx8mm-toolchain-5.4-zeus.sh 工具！
+这里只是 基本/单独 gcc 的 应用/驱动 编译，可能不适用于 myd 的 sdk 里面的源码（因为其用 CC 之类的标志替代 CROSS_COMPILE 等等其它不一样的地方）！
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-gnu-
+export PATH=$PATH:~/workshop/gnu_toolchain/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin
+
+设置交叉编译工具链的环境变量——对于 armv8 64bit soc（i.mx8mm，四核A53）——使用 myir imx yocto 的工具链
+source /home/x/workshop/myd_imx8mm-sdk/aarch64-poky-linux_myd_imx8mm_toolchain/environment-setup-aarch64-poky-linux
+测试：
+$CC --version
+echo $CC
+echo $ARCH
+echo $CROSS_COMPILE
+
+myir 的 myd i.mx8mm 使用交叉编译器名字为 $(CC)
+
+
+-   ctrl + c，结束当前进程。
+-   ctrl + z，暂停当前进程，可使用 `fg` 命令 恢复，详见 "任务后台执行 / 任务&进程查看" 一节。
+-   多个命令写在一行并自动逐个执行，命令之间加 && 符号。
+
+
+
+vim
+-   gg，跳到第一行，（xgg 就是跳到第x行的行首）；G，跳到文件结尾。
+-   ctrl + u/d 进行 半屏的前后滚动；ctrl + f/b 进行 全屏的 上下翻页。
+-   使用 v 进入可视模式，移动光标来 选定文本块内容；用 y 复制选定块到缓冲区，用 d 剪切选定块到缓冲区，用 p 粘贴缓冲区中的内容。
+-   u，撤销上一步操作；ctrl + r，恢复，回退到前一个命令。
+
+
+
+包管理工具 apt
+sudo apt-get update                         更新源
+sudo apt-get upgrade                       更新已安装的包
+sudo apt-get install package              安装包
+sudo apt-get remove <package-name>                 只卸载程序但保留配置文件
+sudo apt-get --purge remove <package-name>    卸载程序和所有配置文件
+
+
+内核目录：
+100ask 的 i.mx6ull pro：/home/x/workshop/100ask_imx6ull-sdk/Linux-4.9.88
+myir 的 myd i.mx8mm：/home/x/workshop/myd_imx8mm-sdk/myir-imx-linux
+
+1、对于 myir 的 myd i.mx8mm 来说，要按照的必要的软件包：
+sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat libsdl1.2-dev libsdl1.2-dev xterm sed cvs subversion coreutils texi2html docbook-utils python-pysqlite2 help2man make gcc g++ desktop-file-utils libgl1-mesa-dev libglu1-mesa-dev mercurial autoconf automake groff curl lzop asciidoc u-boot-tools python3-pip
+
+2、对于 myir 的 myd i.mx8mm 来说，工具链配置（参考其 开发手册）：
+使用 repo 获取最新源码：
+	先将 repo 放到 /home/x/workshop/myd_imx8mm-sdk/repo 目录
+chmod a+x repo/repo
+	然后在 /home/x/workshop/myd_imx8mm-sdk/ 目录执行
+export REPO_URL='https://mirrors.tuna.tsinghua.edu.cn/git/git-repo/'
+repo/repo init -u https://github.com/MYiR-Dev/myir-imx-manifest.git --no-clone-bundle --depth=1 -m myir-i.mx8m-5.4.3-2.0.0.xml -b i.MX8M-5.4-zeus
+repo/repo sync（是从 github 拉取，可能失败）
+	或从 github 直接拉取：
+git clone https://github.com/MYiR-Dev/myir-imx-linux.git -b develop
+
+运行 .sh 脚本，并输入 sdk 释放的地址：
+chmod a+x ./fsl-imx-xwayland-glibc-x86_64-meta-toolchain-aarch64-myd-imx8mm-toolchain-5.4-zeus.sh
+./fsl-imx-xwayland-glibc-x86_64-meta-toolchain-aarch64-myd-imx8mm-toolchain-5.4-zeus.sh
+	再输入释放目录：/home/x/workshop/myd_imx8mm-sdk/aarch64-poky-linux_myd_imx8mm_toolchain
+使之生效：
+source /home/x/workshop/myd_imx8mm-sdk/aarch64-poky-linux_myd_imx8mm_toolchain/environment-setup-aarch64-poky-linux
+测试：
+$CC --version
+echo $CC
+echo $ARCH
+echo $CROSS_COMPILE
+
+3、对于 myir 的 myd i.mx8mm 来说，编译内核：
+make distclean
+make myd_imx8mm_defconfig
+LDFLAGS="" CC="$CC"
+make dtbs Image modules -j24
+sudo make INSTALL_MOD_PATH=/home/x/workshop/temp modules_install
+	生成的 Image 在     arch/arm64/boot/Image
+	生成的 dtb 文件在  arch/arm64/boot/dts/myir/myb*.dtb
+	编译出的模块 都装存到 ~/workshop/temp 下，会得到该目录下的 /lib/modules 里面的模块，自行更换
+更新到板子：
+cp -rf myb*.dtb Image 到开发板的 /boot 目录，lib/modules 文件夹拷贝到（cp -rfd）开发板的 /lib 目录里，即完成替换，重启即可：
+cd /mnt && cp -rf myb*.dtb Image /boot && cd ..
+cp -rfd /mnt/lib/modules /lib
+
+
+编译内核：对于 100ask 的 i.mx6ull pro 来说
+（所有驱动都应与编译的内核一致，因此这里将内核、所有模块均编译并覆盖到板子上）
+	源码仓库同步：../repo/repo sync -c（对于 100ask 的 i.mx6ull pro 来说）
+	先设置好交叉编译工具链环境变量，进入 Linux 源码目录
+make mrproper
+make 100ask_imx6ull_defconfig
+make zImage -j24
+make dtbs
+	得到 内核文件 和 设备树文件 这两个文件：
+	arch/arm/boot/zImage
+	arch/arm/boot/dts/100ask_imx6ull-14x14.dtb
+编译内核模块
+make modules
+sudo make INSTALL_MOD_PATH=/home/x/workshop/temp modules_install
+	编译出的模块 都装存到 ~/workshop/temp 下，会得到该目录下的 /lib/modules 里面的模块，自行更换
+到此，zImage、100ask_imx6ull-14x14.dtb 拷贝（cp）到开发板的 /boot 目录，lib/modules 文件夹拷贝到（cp -rfd）开发板的 /lib 目录里，即完成替换，重启即可。
+
+
+
+
+板子连wifi，对于 100ask 的 i.mx6ull pro 来说：
+	板子开机后，稍微等一段时间
+ifconfig wlan0 up
+	扫描周围网络设备
+iw dev wlan0 scan | grep SSID
+	配置网络连接参数
+wpa_passphrase Tenda_1BCC88 13932935541 >> /etc/wpa_supplicant.conf
+	连接 wifi 设备
+wpa_supplicant -B -iwlan0 -c /etc/wpa_supplicant.conf
+	为 wlan0 获取 ip 地址
+udhcpc -i wlan0
+	测试 wlan0 是否可以上网
+ping -I wlan0 www.baidu.com
