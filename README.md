@@ -1,6 +1,8 @@
 # ARM-Linux-Study
 ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
 
+仓库大小 ～130MB
+
 ------
 
 # 主线剧情 系列 的循序渐进的查看顺序
