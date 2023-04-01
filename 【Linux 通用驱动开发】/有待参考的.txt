@@ -1,5 +1,8 @@
 https://zhuanlan.zhihu.com/p/105764906
 https://www.zhihu.com/column/c_1187102635679862784
-驱动开发 看今典文档里面【0 综合性文章 整体学习】，看【Linux 设备驱动和应用编程】
+驱动开发 看精典文档里面【0 综合性文章 整体学习】，看【Linux 设备驱动和应用编程】
 
 https://blog.csdn.net/dxdxsmy/article/details/7350394
+
+
+这里有待吸收一下

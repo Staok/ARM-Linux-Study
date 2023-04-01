@@ -1,4 +1,4 @@
-[IO 多路复用: Poll/Epoll/Select 机制 (biscuitos.github.io)](https://biscuitos.github.io/blog/IO-SYNC/)
+[IO 多路复用: Poll/Epoll/Select 机制 (biscuitos.cn)](http://www.biscuitos.cn/blog/IO-SYNC/)
 
 
 

@@ -29,8 +29,12 @@ mount -t nfs -o nolock,vers=3 169.254.54.100:/home/x/workshop/nfs_to_soc /mnt
 	卸载挂载
 umount /mnt
 
+myd imx8mm 开发板 带有 SSH，可以 MobaXterm 软件直接 ssh 连接其 IP 地址 即可 SSH 登陆 开发板，与 登录 本地 ubuntu 虚拟机一样
+
 在 shell 中显示内核驱动使用 printk() 打印的信息（有些板子默认打开了）
-echo "7 4 1 7" > /proc/sys/kernel/printk
+	echo "7 4 1 7" > /proc/sys/kernel/printk
+关闭内核打印信息
+	echo "0 4 1 7" > /proc/sys/kernel/printk
 
 添加系统环境变量
 -   临时：终端中键入 `export PATH=$PATH:<目录/要添加的系统变量>`，重启后丢失。
@@ -38,22 +42,22 @@ echo "7 4 1 7" > /proc/sys/kernel/printk
 
 
 
-设置交叉编译工具链的环境变量——对于 armv7 32bit soc（i.mx6ull，单核A7）
+对于 armv7 32bit soc（i.mx6ull，单核A7），设置交叉编译工具链的环境变量：
 export ARCH=arm
 export CROSS_COMPILE=arm-linux-gnueabihf-
 export PATH=$PATH:~/workshop/gnu_toolchain/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin
 	固定下来是：编辑 ~/.bashrc 文件 添加上面三句，然后 source ~/.bashrc 使其生效。
 
-100ask 的 i.mx6ull pro 使用交叉编译器名字为 $(CROSS_COMPILE)gcc
+	100ask 的 i.mx6ull pro 使用交叉编译器名字为 $(CROSS_COMPILE)gcc
 
-设置交叉编译工具链的环境变量——对于 armv8 64bit soc（i.mx8mm，四核A53）
+对于 armv8 64bit soc（i.mx8mm，四核A53），设置交叉编译工具链的环境变量：
 注意，对于 myir 的 myd i.mx8mm，应该使用其 fsl-imx-xwayland-glibc-x86_64-myir-image-full-aarch64-myd-imx8mm-toolchain-5.4-zeus.sh 工具！
 这里只是 基本/单独 gcc 的 应用/驱动 编译，可能不适用于 myd 的 sdk 里面的源码（因为其用 CC 之类的标志替代 CROSS_COMPILE 等等其它不一样的地方）！
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-linux-gnu-
 export PATH=$PATH:~/workshop/gnu_toolchain/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin
 
-设置交叉编译工具链的环境变量——对于 armv8 64bit soc（i.mx8mm，四核A53）——使用 myir imx yocto 的工具链
+对于 armv8 64bit soc（i.mx8mm，四核A53）设置交叉编译工具链的环境变量，使用 myir imx yocto 的工具链版本：
 source /home/x/workshop/myd_imx8mm-sdk/aarch64-poky-linux_myd_imx8mm_toolchain/environment-setup-aarch64-poky-linux
 测试：
 $CC --version
@@ -61,7 +65,7 @@ echo $CC
 echo $ARCH
 echo $CROSS_COMPILE
 
-myir 的 myd i.mx8mm 使用交叉编译器名字为 $(CC)
+	myir 的 myd i.mx8mm 使用交叉编译器名字为 $(CC)
 
 
 -   ctrl + c，结束当前进程。
@@ -86,7 +90,8 @@ sudo apt-get remove <package-name>                 只卸载程序但保留配�
 sudo apt-get --purge remove <package-name>    卸载程序和所有配置文件
 
 
-内核目录：
+
+内核目录路径：
 100ask 的 i.mx6ull pro：/home/x/workshop/100ask_imx6ull-sdk/Linux-4.9.88
 myir 的 myd i.mx8mm：/home/x/workshop/myd_imx8mm-sdk/myir-imx-linux
 
@@ -126,7 +131,7 @@ sudo make INSTALL_MOD_PATH=/home/x/workshop/temp modules_install
 	生成的 dtb 文件在  arch/arm64/boot/dts/myir/myb*.dtb
 	编译出的模块 都装存到 ~/workshop/temp 下，会得到该目录下的 /lib/modules 里面的模块，自行更换
 更新到板子：
-cp -rf myb*.dtb Image 到开发板的 /boot 目录，lib/modules 文件夹拷贝到（cp -rfd）开发板的 /lib 目录里，即完成替换，重启即可：
+将 myb*.dtb、Image 到开发板的 /boot 目录，lib/modules 文件夹拷贝到（cp -rfd）开发板的 /lib 目录里，即完成替换，重启即可：
 cd /mnt && cp -rf myb*.dtb Image /boot && cd ..
 cp -rfd /mnt/lib/modules /lib
 
@@ -158,9 +163,45 @@ ifconfig wlan0 up
 iw dev wlan0 scan | grep SSID
 	配置网络连接参数
 wpa_passphrase Tenda_1BCC88 13932935541 >> /etc/wpa_supplicant.conf
+wpa_passphrase K-Pax 456789123 >> /etc/wpa_supplicant.conf
 	连接 wifi 设备
 wpa_supplicant -B -iwlan0 -c /etc/wpa_supplicant.conf
 	为 wlan0 获取 ip 地址
 udhcpc -i wlan0
 	测试 wlan0 是否可以上网
 ping -I wlan0 www.baidu.com
+
+myd imx8mm 开发板 连接 wifi，这里跟上面一样：
+ifconfig wlan0 up
+iw dev wlan0 scan | grep SSID
+wpa_passphrase K-Pax 456789123 >> /etc/wpa_supplicant.conf
+wpa_supplicant -B -iwlan0 -c /etc/wpa_supplicant.conf
+udhcpc -i wlan0
+
+	若开机 自动 Wifi STA 连接热点，或者 Wifi 创建 AP，均见 MYD-C8MMX_Linux软件评估指南_V2.0.pdf 文档
+
+	以下是 MYD-C8MMX_Linux软件评估指南_V2.0.pdf 里面给出的 另一种 手动 连接方式：
+	也可以参考 https://cloud.tencent.com/developer/article/1379709?from=15425 这里也是这种 手动连接方式：
+	wpa_supplicant -B -iwlan0 -c /etc/wpa_supplicant.conf	启动 wpa_supplicant 作为服务端
+	wpa_cli -p/var/run/wpa_supplicant remove_network 0
+	wpa_cli -p/var/run/wpa_supplicant ap_scan 1
+	wpa_cli -p/var/run/wpa_supplicant add_network
+	wpa_cli -p/var/run/wpa_supplicant set_network 0 ssid '"K-Pax"'
+	wpa_cli -p/var/run/wpa_supplicant set_network 0 key_mgmt WPA-PSK
+	wpa_cli -p/var/run/wpa_supplicant set_network 0 psk '"456789123"'
+	wpa_cli -p/var/run/wpa_supplicant select_network 0
+	wpa_cli -p/var/run/wpa_supplicant status			检查是否连接
+
+	扫描 WiFi 并打印
+	wpa_cli -i wlan0 scan              执行扫描附近热点
+	wpa_cli -i wlan0 scan_result    打印热点信息
+
+	断开连接：
+	wpa_cli -i wlan0 disable_network 0	与id0的网络进行断开
+	wpa_cli -i wlan0 remove_network 0	将id0的网络移除掉,必须先断开才行
+	wpa_cli -i wlan0 save_config		并更新wpa_supplicant.conf文件，这一步也可以不执行
+
+	关闭Wifi：
+	killall udhcpc > /dev/null
+	killall wpa_supplicant > /dev/null
+	ifconfig wlan0 down			或可以只运行这个 直接关闭 Wifi

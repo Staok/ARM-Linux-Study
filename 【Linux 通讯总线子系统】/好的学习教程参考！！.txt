@@ -2,22 +2,29 @@ github不好上，在gitee看源码
 https://gitee.com/BiscuitOS_team/HardStack
 
 I2C
-https://github.com/BiscuitOS/HardStack/tree/master/bus/i2c
-https://biscuitos.github.io/blog/I2CBus/
-
+https://gitee.com/BiscuitOS_team/HardStack/tree/Gitee/bus/i2c
+http://www.biscuitos.cn/blog/I2CBus/
 
 
 SPI
-https://github.com/BiscuitOS/HardStack/tree/master/bus/spi
-https://biscuitos.github.io/blog/SPI/
+https://gitee.com/BiscuitOS_team/HardStack/tree/Gitee/bus/spi
+http://www.biscuitos.cn/blog/SPI/
+
+
+DMA
+https://gitee.com/BiscuitOS_team/HardStack/tree/Gitee/bus/DMA
+http://www.biscuitos.cn/blog/DMA/
+https://blog.csdn.net/zqixiao_09/article/details/51089088
+https://blog.csdn.net/jasonchen_gbd/article/details/79462064
 
 
 PCIe
-https://biscuitos.github.io/blog/PCIe/
+http://www.biscuitos.cn/blog/PCIe/
 
 
 CAN
-https://biscuitos.github.io/blog/CAN/
+https://gitee.com/BiscuitOS_team/HardStack/tree/Gitee/bus/CAN
+http://www.biscuitos.cn/blog/CAN/
 
 
 还有i2s等等

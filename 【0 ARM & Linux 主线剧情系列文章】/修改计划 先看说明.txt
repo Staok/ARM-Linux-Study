@@ -2,6 +2,13 @@
 uboot kernel roorfs 看买的放 2T 硬盘的 清华远见的视频
 uboot kernel roorfs 看原子的移植，野火
 
+！！！！！！！！！
+移植看这个比较全面的
+https://blog.csdn.net/qq_45396672/article/details/121023440?spm=1001.2014.3001.5506
+
+https://blog.csdn.net/L1643319918/article/details/124065180
+！！！！！！！！！
+
 【04】为linux内核移植，先比较全面的说一下文件夹都是什么用，有哪些要改
 
 git clone https://source.codeaurora.org/external/imx/linux-imx
@@ -56,3 +63,5 @@ P358头文件 到P475 外设应用编写 P481进程
 应用编程很多
 
 
+
+【09】Linux性能优化相关总结
