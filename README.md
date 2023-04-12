@@ -26,7 +26,7 @@ ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
 >
 > 下面仅为个人见到的选择的推荐，欢迎补充！
 >
-> 最推荐的就是 “入手开发板，跟着教程学” 即可~
+> 最推荐的就是 “入手开发板，跟着教程学” 的方式即可~
 >
 > - 韦东山 的 系列教程，靠谱而较全面，跟着走就成。
 >   - [Linux 学习 B 站视频](https://space.bilibili.com/275908810/channel/seriesdetail?sid=1714177)。
@@ -35,7 +35,7 @@ ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
 > - 正点原子/野火 的 Linux 系列教程，靠谱而较全面，跟着走就成。
 >   - [正点原子 Linux 学习 B 站视频](https://space.bilibili.com/394620890/channel/seriesdetail?sid=2042045)，[正点原子 资源下载站](http://www.openedv.com/docs/index.html)，[论坛](http://www.openedv.com/docs/index.html)。
 >   - [野火 Linux 学习 B站视频](https://space.bilibili.com/356820657/channel/seriesdetail?sid=1702001)，[野火 资源下载站](https://doc.embedfire.com/products/link/zh/latest/index.html)，[论坛](https://www.firebbs.cn/)。
-> - 买书（驱动和应用），参考 下面 “书籍推荐” 一节。
+> - 买书（驱动和应用），参考 `主线剧情0.0-Linux学习资源大综合` 这个文章里 “书籍推荐” 一节。
 > - 其它 嵌入式 Linux 开发板 和 资料 的提供商，他们都提供了开发板配套的较完整的 SDK 和 硬件方案，对于开发的参考价值极大。
 >   - [百问网 Linux 板 产品页](http://www.100ask.org/LinuxBoard/) & [米尔 Linux 板 产品页](http://www.myir-tech.com/product/index.asp?anclassid=100)。
 >   - [Firefly | 让科技更简单，让生活更智能 (t-firefly.com)](https://wiki.t-firefly.com/)。
