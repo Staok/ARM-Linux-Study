@@ -1,0 +1,59 @@
+
+有哪些 input_event 设备节点：
+ls /dev/event* -l 或 ls /dev/input/* -l 
+
+具体信息：
+cat /proc/bus/input/devices
+	里面各个参数具体含义可参考 100ask ”手册 7.2.3 调试技巧“
+
+
+—————— 01_get_input_info.c ——————
+
+获取 ID，就四个数：bustype、vendor、product 和 version
+struct input_id id;
+err = ioctl(fd, EVIOCGID, &id);
+	if (err == 0)
+	{
+		printf("bustype = 0x%x\n", id.bustype );
+		printf("vendor	= 0x%x\n", id.vendor  );
+		printf("product = 0x%x\n", id.product );
+		printf("version = 0x%x\n", id.version );
+	}
+
+获取支持的 event type，
+	这里获取的就是 cat /proc/bus/input/devices 显示的 input_event 设备信息 里面 ⑦B:bitmaps(位图) 里面的：
+	EV:types of events supported by the device(设备支持的事件类型) 
+unsigned int evbit[2];
+char *ev_names[] = {
+	"EV_SYN ",
+	"EV_KEY ",
+	"EV_REL ",
+	"EV_ABS ",
+	"EV_MSC ",
+	"EV_SW	",
+	...
+	"EV_LED ",
+	"EV_SND ",
+	"NULL ",
+	"EV_REP ",
+	"EV_FF	",
+	"EV_PWR ",
+	};
+len = ioctl(fd, EVIOCGBIT(0, sizeof(evbit)), &evbit);
+...
+
+
+—————— 02_input_read.c ——————
+
+用 read() 直接读 struct input_event 结构体，就得到 type , code , value 信息
+
+struct input_event event;
+len = read(fd, &event, sizeof(event));
+if (len == sizeof(event))
+{
+	printf("get event: type = 0x%x, code = 0x%x, value = 0x%x\n", event.type, event.code, event.value);
+}
+
+—————— 另外几个例子，就是 poll、select 和 异步通知 的机制实现的，同功能 ——————
+
+

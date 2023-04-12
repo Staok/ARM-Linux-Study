@@ -9,6 +9,10 @@ https://blog.csdn.net/qq_45396672/article/details/121023440?spm=1001.2014.3001.5
 https://blog.csdn.net/L1643319918/article/details/124065180
 ！！！！！！！！！
 
+内核配置参考
+https://zhuanlan.zhihu.com/p/94221380
+https://zhuanlan.zhihu.com/p/463009375
+
 【04】为linux内核移植，先比较全面的说一下文件夹都是什么用，有哪些要改
 
 git clone https://source.codeaurora.org/external/imx/linux-imx

@@ -139,8 +139,10 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 - **Linux 命令查询，当字典用**。
   - [Linux 命令大全 - 菜鸟教程](https://www.runoob.com/linux/linux-command-manual.html)。
   - [Linux命令搜索引擎 命令，Linux Linux命令搜索引擎 命令详解：最专业的Linux命令大全，内容包含Linux命令手册、详解、学习，值得收藏的Linux命令速查手册。 - Linux 命令搜索引擎 (wangchujiang.com)](https://wangchujiang.com/linux-command/)，开源地址 [jaywcjlove/linux-command: Linux命令大全搜索工具，内容包含Linux命令手册、详解、学习、搜集。https://git.io/linux (github.com)](https://github.com/jaywcjlove/linux-command)。
-  - 本地离线文档资料 Linux 命令速查：`【1 Linux 命令 & Linux 命令速查 & Shell 相关 & Vim 相关】\Linux 命令速查`。
+  - 本地离线文档资料 Linux 命令速查：`【1 Linux 命令速查 & Shell & Vim】\Linux 命令速查-快速定位查询\`。
+  - 100ask 手册《嵌入式Linux应用开发完全手册》的 “第2章 开发板板载系统应用、库、工具、使用”。
   - [Linux大神都是怎么记住这么多命令的？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/452895041/answer/1822141892)。
+  - [20个提高生产力的 Linux 命令与技巧，用完带你起飞_布道者-瞎子的博客-CSDN博客](https://blog.csdn.net/pong123456/article/details/123296550).
 - [Shell 教程 - 菜鸟教程](https://www.runoob.com/linux/linux-shell.html)，[Shell脚本：Linux Shell脚本学习指南（超详细） (biancheng.net)](http://c.biancheng.net/shell/)。
 
 ##### 快捷键 / 通配符 / 流重定向 / 管道
@@ -159,15 +161,30 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
 - 快捷键：
 
-  - ctrl + c，结束当前进程。
-  - ctrl + z，暂停当前进程，可使用 `fg` 命令 恢复，详见 "任务后台执行 / 任务&进程查看" 一节。
-  - ctrl + a，使光标移动到命令行的最前，对于长命令可以快速定位到最前。
-  - ctrl + e，使光标移动到命令行的最后。
-  - ctrl + d，退出当前终端，关闭，作用与 `exit` 一样。
+  - 结束当前进程：ctrl + c。
+  - 暂停当前进程：ctrl + z，可使用 `fg` 命令 恢复，详见 `任务后台执行 / 任务&进程查看` 一节。
+  - 使光标移动到命令行的最前：ctrl + a，对于长命令可以快速定位到最前。
+  - 使光标移动到命令行的最后：ctrl + e。
+  - 退出当前终端：ctrl + d，关闭，作用与 `exit` 一样。
+  - 暂停终端的快速滚动（冻结）：ctrl + s；解冻终端是用 ctrl + q。
 
-- 多个命令写在一行并自动逐个执行，命令之间加 && 符号。
+- 一行多个命令逐个执行：命令之间加 `&&` 符号。
 
-- tab 键自动补全命令和文件或目录的全名。输入路径全名的中途，按两下 tab 键显示当前目录下的内容。
+- 一次运行多个命令：命令之间加上 `;` 分号，即 `command_1; command_2; command_3` 形式。
+
+- 将命令放到后台执行：命令结尾加一个 `&` 符号，更多信息见 `任务后台执行 / 任务&进程查看` 一节。
+
+- 自动补全：tab 键自动补全命令和文件或目录的全名。输入路径全名的中途，按两下 tab 键显示当前目录下的内容。
+
+- shell 中 `!!` 代表上一个命令，原样替换，比如执行 `command_1` 后发现需要 root 权限，只需再执行 `sudo !!` 即可 带上 sudo 前缀执行上一次命令。
+
+- shell 中 `!$` 代表 上一个命令的最后一项，比如 `ls ~` 和 `cd !$` 就是接连查看家目录和打开家目录。
+
+- 设置命令别名：[设置 linux 命令别名_清泉影月的博客-CSDN博客](https://blog.csdn.net/qingquanyingyue/article/details/120223948)。
+
+  - 基本命令 `alias ll=ls -l`。删除别名 `unalias [别名]`。
+  - 直接执行 alias 命令后别名立马生效，只是临时生效，退出 shell 窗口就没了。
+  - 永久生效方法：上述命令写到 `/root/.bashrc` 文件，用 source 命令让 .bashrc 文件生效。
 
 - 各种通配符：
 
@@ -179,13 +196,15 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
   例 `rm -f 1[!1]*.txt`  删除名字中第一个字符是 “1” 而第二个字符不是为 “1” 的所有文件。
 
-- 流控制，输入 和 输出 重定向（< / <<，> / >>）：[Shell 输入/输出重定向 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-io-redirections.html)。
+- 流控制，输入 和 输出 重定向（> / >>, <）：[Shell 输入/输出重定向 | 菜鸟教程 (runoob.com)](https://www.runoob.com/linux/linux-shell-io-redirections.html)。
 
-  - `command > file`，将输出重定向到 file（一个文件），即将 command 的输出流 stdout 重定向到 file，将 command 的打印内容覆盖输入到文件 file 里；`command >> file`，将输出以追加的方式重定向到 file，追加输入到文件 file。
+  - `command > file`，将 command 的 输出 重定向到 file（一个文件），即将 command 的输出流 stdout 重定向到 file，将 command 的打印内容**覆盖**输出到文件 file 里；`command >> file`，将输出以**追加**的方式重定向到 file，追加输入到文件 file。
 
-  - `command < file`，将输入重定向到 file，即将 command 的输入流 stdin 重定向到 file，本来需要从键盘获取输入的命令会转移到读取文件内容。
+  - `command < file`，将 command 的 输入 重定向到 file，即将 command 的输入流 stdin 重定向到 file，本来需要从键盘获取输入的命令会转移到读取文件内容。
 
   - 注意 输出重定向是大于号(>)，输入重定向是小于号(<)。
+
+  - 清空文本文件的内容而不删除文件本身：`> 文件名`。
 
   - 错误信息重定向：
 
@@ -346,6 +365,8 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
 查看长文件 `less`：`less install.log`，最下面显示的是这个文件的名称，我们可以使用 “PageUp” 和 “PageDown” 可以进行上一页和下一页的翻页。如果要知道具体的控制键，我们可以按下 “H” 键，可以显示 less 命令的所有控制键，如果想结束，可以按 “q” 键。
 
+在需要在应用程序运行时分析日志（文本）文件，动态追踪显示：`tail -F linuxidc_log`。
+
 以上每个命令的选项，可用时再查（上面 “Linux 命令查询” 处给出了一些在线查询 Linux 命令 的网站），用的多了就 内化 / 记住了。
 
 ##### 文件权限 & 用户管理 & 密码管理
@@ -438,6 +459,27 @@ Shell 的意思是“外壳”，在 Linux 中它是一个程序，比如 /bin/s
 
 ##### 获取命令帮助： --help/man
 
+help、man 和 info 命令。
+
+- help 只能用于查看某个命令的用法。
+
+- man 命令既可以查看命令的用法，还可以查看函数的详细介绍等等。
+
+  > （引自 百问网）
+  >
+  > 比如想查看 open() 函数的用法时，可以直接执行 `man open` ，发现这不是想要内容时再执行 `man 2 open`。
+  >
+  > 在 man 命令中可以及时按“h”查看帮助信息了解快捷键。常用的快捷键是：
+  >
+  > - `f` 往前翻一页。
+  > - `b` 往后翻一页。
+  > - `/<patten>` 往前搜 `patten` 字符。
+  > - `?<patten>` 往后搜。
+
+- info 命令会显示最全面的信息，一般 `man` 命令就够了，故 `info` 命令介绍 暂时略。
+
+以下详细：
+
 命令后加 --help 选项，获取此命令的所有选项和其释义。详情如下图。
 
 ![获取命令帮助 --help](assets/获取命令帮助--help.png)
@@ -493,6 +535,45 @@ cat -b textfile1 textfile2 >> textfile3
 
 # 清空 /etc/test.txt 文档内容
 cat /dev/null > /etc/test.txt
+```
+
+##### 文件分割 / 文件合并
+
+参考 [Linux 下大文件切割与合并 (qq.com)](https://mp.weixin.qq.com/s/8Zd5NHB9zKawuUv3J-XZ3Q)。
+
+> 在 Linux 系统下使用 split 命令进行大文件切割，使用 cat 命令进行多个小文件的合并，很方便。
+
+```shell
+-a: #指定输出文件名的后缀长度(默认为2个:aa,ab...)
+-d: #指定输出文件名的后缀用数字代替
+-l: #行数分割模式(指定每多少行切成一个小文件;默认行数是1000行)
+-b: #二进制分割模式(支持单位:k/m)
+-C: #文件大小分割模式(切割时尽量维持每行的完整性)
+
+split [-a] [-d] [-l <行数>] [-b <字节>] [-C <字节>] [要切割的文件] [输出文件名]
+
+——————
+
+-n: #显示行号
+-e: #以$字符作为每行的结尾
+-t: #显示TAB字符(^I)
+cat [-n] [-e] [-t] [输出文件名]
+```
+
+实例：
+
+```shell
+# 行切割文件
+$ split -l 300000 users.sql /data/users_
+
+# 使用数字后缀
+$ split -d -l 300000 users.sql /data/users_
+
+# 按字节大小分割
+$ split -d -b 100m users.sql /data/users_
+
+# 合并文件
+$ cat /data/users_* > users.sql
 ```
 
 ##### 查看二进制文件 hexdump
@@ -942,7 +1023,7 @@ locate 001.txt   # 找到了
 
 前置知识：每个进程有个 ID（The task's unique process ID），为 PID（Process ID），同一个进程下的线程的 PID 均相同。LWP 即轻量级进程，就是线程了。
 
--   在命令的最后，加一个 & 符号，即可放到后台运行，
+-   在命令的最后，加一个 `&` 符号，即可放到后台运行，
 
     常用任务管理命令：
 
@@ -1048,6 +1129,18 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
     -   -V或--version 　显示版本信息。
     -   -help 　显示帮助。
 
+##### 系统日志：dmesg
+
+[Linux命令之dmesg命令_恒悦sunsite的博客-CSDN博客](https://blog.csdn.net/carefree2005/article/details/120737841)。
+
+[dmesg七种用法 - zhaoxuguang - 博客园 (cnblogs.com)](https://www.cnblogs.com/zhaoxuguang/p/7810651.html)。
+
+例子：
+
+- dmesg | less。
+- dmesg | tail -20。
+- watch "dmesg | tail -20"。
+
 ##### 系统管理 / 杂项 / 日常
 
 以下命令可用时现查。
@@ -1071,7 +1164,10 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 
 -   显示日期、日历：`data`，`cal`。打印程序执行时间：`time ./可执行程序`。
 -   查看 CPU 信息：`cat /proc/cpuinfo`。
--   关闭驱动程序的 printk 打印信息：`echo "1 4 1 7" > /proc/sys/kernel/printk`。
+-   在 shell 中显示内核驱动使用 printk() 打印的信息（有些板子默认打开了）
+    	`echo "7 4 1 7" > /proc/sys/kernel/printk`
+    关闭内核打印信息
+    	`echo "0 4 1 7" > /proc/sys/kernel/printk`
 
 
 
@@ -1089,13 +1185,19 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 
       ![关机 shutdown 命令](assets/关机shutdown命令.png)
 
-- ~~图形化系统设置工具，调整运行状态，运行 `setup` 这个综合工具。包括如图所示的五项：认证方式、防火墙配置、鼠标配置、网络配置、系统服务等。这里包含了各种系统服务。~~  
+-   ~~图形化系统设置工具，调整运行状态，运行 `setup` 这个综合工具。包括如图所示的五项：认证方式、防火墙配置、鼠标配置、网络配置、系统服务等。这里包含了各种系统服务。~~  
 
-- 有趣的命令：
+-   有趣的命令：
 
   -   hollywood 和 cmatrix：安装 `sudo apt-get install hollywood cmatrix`，效果执行后见。
   -   sl：为从右到左跑一遍字符画火车。安装同样使用 apt 工具。
   -   figlet：命令为字符画生成，详看 [Linux终端也能玩出新境界：Figlet 和 Toilet命令_Linux教程_Linux公社-Linux系统门户网站 (linuxidc.com)](https://www.linuxidc.com/Linux/2018-12/155871.htm)。
+
+##### 设置开机运行脚本
+
+- [ubuntu18.04设置开机自动启动脚本_guotianqing的博客-CSDN博客](https://blog.csdn.net/guotianqing/article/details/108813689)。
+- [ubuntu18.04设置开机启动命令/脚本的三种方法（可sudo）_ubuntu设置开机自启动_Sidney.Tan的博客-CSDN博客](https://blog.csdn.net/t624124600/article/details/111085234)。
+- [Linux配置开机自启动执行脚本的两种方法 | 《Linux就该这么学》 (linuxprobe.com)](https://www.linuxprobe.com/linux-open-sh.html)。
 
 
 ## Linux 下的开发
@@ -1103,6 +1205,18 @@ Linux 有许多功能是通过模块的方式，你可以将这些功能编译�
 - **代码编辑：Vim、gedit（ubuntu 下）。**
 - **编译工具：gcc，make，cmake（生成 makefile，网搜教程，本篇不涉及）。**
 - **项目管理：git（网搜教程，本篇不涉及）。**
+
+### 详细资料-重要
+
+关于 Linux Shell 命令、GCC、Makefile/CMake、GDB/GDBServer、Vim 等工具的详细使用教程和使用经验，
+
+可见 本系类文章对应 仓库 [Github 仓库](https://github.com/Staok/ARM-Linux-Study) 或 [Gitee 仓库](https://gitee.com/staok/ARM-Linux-Study) 中：
+
+- `【1 GCC & GDB & GDBServer】`；
+- `【1 Linux 命令速查 & Shell & Vim】`；
+- `【1 Makefile & CMake 教程及模板】`。
+
+这几个文件夹内！
 
 ### Vim 编辑器
 

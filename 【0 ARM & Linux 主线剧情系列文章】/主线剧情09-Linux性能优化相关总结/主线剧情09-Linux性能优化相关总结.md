@@ -8,6 +8,8 @@
 
 工欲善其事必先利其器。
 
+- top 命令。
+- 内存扫描。
 - [perf: Linux 性能测试调试工具](http://www.biscuitos.cn/blog/TOOLS-perf/)。
 - [blktrace: Block IO 性能测试调试工具](http://www.biscuitos.cn/blog/TOOLS-blktrace/)。
 
@@ -56,5 +58,13 @@
 - [linux下把进程/线程绑定到特定cpu核上运行_guotianqing的博客-CSDN博客_linux多核cpu调度](https://blog.csdn.net/guotianqing/article/details/80958281)。
 - 获取CPU可用核数并绑定某核运行 [linux_system_call/get_cpu_core_num.c at master · hurley25/linux_system_call (github.com)](https://github.com/hurley25/linux_system_call/blob/master/src/get_cpu_core_num.c)。
 - [linux下充分利用多核cpu-低头、真掩饰-ChinaUnix博客](http://blog.chinaunix.net/uid-24652842-id-233561.html)。
+
+### 实时化改造
+
+
+
+#### 加快中断响应速度
+
+
 
 ## 实践记录

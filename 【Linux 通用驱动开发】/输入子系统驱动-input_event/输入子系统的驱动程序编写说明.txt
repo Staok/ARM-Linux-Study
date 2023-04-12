@@ -1,0 +1,14 @@
+
+按照输入子系统标准格式上报数据即可，
+	应用层程序编写见 “【Linux 通用应用开发】\1-输入设备框架-input_event” 文件夹里面
+
+
+
+一些详解教程（用到学习的时候，这里放自己总结的文字，然后目录里面放几个例子即可）
+
+上报input_event的那个，按照 type code value 规则上报
+
+输入设备框架—驱动层—完整的代码工程
+https://blog.csdn.net/oyhb_1992/article/details/77622112
+
+https://blog.csdn.net/oyhb_1992/article/details/77606856

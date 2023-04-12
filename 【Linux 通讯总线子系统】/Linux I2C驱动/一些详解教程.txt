@@ -10,4 +10,4 @@ https://blog.csdn.net/softwoker/article/details/91383511
 https://blog.csdn.net/S96096/article/details/101832100
 
 一份 I2C 驱动源码 和详解
-https://biscuitos.github.io/blog/I2CBus/#Kernel%20%E4%B8%AD%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E8%AE%BF%E9%97%AE%20I2C
+http://www.biscuitos.cn/blog/I2CBus/#Kernel%20%E4%B8%AD%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E8%AE%BF%E9%97%AE%20I2C

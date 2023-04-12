@@ -1,0 +1,8 @@
+gdbserver 远程调试技术
+arm soc 开发板 的 linux 应用程序调试：用 gdbserver
+可以两种形式调试：在 host 上进行
+①命令行形式进行单步调试。
+②vscode设置lanch.json，便可以鼠标点按钮进行单步调试。
+
+至于 linux 驱动程序：
+gdb 不能进入驱动程序（内核态的），驱动程序的调试还是用printk()，因此驱动程序编写需要经验多的、规范好的可以写的好

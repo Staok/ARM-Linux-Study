@@ -1,0 +1,9 @@
+“I2C例子-100ask 使用i2ctool源码进行收发” 里面，是 用 i2ctool 的 源程序 改的 i2c 应用层，用 ioctl 访问 /dev/i2c-x 设备文件 从而 读写 i2c
+smbus.c 里面 i2ctool 封装了 通过 ioctl 的 I2C_SMBUS 访问方式，结构体是 struct i2c_smbus_ioctl_data
+
+http://www.biscuitos.cn/blog/I2CBus/#%E7%94%A8%E6%88%B7%E7%A9%BA%E9%97%B4%E9%80%9A%E8%BF%87%E6%BA%90%E7%A0%81%E8%AE%BF%E9%97%AE%20I2C
+
+这里的 i2c 应用层例子，和 100ask 教程里的一样，是 通过 ioctl 的 I2C_RDWR 访问方式，结构体是：
+struct i2c_msg msgs[x];
+struct i2c_rdwr_ioctl_data msgset;
+
