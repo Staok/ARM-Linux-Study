@@ -1,8 +1,26 @@
 gdbserver 远程调试技术
-arm soc 开发板 的 linux 应用程序调试：用 gdbserver
+arm soc 开发板 的 linux 应用程序 在 host 上进行调试运行：用 gdbserver
+
 可以两种形式调试：在 host 上进行
 ①命令行形式进行单步调试。
 ②vscode设置lanch.json，便可以鼠标点按钮进行单步调试。
 
 至于 linux 驱动程序：
 gdb 不能进入驱动程序（内核态的），驱动程序的调试还是用printk()，因此驱动程序编写需要经验多的、规范好的可以写的好
+
+
+GDBServer 使用基本流程：参考 “嵌入式Linux应用开发完全手册V5_IMX6ULL_Pro开发板.pdf” 后边的 “2.3.1 远程调试 gdbserver”
+
+0、确保 开发板 与 host 可以 相互 ping 通。
+
+1、开发板存在 GDBServer 程序，以及要运行的 app（在 host 上面 使用 带 -g 交叉编译后并传给开发板的）。
+
+2、开发板上面 输入命令：
+	gdbserver :12345 test		# 这个为 监听 12345 端口，目标 app 为 test
+
+3、hsot 上面 输入命令：
+	<交叉编译工具链名称>-gdb  test	# 之后会显示 （gdb） 等待输入 gdb 命令，此时输入下面一句
+
+	target remote 192.168.0.8:12345	# 这个为 连接 开发板的 IP 和 端口号
+
+4、然后在 host 上 就可以 输入 gdb 命令 进行调试了~
