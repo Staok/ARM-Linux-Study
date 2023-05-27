@@ -2,6 +2,8 @@
 
 收集整理 与 实践记录。
 
+注：[在 Github 上的原版文章日后可能会更新](https://github.com/Staok/ARM-Linux-Study)，在其它位置发的不会跟进。[文章的 Gitee 仓库地址，Gitee 访问更流畅](https://gitee.com/staok/ARM-Linux-Study)。
+
 ------
 
 ## 调试工具

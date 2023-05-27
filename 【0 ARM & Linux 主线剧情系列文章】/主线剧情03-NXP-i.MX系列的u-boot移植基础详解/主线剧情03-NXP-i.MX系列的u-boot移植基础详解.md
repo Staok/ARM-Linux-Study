@@ -8,7 +8,7 @@
 
 参考大量文章和教程以及触(连)类(猜)旁(带)通(蒙)的反复测试，记录成功的步骤，而成此文，如有错误恭谢指出！侵删。作者见 "署名" 一节。
 
-注：[在 Github 上的原版文章日后可能会更新](https://github.com/Staok/ARM-Linux-Study)，但这里不会跟进。[文章的 Gitee 仓库地址，Gitee 访问更流畅](https://gitee.com/staok/ARM-Linux-Study)。
+注：[在 Github 上的原版文章日后可能会更新](https://github.com/Staok/ARM-Linux-Study)，在其它位置发的不会跟进。[文章的 Gitee 仓库地址，Gitee 访问更流畅](https://gitee.com/staok/ARM-Linux-Study)。
 
 ------
 
