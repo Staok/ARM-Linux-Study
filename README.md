@@ -22,24 +22,41 @@ ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
 
 本 ARM-Linux-Study 仓库是个人学习之后的总结，是稍微系统性的整理备查，**不适合**用来初学 Linux，初学 嵌入式 Linux 强推 去看 `主线剧情0.0-Linux学习资源大综合` 这个文章里 `!学习来源!` 一节总结的，主要是 **入手开发板，跟着教程学**！
 
-> #### **!学习来源!**
+> **!学习来源!**
 >
 > 下面仅为个人见到的选择的推荐，欢迎补充！
 >
 > 最推荐的就是 “入手开发板，跟着教程学” 的方式即可~
 >
 > - 韦东山 的 系列教程，靠谱而较全面，跟着走就成。
+>
 >   - [Linux 学习 B 站视频](https://space.bilibili.com/275908810/channel/seriesdetail?sid=1714177)。
->   - [百问网 资源下载站](http://download.100ask.org/)。
+>   - [百问网 资源下载站](http://download.100ask.org/)。推荐 跟着这个开发板学 [🎫100ASK_IMX6ULL_PRO开发板](http://download.100ask.org/boards/Nxp/100ask_imx6ull_pro/index.html)。
 >   - [百问网论坛](https://forums.100ask.net/)。
+>
 > - 正点原子/野火 的 Linux 系列教程，靠谱而较全面，跟着走就成。
+>
 >   - [正点原子 Linux 学习 B 站视频](https://space.bilibili.com/394620890/channel/seriesdetail?sid=2042045)，[正点原子 资源下载站](http://www.openedv.com/docs/index.html)，[论坛](http://www.openedv.com/docs/index.html)。
 >   - [野火 Linux 学习 B站视频](https://space.bilibili.com/356820657/channel/seriesdetail?sid=1702001)，[野火 资源下载站](https://doc.embedfire.com/products/link/zh/latest/index.html)，[论坛](https://www.firebbs.cn/)。
-> - 买书（驱动和应用），参考 `主线剧情0.0-Linux学习资源大综合` 这个文章里 “书籍推荐” 一节。
+>
+> - 买书（驱动和应用），参考 下面 “书籍推荐” 一节。
+>
 > - 其它 嵌入式 Linux 开发板 和 资料 的提供商，他们都提供了开发板配套的较完整的 SDK 和 硬件方案，对于开发的参考价值极大。
+>
 >   - [百问网 Linux 板 产品页](http://www.100ask.org/LinuxBoard/) & [米尔 Linux 板 产品页](http://www.myir-tech.com/product/index.asp?anclassid=100)。
 >   - [Firefly | 让科技更简单，让生活更智能 (t-firefly.com)](https://wiki.t-firefly.com/)。
 >   - [Orange Pi PC - 香橙派](http://www.orangepi.cn/orangepipc/index_cn.html)。
+>
+> - 看官方 doc：[怎样成为一名优秀的Linux驱动设备工程师？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/302236329/answer/3027444921)。
+>
+>   - Linux内核文档：[The Linux Kernel documentation — The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/index.html)。
+>
+>     Linux设备驱动程序开发指南：[Driver implementer's API guide — The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/driver-api/)。
+>
+>     Linux内核api：[Core API Documentation — The Linux Kernel documentation](https://www.kernel.org/doc/html/latest/core-api/index.html)。
+>
+>   - 非官方的推荐<Linux 内核模块编程指南>：[The Linux Kernel Module Programming Guide (sysprog21.github.io)](https://sysprog21.github.io/lkmpg/)。
+>
 >
 > 就这些，我不会列成吨的资料骑脸。。
 
