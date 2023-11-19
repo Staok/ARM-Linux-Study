@@ -1,0 +1,25 @@
+
+安装 & 入门 & 基础命令
+https://blog.csdn.net/sylnhgj/article/details/120448100
+
+linux开发板增加adb功能
+以100ask的imx6ull开发板为例，在开发板增加adb功能，该功能可以用于文件传输和开发调试；可以将pc端的文件传输到开发板。
+https://blog.csdn.net/LIUMOU9898/article/details/113872494
+
+在 PC linux host 安装 adb 组件
+如何在Linux中安装和使用Android调试桥 (adb)
+https://zhuanlan.zhihu.com/p/617915103
+
+
+
+命令备查
+https://www.cnblogs.com/hellokitty2/p/10281966.html
+https://blog.csdn.net/MXB_1220/article/details/125036424
+https://huaweicloud.csdn.net/63a56f17b878a54545946eef.html
+https://zhonglunshun.blog.csdn.net/article/details/78362439
+
+
+
+安卓接上PC的usb，PC找不到驱动的情况
+Android ADB USB 驱动 万能配置方式
+https://blog.csdn.net/a1809032425/article/details/126130918
