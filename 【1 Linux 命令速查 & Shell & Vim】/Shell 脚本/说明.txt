@@ -1,0 +1,6 @@
+
+
+可以参考学习一些 优秀脚本，自己的长期收集的：
+https://github.com/stars/Staok/lists/py-js-bash-scripts-etc
+
+也可以使用 AI 大模型来完成（并进行充分测试）。脚本这种（Py / Js / Bash 等）很多都可以使用 AI 大模型辅助完成。

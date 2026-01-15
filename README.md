@@ -1,22 +1,29 @@
 # ARM-Linux-Study
-ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
-
-仓库大小 ～130MB
-
-------
-
-# 必先看：主线剧情 系列 的循序渐进的查看顺序
-
-【主线剧情】Linux 系列，为嵌入式 Linux 的学习记录。
-
-每一篇文章的内容、以及仓库的内容都极其丰富~
 
 **仓库地址：**
 
 - Github [Staok/ARM-Linux-Study: ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。 (github.com)](https://github.com/Staok/ARM-Linux-Study)。
 - Gitee [ARM-Linux-Study: ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。 (gitee.com)](https://gitee.com/staok/ARM-Linux-Study)。
 
-小站文章 [【主线剧情】Linux 系列 - 分类 - 欢迎来到 Staok - 瞰百易 (gitee.io)](https://staok.gitee.io/categories/主线剧情linux-系列/)。
+ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
+
+仓库大小 ～130MB
+
+
+
+*p.s 有的文件夹里面有后面添加的 `说明：... .txt` 文件，请参考。*
+
+------
+
+
+
+# 必先看：主线剧情 系列 的循序渐进的查看顺序
+
+【主线剧情】Linux 系列，为嵌入式 Linux 的学习记录 的多篇文章。每一篇文章的内容、以及仓库的内容都极其丰富~
+
+在小站上也有 [【主线剧情】Linux 系列 - 分类 - 欢迎来到 瞰百Staok](https://staok.github.io/categories/主线剧情linux-系列/) （但只在 Github 仓库 里面会是最新的）。
+
+
 
 ## 负责声明
 
@@ -60,13 +67,16 @@ ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
 >
 > 就这些，我不会列成吨的资料骑脸。。
 
-## 一开始可以鸟瞰一下 ARM 系列处理器的当前局面
+
+
+## 可以先鸟瞰一下 ARM 系列处理器的当前局面
 
 - 主线剧情-番外01-ARM系列快速鸟瞰（在 `【0 ARM & Linux 主线剧情系列文章】` 文件夹里面）。
 
-## 首先是基础
+## 首先是基础和环境搭建
 
 - 主线剧情0.0-Linux学习资源大综合（在 `【0 ARM & Linux 主线剧情系列文章】` 文件夹里面，下同）。
+- 参看 `【0 Linux 开发环境搭建】` 文件夹。（尚无，计划出，有人催更则会加急）
 - 主线剧情01-ARM-IMX6ULL基础学习记录。
 - 主线剧情02-ARM-Linux基础学习记录。
 
@@ -90,10 +100,10 @@ ARM Linux 的学习历程，文章遵守 CC BY NC SA 4.0 协议。
 （有兴趣则去学习，这部分将长期建设，用到的时候才会慢慢补充）
 
 - 主线剧情03-NXP-i.MX系列的u-boot移植基础详解（在 `【0 ARM & Linux 主线剧情系列文章】` 文件夹里面）。
-- 主线剧情04——计划为Linux内核配置与移植（尚无）。
-- 主线剧情05——计划为Buildroot构建文件系统（尚无）。
-- 主线剧情06——计划为ubuntu的移植（尚无）。
+- 主线剧情04——计划为 Linux 内核配置与移植（尚无）。
+- 主线剧情05——计划为 Buildroot 使用和应用开发（尚无）。
+- 主线剧情06——计划为 Ubuntu 的移植（尚无）。
 
 ## 优化相关
 
-- 主线剧情09-Linux性能优化相关总结（尚无）
+- 主线剧情09-Linux性能优化相关总结（尚未完全总结）
